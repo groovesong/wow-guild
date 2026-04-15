@@ -250,7 +250,9 @@ const SPEC_KR_LIST={'Death Knight':['혈기','냉기','부정'],'Demon Hunter':[
 const SPEC_EN_MAP={};
 Object.entries(SPEC_MAP).forEach(([cls,m])=>Object.entries(m).forEach(([en,kr])=>{if(!SPEC_EN_MAP[cls])SPEC_EN_MAP[cls]={};SPEC_EN_MAP[cls][kr]=en;}));
 
-function skr(cls,spec){return(SPEC_MAP[cls]&&SPEC_MAP[cls][spec])||spec||'';}
+const REALM_SLUG={'아즈샤라':'azshara','굴단':'guldan','달라란':'dalaran','가로나':'garona','노르간논':'norgannon','듀로탄':'durotan','렉사르':'rexxar','마이에브':'maiev','만노로스':'mannoroth','불타는군단':'burning-legion','세나리우스':'cenarion-circle','스톰레이지':'stormrage','알렉스트라자':'alexstrasza','줄진':'zul-jin','카드가':'khadgar','하이잘':'hyjal','헬스크림':'hellscream','윈드러너':'windrunner','Azshara':'azshara',"Gul'dan":'guldan','Dalaran':'dalaran','Garona':'garona','Norgannon':'norgannon','Durotan':'durotan','Rexxar':'rexxar','Maiev':'maiev','Mannoroth':'mannoroth','Stormrage':'stormrage','Alexstrasza':'alexstrasza','Khadgar':'khadgar','Hyjal':'hyjal','Hellscream':'hellscream','Windrunner':'windrunner'};
+function realmSlug(r){if(!r)return'azshara';const k=REALM_SLUG[r];if(k)return k;return r.toLowerCase().replace(/'/g,'').replace(/\s+/g,'-');}
+
 
 const SYNERGIES=[
   {name:'영웅심',effect:'전투 속도 +30%',classes:['Shaman','Mage','Hunter','Evoker']},
@@ -315,7 +317,7 @@ function renderRoster(){
     </div>
     <div class="grid">${list.map((m,i)=>{
       const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;const pn=players[m.name]||'';
-      return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${encodeURIComponent(m.realm||'azshara')}/${encodeURIComponent(m.name)}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
+      return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${realmSlug(m.realm)}/${encodeURIComponent(m.name)}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
         <div class="card-stripe" style="background:${c}"></div>
         <div class="card-top">
           <div class="class-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
