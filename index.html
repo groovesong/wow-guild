@@ -547,6 +547,15 @@ function switchTab(tab){
 
 async function load(force=false){
   if(!force)document.getElementById('tab-roster').innerHTML=`<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div>`;
+
+  // 갱신 전 현재 상태 보존
+  const prevSlotNames = {};
+  if(force){
+    Object.keys(slots).forEach(role=>{
+      prevSlotNames[role]=slots[role].map(s=>s.m?.name||null);
+    });
+  }
+
   try{
     const [g,pd,mc]=await Promise.all([
       fetch(`/api/guild${force?'?force=1':''}`).then(r=>r.json()),
@@ -554,9 +563,23 @@ async function load(force=false){
       fetch('/api/manual').then(r=>r.json()),
     ]);
     if(g.statusCode===400||g.message)throw new Error(g.message||'API 오류');
-    players=pd?.players||pd||{};
-    overrides=pd?.overrides||{};
-    manualChars=mc||[];
+
+    // 서버 저장값 불러오되, 갱신 시엔 현재 메모리값 우선
+    const serverPlayers=pd?.players||pd||{};
+    const serverOverrides=pd?.overrides||{};
+    if(!force){players=serverPlayers;overrides=serverOverrides;}
+    else{
+      // 플레이어 이름은 서버것 사용
+      players=serverPlayers;
+      // 오버라이드는 서버것과 현재 메모리것 병합 (현재것 우선)
+      overrides={...serverOverrides,...overrides};
+    }
+
+    // 수동 캐릭터: 갱신 시엔 현재 메모리 유지, 서버것으로 보완
+    if(!force||!manualChars.length){
+      manualChars=mc||[];
+    }
+
     apiChars=(g.members||[]).map(m=>({
       name:m.character.name,class:m.character.class,spec:m.character.active_spec_name,
       role:m.character.active_spec_role,
@@ -564,7 +587,8 @@ async function load(force=false){
       score:m.character.mythic_plus_scores_by_season?.[0]?.scores?.all||null,
       rank:m.rank,realm:m.character.realm||'azshara',isManual:false
     })).filter(m=>m.role);
-    // API 없는 항목에만 오버라이드 적용
+
+    // API값 없는 항목에만 오버라이드 적용
     const processedApi=apiChars.map(m=>{
       const ov=overrides[m.name];if(!ov)return m;
       return{...m,ilvl:m.ilvl||(ov.ilvl||null),score:m.score||(ov.score||null)};
@@ -573,9 +597,25 @@ async function load(force=false){
       const ov=overrides[m.name];if(!ov)return m;
       return{...m,ilvl:m.ilvl||(ov.ilvl||null),score:m.score||(ov.score||null)};
     })];
+
     document.getElementById('lastUpdate').textContent='업데이트: '+new Date().toLocaleString('ko-KR');
     document.getElementById('cacheStatus').textContent=g.cached?`캐시 (${g.cacheAge}초 전)`:'방금 갱신됨 ✓';
-    renderRoster();await loadRaid();
+    renderRoster();
+
+    if(force && Object.keys(prevSlotNames).length){
+      // 갱신 시: 이전 레이드 구성 그대로 유지 (멤버 이름으로 재매칭)
+      Object.keys(prevSlotNames).forEach(role=>{
+        if(!slots[role])return;
+        prevSlotNames[role].forEach((name,i)=>{
+          if(!name||!slots[role][i])return;
+          const mb=all.find(m=>m.name===name);
+          slots[role][i].m=mb||null;
+        });
+      });
+      renderSlots();renderPool();
+    } else {
+      await loadRaid();
+    }
   }catch(e){
     document.getElementById('tab-roster').innerHTML=`<div class="error-state"><div style="font-size:32px">⚠️</div><div style="font-size:13px;color:#8b949e">${e.message}</div></div>`;
   }
