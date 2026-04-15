@@ -19,13 +19,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .tab{padding:10px 24px;font-size:15px;font-weight:600;color:#8b949e;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
 .tab:hover{color:#e6edf3}
 .tab.active{color:#e6edf3;border-bottom-color:#c41e3a}
+
+/* 현황 탭 */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 .stat-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem}
 .stat-label{font-size:13px;color:#8b949e;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
 .stat-val{font-size:28px;font-weight:700}
 .controls{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center}
 .role-tab{padding:6px 16px;font-size:14px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#161b22;color:#8b949e;cursor:pointer;transition:all .15s}
-.role-tab:hover{border-color:#8b949e}
 .role-tab.all.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
 .role-tab.tank.active{background:#0d1f35;color:#7ab8f5;border-color:#3a6ea8}
 .role-tab.heal.active{background:#0d2318;color:#56d364;border-color:#2d7a4a}
@@ -47,6 +48,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .cs-label{font-size:12px;color:#8b949e;margin-bottom:2px}
 .cs-val{font-size:15px;font-weight:700}
 .rank-num{position:absolute;bottom:9px;right:10px;font-size:12px;color:#30363d;font-weight:600}
+
+/* 레이드 탭 */
 .raid-layout{display:flex;flex-direction:column;gap:12px}
 .synergy-panel{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem 1.25rem}
 .syn-grid{display:flex;flex-wrap:wrap;gap:5px}
@@ -56,45 +59,57 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .syn-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .syn-badge.active .syn-dot{background:#56d364}
 .syn-badge.missing .syn-dot{background:#8b949e}
+
+/* 슬롯 */
 .raid-slots-wrap{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem 1.25rem}
-.role-section{margin-bottom:1rem}
+.role-section{margin-bottom:1.1rem}
 .role-section:last-child{margin-bottom:0}
-.role-header{display:flex;align-items:center;gap:8px;margin-bottom:.6rem}
-.role-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
-.role-count{font-size:13px;color:#8b949e}
-.slots-row{display:flex;flex-wrap:wrap;gap:6px}
-.slot{width:115px;height:70px;border:1px dashed #30363d;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;position:relative;font-size:11px;color:#30363d}
+.role-header{display:flex;align-items:center;gap:8px;margin-bottom:.7rem}
+.role-label{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.role-count{font-size:14px;color:#8b949e}
+.slots-row{display:flex;flex-wrap:wrap;gap:8px}
+
+.slot{width:130px;height:80px;border:1px dashed #30363d;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;position:relative;cursor:default}
 .slot.drag-over{border-color:#8b949e!important;background:#21262d}
 .slot.filled{border-style:solid;cursor:grab}
-.slot-stripe{position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0}
-.slot-remove{position:absolute;top:3px;right:5px;font-size:10px;color:#8b949e;cursor:pointer;opacity:0}
+.slot.filled:active{cursor:grabbing;opacity:.8}
+.slot-stripe{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.slot-remove{position:absolute;top:4px;right:6px;font-size:11px;color:#8b949e;cursor:pointer;opacity:0;line-height:1}
 .slot.filled:hover .slot-remove{opacity:1}
-.slot-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:105px;text-align:center;padding:0 4px}
-.slot-sub{font-size:10px;opacity:.6;margin-top:1px}
-.add-slot-btn{width:115px;height:70px;border:1px dashed #21262d;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#30363d;cursor:pointer;transition:all .15s}
+.slot-emoji{font-size:14px;margin-bottom:2px}
+.slot-name{font-size:14px;font-weight:700;color:#e6edf3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;text-align:center;padding:0 4px}
+.slot-ilvl{font-size:13px;font-weight:600;margin-top:2px}
+.slot-player{font-size:11px;color:#8b949e;margin-top:1px}
+.slot-empty-label{font-size:12px;color:#30363d}
+
+.add-slot-btn{width:130px;height:80px;border:1px dashed #21262d;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#30363d;cursor:pointer;transition:all .15s}
 .add-slot-btn:hover{border-color:#8b949e;color:#8b949e}
+
+/* 멤버 풀 */
 .member-pool{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem 1.25rem}
 .pool-filters{display:flex;gap:5px;margin-bottom:.75rem}
-.pool-filter{padding:3px 11px;font-size:13px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#0d1117;color:#8b949e;cursor:pointer;transition:all .15s}
+.pool-filter{padding:3px 11px;font-size:14px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#0d1117;color:#8b949e;cursor:pointer;transition:all .15s}
 .pool-filter.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
-.pool-grid{display:flex;flex-wrap:wrap;gap:6px;max-height:160px;overflow-y:auto}
-.pool-member{display:flex;align-items:center;gap:7px;padding:6px 10px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:grab;transition:all .15s;user-select:none}
+.pool-grid{display:flex;flex-wrap:wrap;gap:6px;max-height:165px;overflow-y:auto}
+.pool-member{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:grab;transition:all .15s;user-select:none}
 .pool-member:hover{border-color:#30363d}
 .pool-member.assigned{opacity:.25;cursor:not-allowed;pointer-events:none}
 .pool-member.player-busy{opacity:.3;cursor:not-allowed;pointer-events:none;border-color:#3a1a1a}
-.pm-icon{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.pm-name{font-size:13px;font-weight:600;white-space:nowrap}
-.pm-sub{font-size:11px;opacity:.6;white-space:nowrap}
-.pm-player{font-size:10px;color:#8b949e;white-space:nowrap}
+.pm-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.pm-name{font-size:14px;font-weight:600;white-space:nowrap}
+.pm-sub{font-size:12px;opacity:.6;white-space:nowrap}
+.pm-player{font-size:11px;color:#8b949e;white-space:nowrap}
+
 /* 관리 탭 */
 .admin-section{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
 .admin-section-title{font-size:14px;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #21262d}
 .player-table{width:100%;border-collapse:collapse;font-size:13px}
 .player-table th{text-align:left;padding:6px 8px;color:#8b949e;font-weight:600;font-size:12px;border-bottom:1px solid #21262d}
-.player-table td{padding:6px 8px;border-bottom:1px solid #0d1117}
+.player-table td{padding:6px 8px;border-bottom:1px solid #0d1117;vertical-align:middle}
 .player-table tr:hover td{background:#0d1117}
-.player-input{width:140px;height:28px;padding:0 8px;font-size:13px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#e6edf3;outline:none}
+.player-input{height:28px;padding:0 8px;font-size:13px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#e6edf3;outline:none}
 .player-input:focus{border-color:#8b949e}
+.player-input:disabled{opacity:.4;cursor:not-allowed;background:#161b22}
 .admin-form{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-bottom:1rem}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-label{font-size:11px;color:#8b949e}
@@ -114,6 +129,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .lock-input:focus{border-color:#8b949e}
 .loading,.error-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem;gap:14px;text-align:center}
 .spinner{width:28px;height:28px;border:2px solid #21262d;border-top-color:#8b949e;border-radius:50%;animation:spin .8s linear infinite}
+.readonly-val{font-size:13px;color:#8b949e}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
@@ -136,12 +152,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
     <div class="tab" onclick="switchTab('raid')">🗡️ 레이드 구성</div>
     <div class="tab" onclick="switchTab('admin')">⚙️ 관리</div>
   </div>
-  <div id="tab-roster"><div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div></div>
+
+  <!-- 현황 -->
+  <div id="tab-roster"><div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...</div></div></div>
+
+  <!-- 레이드 구성 -->
   <div id="tab-raid" style="display:none">
     <div class="raid-layout">
       <div class="synergy-panel">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem">
-          <div style="font-size:13px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.6px">⚡ 레이드 시너지</div>
+          <div style="font-size:14px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.6px">⚡ 레이드 시너지</div>
           <div style="display:flex;align-items:center;gap:8px">
             <span id="lock-status" style="font-size:13px;color:#8b949e">🔒 보기 전용</span>
             <button id="lock-btn" onclick="toggleLock()" class="btn btn-secondary" style="padding:4px 12px;font-size:12px">잠금 해제</button>
@@ -157,7 +177,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
         <div class="role-section"><div class="role-header"><div class="role-label" style="color:#f87171">⚔️ 딜러</div><div class="role-count" id="dps-count">0/14</div></div><div class="slots-row" id="slots-DPS"></div></div>
       </div>
       <div class="member-pool">
-        <div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.6px">길드원 — 드래그해서 슬롯에 배치</div>
+        <div style="font-size:14px;font-weight:600;color:#8b949e;margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.6px">길드원 — 드래그해서 슬롯에 배치</div>
         <div class="pool-filters">
           <div class="pool-filter active" onclick="setPoolFilter('ALL',this)">전체</div>
           <div class="pool-filter" onclick="setPoolFilter('TANK',this)">🛡️ 탱</div>
@@ -168,6 +188,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
       </div>
     </div>
   </div>
+
+  <!-- 관리 -->
   <div id="tab-admin" style="display:none">
     <div class="lock-screen" id="admin-lock">
       <div style="font-size:36px">🔐</div>
@@ -177,7 +199,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
     </div>
     <div id="admin-content" style="display:none">
       <div class="admin-section">
-        <div class="admin-section-title">👤 캐릭터별 플레이어 설정</div>
+        <div class="admin-section-title">👤 캐릭터별 설정 <span style="font-size:12px;color:#8b949e;font-weight:400">(회색 항목은 API 데이터 있음 — 수정 불가, 갱신 시 자동 덮어쓰기)</span></div>
         <div style="overflow-x:auto"><table class="player-table"><thead><tr><th>캐릭터</th><th>직업·특성</th><th>역할</th><th>템렙</th><th>M+</th><th>플레이어 이름</th></tr></thead><tbody id="ptbody"></tbody></table></div>
         <div style="margin-top:1rem"><button class="btn btn-primary" onclick="savePlayers()">💾 저장</button></div>
       </div>
@@ -192,9 +214,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
             </select>
           </div>
           <div class="form-group"><div class="form-label">특성</div><select class="form-select" id="m-spec" style="width:90px"><option value="">특성</option></select></div>
-          <div class="form-group"><div class="form-label">역할</div>
-            <select class="form-select" id="m-role" style="width:80px"><option value="DPS">딜러</option><option value="HEALING">힐러</option><option value="TANK">탱커</option></select>
-          </div>
+          <div class="form-group"><div class="form-label">역할</div><select class="form-select" id="m-role" style="width:80px"><option value="DPS">딜러</option><option value="HEALING">힐러</option><option value="TANK">탱커</option></select></div>
           <div class="form-group"><div class="form-label">템렙</div><input class="form-input" id="m-ilvl" type="number" placeholder="000" style="width:70px"></div>
           <div class="form-group"><div class="form-label">플레이어</div><input class="form-input" id="m-player" placeholder="닉네임" style="width:90px"></div>
           <div class="form-group"><div class="form-label">&nbsp;</div><button class="btn btn-primary" onclick="addChar()">추가</button></div>
@@ -205,6 +225,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
     </div>
   </div>
 </div>
+
 <script>
 const CC={'Death Knight':'#C41E3A','Demon Hunter':'#A330C9','Druid':'#FF7C0A','Evoker':'#33937F','Hunter':'#AAD372','Mage':'#3FC7EB','Monk':'#00FF98','Paladin':'#F48CBA','Priest':'#C8C8C8','Rogue':'#FFF468','Shaman':'#0070DD','Warlock':'#8788EE','Warrior':'#C69B3A'};
 const CKR={'Death Knight':'죽음의 기사','Demon Hunter':'악마사냥꾼','Druid':'드루이드','Evoker':'기원사','Hunter':'사냥꾼','Mage':'마법사','Monk':'수도사','Paladin':'성기사','Priest':'사제','Rogue':'도적','Shaman':'주술사','Warlock':'흑마법사','Warrior':'전사'};
@@ -225,17 +246,9 @@ const SPEC_MAP={
   'Warlock':{'Affliction':'고통','Demonology':'악마','Destruction':'파괴'},
   'Warrior':{'Arms':'무기','Fury':'분노','Protection':'방어'},
 };
-const SPEC_KR_LIST={
-  'Death Knight':['혈기','냉기','부정'],'Demon Hunter':['포식','파멸','복수'],
-  'Druid':['조화','수호','야성','회복'],'Evoker':['증강','황폐','보존'],
-  'Hunter':['야수','사격','생존'],'Mage':['비전','화염','냉기'],
-  'Monk':['양조','운무','풍운'],'Paladin':['신성','보호','징벌'],
-  'Priest':['수양','신성','암흑'],'Rogue':['암살','무법','잠행'],
-  'Shaman':['정기','고양','복원'],'Warlock':['고통','악마','파괴'],'Warrior':['무기','분노','방어'],
-};
-// 한글→영어 역변환
-const SPEC_EN={};
-Object.entries(SPEC_MAP).forEach(([cls,sps])=>Object.entries(sps).forEach(([en,kr])=>{if(!SPEC_EN[cls])SPEC_EN[cls]={};SPEC_EN[cls][kr]=en;}));
+const SPEC_KR_LIST={'Death Knight':['혈기','냉기','부정'],'Demon Hunter':['포식','파멸','복수'],'Druid':['조화','수호','야성','회복'],'Evoker':['증강','황폐','보존'],'Hunter':['야수','사격','생존'],'Mage':['비전','화염','냉기'],'Monk':['양조','운무','풍운'],'Paladin':['신성','보호','징벌'],'Priest':['수양','신성','암흑'],'Rogue':['암살','무법','잠행'],'Shaman':['정기','고양','복원'],'Warlock':['고통','악마','파괴'],'Warrior':['무기','분노','방어']};
+const SPEC_EN_MAP={};
+Object.entries(SPEC_MAP).forEach(([cls,m])=>Object.entries(m).forEach(([en,kr])=>{if(!SPEC_EN_MAP[cls])SPEC_EN_MAP[cls]={};SPEC_EN_MAP[cls][kr]=en;}));
 
 function skr(cls,spec){return(SPEC_MAP[cls]&&SPEC_MAP[cls][spec])||spec||'';}
 
@@ -254,14 +267,27 @@ const SYNERGIES=[
   {name:'지휘의 외침',effect:'최대 체력 +15%',classes:['Warrior']},
 ];
 
-let all=[],apiChars=[],manualChars=[],players={};
+// 상태
+let all=[],apiChars=[],manualChars=[],players={},overrides={};
 let activeRoster='ALL',sortBy='ilvl',poolFilter='ALL';
 let slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};
 let dragM=null,dragFrom=null,isUnlocked=false;
 
-function scol(s){if(s>=3000)return'#ff8000';if(s>=2500)return'#a335ee';if(s>=2000)return'#0070dd';if(s>=1500)return'#1eff00';return'#8b949e';}
+function scol(s){if(!s)return'#8b949e';if(s>=3000)return'#ff8000';if(s>=2500)return'#a335ee';if(s>=2000)return'#0070dd';if(s>=1500)return'#1eff00';return'#8b949e';}
 function aNames(){const n=new Set();Object.values(slots).flat().forEach(s=>{if(s.m)n.add(s.m.name);});return n;}
 function aPlayers(){const p=new Set();Object.values(slots).flat().forEach(s=>{if(s.m&&players[s.m.name])p.add(players[s.m.name]);});return p;}
+
+// 오버라이드 적용 (API값 없을 때만)
+function applyOverrides(chars){
+  return chars.map(m=>{
+    const ov=overrides[m.name];if(!ov)return m;
+    const apiM=apiChars.find(a=>a.name===m.name&&!a.isManual);
+    return{...m,
+      ilvl:(apiM&&apiM.ilvl)?m.ilvl:(ov.ilvl||m.ilvl),
+      score:(apiM&&apiM.score)?m.score:(ov.score||m.score),
+    };
+  });
+}
 
 // 현황
 function renderRoster(){
@@ -302,7 +328,7 @@ function renderRoster(){
         </div>
         <div class="card-stats">
           <div><div class="cs-label">아이템 레벨</div><div class="cs-val" style="color:#e6edf3">${m.ilvl?m.ilvl.toFixed(1):'–'}</div></div>
-          <div><div class="cs-label">M+ Score</div><div class="cs-val" style="color:${scol(m.score||0)}">${m.score?Math.round(m.score):'–'}</div></div>
+          <div><div class="cs-label">M+ Score</div><div class="cs-val" style="color:${scol(m.score)}">${m.score?Math.round(m.score):'–'}</div></div>
         </div>
         <div class="rank-num">#${i+1}</div>
       </a>`;}).join('')}</div>`;
@@ -315,9 +341,13 @@ function renderSyn(){
   const inR=new Set(Object.values(slots).flat().filter(s=>s.m).map(s=>s.m.class));
   document.getElementById('synergy-grid').innerHTML=SYNERGIES.map(syn=>{
     const ok=syn.classes.some(c=>inR.has(c));const who=syn.classes.find(c=>inR.has(c));
-    return`<div class="syn-badge ${ok?'active':'missing'}"><div class="syn-dot"></div><div><div>${syn.name}${ok&&who?` <span style="opacity:.5;font-size:10px">(${CKR[who]})</span>`:''}</div><div style="font-size:10px;opacity:.6;font-weight:400;margin-top:1px">${syn.effect}</div></div></div>`;
+    return`<div class="syn-badge ${ok?'active':'missing'}"><div class="syn-dot"></div><div>
+      <div>${syn.name}${ok&&who?` <span style="opacity:.5;font-size:11px">(${CKR[who]})</span>`:''}</div>
+      <div style="font-size:11px;opacity:.6;font-weight:400;margin-top:1px">${syn.effect}</div>
+    </div></div>`;
   }).join('');
 }
+
 function renderSlots(){
   ['TANK','HEALING','DPS'].forEach(role=>{
     const el=document.getElementById(`slots-${role}`);
@@ -325,21 +355,27 @@ function renderSlots(){
     const ci=role==='TANK'?'tank-count':role==='HEALING'?'heal-count':'dps-count';
     document.getElementById(ci).textContent=`${f}/${slots[role].length}`;
     el.innerHTML=slots[role].map(slot=>{
-      const m=slot.m;const c=m?(CC[m.class]||'#888'):'';const pn=m?players[m.name]||'':'';
+      const m=slot.m;const c=m?(CC[m.class]||'#888'):'';
+      const pn=m?(players[m.name]||''):'';
+      const ilvlText=m?(m.ilvl?`템 ${m.ilvl.toFixed(0)}`:'템 ?'):'';
       return m
-        ?`<div class="slot filled" draggable="${isUnlocked}" ondragstart="dss(event,'${slot.id}')" ondragover="ev(event,this)" ondragleave="dl(this)" ondrop="drop(event,'${role}','${slot.id}')" style="border-color:${c}50">
+        ?`<div class="slot filled" draggable="${isUnlocked}" ondragstart="dss(event,'${slot.id}')" ondragover="ev(event,this)" ondragleave="dl(this)" ondrop="drop(event,'${role}','${slot.id}')" style="border-color:${c}60">
             <div class="slot-stripe" style="background:${c}"></div>
             ${isUnlocked?`<span class="slot-remove" onclick="rem('${role}','${slot.id}')">✕</span>`:''}
-            <div style="font-size:13px">${CE[m.class]||'⚔️'}</div>
-            <div class="slot-name" style="color:${c}">${m.name}</div>
-            <div class="slot-sub">${pn?'👤 '+pn:(m.ilvl?m.ilvl.toFixed(0)+'  '+skr(m.class,m.spec):'')}</div>
+            <div class="slot-emoji">${CE[m.class]||'⚔️'}</div>
+            <div class="slot-name">${m.name}</div>
+            <div class="slot-ilvl" style="color:${c}">${ilvlText}</div>
+            ${pn?`<div class="slot-player">👤 ${pn}</div>`:''}
           </div>`
-        :`<div class="slot" ondragover="${isUnlocked?'ev(event,this)':''}" ondragleave="${isUnlocked?'dl(this)':''}" ondrop="${isUnlocked?`drop(event,'${role}','${slot.id}')`:''}" style="cursor:default"><span>${isUnlocked?'드래그':'–'}</span></div>`;
+        :`<div class="slot" ondragover="${isUnlocked?'ev(event,this)':''}" ondragleave="${isUnlocked?'dl(this)':''}" ondrop="${isUnlocked?`drop(event,'${role}','${slot.id}')`:''}" style="cursor:default">
+            <span class="slot-empty-label">${isUnlocked?'드래그':'–'}</span>
+          </div>`;
     }).join('');
     if(isUnlocked)el.innerHTML+=`<div class="add-slot-btn" onclick="addSlot('${role}')">+</div>`;
   });
   renderSyn();
 }
+
 function renderPool(){
   const an=aNames();const ap=aPlayers();
   let members=[...all];
@@ -358,6 +394,7 @@ function renderPool(){
     </div>`;
   }).join('');
 }
+
 function setPoolFilter(f,el){poolFilter=f;document.querySelectorAll('.pool-filter').forEach(e=>e.classList.remove('active'));el.classList.add('active');renderPool();}
 function ev(e,el){e.preventDefault();el.classList.add('drag-over');}
 function dl(el){el.classList.remove('drag-over');}
@@ -366,14 +403,14 @@ function dss(e,id){if(!isUnlocked){e.preventDefault();return;}dragFrom=id;const 
 function drop(e,role,id){
   if(!isUnlocked)return;
   e.preventDefault();document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drag-over'));
-  if(!dragM)return;
-  const t=slots[role].find(s=>s.id===id);if(!t)return;
+  if(!dragM)return;const t=slots[role].find(s=>s.id===id);if(!t)return;
   if(dragFrom){const f=Object.values(slots).flat().find(s=>s.id===dragFrom);if(f){const tmp=f.m;f.m=t.m;t.m=tmp;renderSlots();renderPool();return;}}
   if(aNames().has(dragM.name))return;
   t.m=dragM;renderSlots();renderPool();
 }
 function rem(role,id){if(!isUnlocked)return;const s=slots[role].find(s=>s.id===id);if(s)s.m=null;renderSlots();renderPool();}
 function addSlot(role){if(!isUnlocked)return;const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});renderSlots();}
+
 function toggleLock(){
   if(isUnlocked){isUnlocked=false;lockUI();renderSlots();renderPool();return;}
   const pw=prompt('비밀번호:');if(pw==='0415'){isUnlocked=true;lockUI();renderSlots();renderPool();}else if(pw!==null)alert('비밀번호가 틀렸어요!');
@@ -387,7 +424,7 @@ function lockUI(){
   document.getElementById('reset-btn').style.display=u?'':'none';
 }
 async function saveRaid(){
-  const r=await (await fetch('/api/raid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',slots})})).json();
+  const r=await(await fetch('/api/raid',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',slots})})).json();
   if(r.ok){const b=document.getElementById('save-btn');b.textContent='✓ 저장됨';setTimeout(()=>b.textContent='💾 저장',2000);}
 }
 async function loadRaid(){
@@ -408,26 +445,53 @@ function unlockAdmin(){
     renderPTable();renderMList();
   }else alert('비밀번호 틀렸어요!');
 }
+
 function renderPTable(){
   document.getElementById('ptbody').innerHTML=all.map(m=>{
-    const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;const pn=players[m.name]||'';
+    const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;
+    const pn=players[m.name]||'';
+    const apiM=apiChars.find(a=>a.name===m.name&&!a.isManual);
+    const hasIlvl=!!(apiM&&apiM.ilvl);
+    const hasScore=!!(apiM&&apiM.score);
+    const ovIlvl=overrides[m.name]?.ilvl||'';
+    const ovScore=overrides[m.name]?.score||'';
     return`<tr>
       <td><span style="color:${c};font-weight:600">${CE[m.class]||''} ${m.name}${m.isManual?' ✦':''}</span></td>
       <td style="color:#8b949e;font-size:12px">${CKR[m.class]||m.class} · ${skr(m.class,m.spec)}</td>
       <td>${rc.emoji}</td>
-      <td style="color:#e6edf3">${m.ilvl?m.ilvl.toFixed(1):'–'}</td>
-      <td style="color:${scol(m.score||0)}">${m.score?Math.round(m.score):'–'}</td>
-      <td><input class="player-input" data-char="${m.name}" value="${pn}" placeholder="플레이어 이름"></td>
+      <td>${hasIlvl
+        ?`<span class="readonly-val">${m.ilvl.toFixed(1)} 🔒</span>`
+        :`<input class="player-input" style="width:70px" data-char="${m.name}" data-field="ilvl" type="number" placeholder="템렙" value="${ovIlvl}">`}
+      </td>
+      <td>${hasScore
+        ?`<span class="readonly-val" style="color:${scol(m.score)}">${Math.round(m.score)} 🔒</span>`
+        :`<input class="player-input" style="width:70px" data-char="${m.name}" data-field="score" type="number" placeholder="M+" value="${ovScore}">`}
+      </td>
+      <td><input class="player-input" style="width:140px" data-char="${m.name}" data-field="player" value="${pn}" placeholder="플레이어 이름"></td>
     </tr>`;
   }).join('');
 }
+
 async function savePlayers(){
-  const np={};document.querySelectorAll('#ptbody .player-input').forEach(i=>{if(i.value.trim())np[i.dataset.char]=i.value.trim();});
-  players=np;
-  const r=await(await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players})})).json();
+  const np={};const no={};
+  document.querySelectorAll('#ptbody input[data-char]').forEach(inp=>{
+    const char=inp.dataset.char;const field=inp.dataset.field;const val=inp.value.trim();
+    if(!val)return;
+    if(field==='player')np[char]=val;
+    else{if(!no[char])no[char]={};no[char][field]=parseFloat(val);}
+  });
+  players=np;overrides=no;
+  // 오버라이드 all에 반영
+  all=all.map(m=>{
+    const ov=no[m.name];if(!ov)return m;
+    const apiM=apiChars.find(a=>a.name===m.name&&!a.isManual);
+    return{...m,ilvl:(apiM?.ilvl)?m.ilvl:(ov.ilvl||m.ilvl),score:(apiM?.score)?m.score:(ov.score||m.score)};
+  });
+  const r=await(await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players,overrides})})).json();
   if(r.ok)alert('저장됐어요!');
-  renderRoster();renderPool();
+  renderRoster();renderPool();renderPTable();
 }
+
 function updateSpecs(){
   const cls=document.getElementById('m-class').value;
   document.getElementById('m-spec').innerHTML='<option value="">특성</option>'+(SPEC_KR_LIST[cls]||[]).map(s=>`<option>${s}</option>`).join('');
@@ -441,7 +505,7 @@ function addChar(){
   const player=document.getElementById('m-player').value.trim();
   if(!name||!cls){alert('이름과 직업을 입력해주세요');return;}
   if(all.find(m=>m.name===name)){alert('이미 있는 이름이에요');return;}
-  const specEn=(SPEC_EN[cls]&&SPEC_EN[cls][specKr])||specKr||'';
+  const specEn=(SPEC_EN_MAP[cls]&&SPEC_EN_MAP[cls][specKr])||specKr||'';
   const char={name,class:cls,spec:specEn,role,ilvl,score:null,isManual:true};
   manualChars.push(char);
   if(player)players[name]=player;
@@ -468,7 +532,7 @@ function renderMList(){
 }
 async function saveManual(){
   await fetch('/api/manual',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',chars:manualChars})});
-  await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players})});
+  await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players,overrides})});
   alert('저장됐어요!');
 }
 
@@ -479,22 +543,36 @@ function switchTab(tab){
 }
 
 async function load(force=false){
-  if(!force){document.getElementById('tab-roster').innerHTML=`<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div>`;}
+  if(!force)document.getElementById('tab-roster').innerHTML=`<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div>`;
   try{
-    const [g,p,mc]=await Promise.all([
+    const [g,pd,mc]=await Promise.all([
       fetch(`/api/guild${force?'?force=1':''}`).then(r=>r.json()),
       fetch('/api/players').then(r=>r.json()),
       fetch('/api/manual').then(r=>r.json()),
     ]);
     if(g.statusCode===400||g.message)throw new Error(g.message||'API 오류');
-    players=p||{};
-    manualChars=(mc||[]);
-    apiChars=(g.members||[]).map(m=>({name:m.character.name,class:m.character.class,spec:m.character.active_spec_name,role:m.character.active_spec_role,ilvl:m.character.items?.item_level_equipped||null,score:m.character.mythic_plus_scores_by_season?.[0]?.scores?.all||null,rank:m.rank,isManual:false})).filter(m=>m.role);
-    all=[...apiChars,...manualChars];
+    players=pd?.players||pd||{};
+    overrides=pd?.overrides||{};
+    manualChars=mc||[];
+    apiChars=(g.members||[]).map(m=>({
+      name:m.character.name,class:m.character.class,spec:m.character.active_spec_name,
+      role:m.character.active_spec_role,
+      ilvl:m.character.items?.item_level_equipped||null,
+      score:m.character.mythic_plus_scores_by_season?.[0]?.scores?.all||null,
+      rank:m.rank,isManual:false
+    })).filter(m=>m.role);
+    // API 없는 항목에만 오버라이드 적용
+    const processedApi=apiChars.map(m=>{
+      const ov=overrides[m.name];if(!ov)return m;
+      return{...m,ilvl:m.ilvl||(ov.ilvl||null),score:m.score||(ov.score||null)};
+    });
+    all=[...processedApi,...manualChars.map(m=>{
+      const ov=overrides[m.name];if(!ov)return m;
+      return{...m,ilvl:m.ilvl||(ov.ilvl||null),score:m.score||(ov.score||null)};
+    })];
     document.getElementById('lastUpdate').textContent='업데이트: '+new Date().toLocaleString('ko-KR');
     document.getElementById('cacheStatus').textContent=g.cached?`캐시 (${g.cacheAge}초 전)`:'방금 갱신됨 ✓';
-    renderRoster();
-    await loadRaid();
+    renderRoster();await loadRaid();
   }catch(e){
     document.getElementById('tab-roster').innerHTML=`<div class="error-state"><div style="font-size:32px">⚠️</div><div style="font-size:13px;color:#8b949e">${e.message}</div></div>`;
   }
