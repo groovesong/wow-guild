@@ -120,7 +120,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
   <div id="tab-raid" style="display:none">
     <div class="raid-layout">
       <div class="synergy-panel">
-        <div class="syn-title">⚡ 레이드 시너지 현황</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem">
+          <div class="syn-title" style="margin-bottom:0">⚡ 레이드 시너지 현황</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span id="lock-status" style="font-size:11px;color:#8b949e">🔒 보기 전용</span>
+            <button id="lock-btn" onclick="toggleLock()" style="padding:4px 12px;font-size:11px;font-weight:600;border:1px solid #30363d;border-radius:6px;background:#161b22;color:#8b949e;cursor:pointer">잠금 해제</button>
+            <button id="save-btn" onclick="saveRaid()" style="display:none;padding:4px 12px;font-size:11px;font-weight:600;border:1px solid #2d7a4a;border-radius:6px;background:#0d2318;color:#56d364;cursor:pointer">💾 저장</button>
+            <button id="reset-btn" onclick="resetRaid()" style="display:none;padding:4px 12px;font-size:11px;font-weight:600;border:1px solid #4a1a1a;border-radius:6px;background:#2d0f0f;color:#f87171;cursor:pointer">초기화</button>
+          </div>
+        </div>
         <div class="syn-grid" id="synergy-grid"><div style="font-size:12px;color:#30363d">멤버를 배치하면 시너지가 표시됩니다</div></div>
       </div>
       <div class="raid-slots-wrap">
@@ -175,7 +183,84 @@ let slots={
   HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],
   DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))
 };
-let dragM=null,dragFrom=null;
+let isUnlocked = false;
+
+function toggleLock(){
+  if(isUnlocked){ lock(); return; }
+  const pw = prompt('비밀번호를 입력하세요:');
+  if(!pw) return;
+  if(pw === '0415'){
+    isUnlocked = true;
+    document.getElementById('lock-status').textContent = '🔓 편집 모드';
+    document.getElementById('lock-status').style.color = '#56d364';
+    document.getElementById('lock-btn').textContent = '잠금';
+    document.getElementById('lock-btn').style.borderColor = '#2d7a4a';
+    document.getElementById('lock-btn').style.color = '#56d364';
+    document.getElementById('save-btn').style.display = '';
+    document.getElementById('reset-btn').style.display = '';
+    renderSlots(); renderPool();
+  } else {
+    alert('비밀번호가 틀렸어요!');
+  }
+}
+function lock(){
+  isUnlocked = false;
+  document.getElementById('lock-status').textContent = '🔒 보기 전용';
+  document.getElementById('lock-status').style.color = '#8b949e';
+  document.getElementById('lock-btn').textContent = '잠금 해제';
+  document.getElementById('lock-btn').style.borderColor = '#30363d';
+  document.getElementById('lock-btn').style.color = '#8b949e';
+  document.getElementById('save-btn').style.display = 'none';
+  document.getElementById('reset-btn').style.display = 'none';
+  renderSlots(); renderPool();
+}
+async function saveRaid(){
+  try{
+    const res = await fetch('/api/raid', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ password:'0415', slots })
+    });
+    const data = await res.json();
+    if(data.ok){
+      const btn = document.getElementById('save-btn');
+      btn.textContent = '✓ 저장됨';
+      setTimeout(()=>btn.textContent='💾 저장', 2000);
+    }
+  } catch(e){ alert('저장 실패: '+e.message); }
+}
+async function loadRaid(){
+  try{
+    const res = await fetch('/api/raid');
+    const data = await res.json();
+    if(data.slots){
+      // 저장된 슬롯 복원 (멤버 이름으로 매칭)
+      Object.keys(data.slots).forEach(role=>{
+        if(!slots[role]) return;
+        data.slots[role].forEach((saved, i)=>{
+          if(!saved.m || !slots[role][i]) return;
+          const member = all.find(m=>m.name===saved.m.name);
+          if(member) slots[role][i].m = member;
+        });
+        // 슬롯 개수 맞추기
+        while(slots[role].length < data.slots[role].length){
+          const p={TANK:'t',HEALING:'h',DPS:'d'}[role];
+          slots[role].push({id:`${p}${slots[role].length+1}`,m:null});
+        }
+      });
+      renderSlots(); renderPool();
+    }
+  } catch(e){ console.log('저장된 구성 없음'); }
+}
+function resetRaid(){
+  if(!confirm('레이드 구성을 초기화할까요?')) return;
+  slots={
+    TANK:[{id:'t1',m:null},{id:'t2',m:null}],
+    HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],
+    DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))
+  };
+  renderSlots(); renderPool();
+}
 
 function sc(s){if(s>=3000)return'#ff8000';if(s>=2500)return'#a335ee';if(s>=2000)return'#0070dd';if(s>=1500)return'#1eff00';return'#8b949e';}
 
@@ -258,9 +343,10 @@ function renderPool(){
 function setPoolFilter(f,el){poolFilter=f;document.querySelectorAll('.pool-filter').forEach(e=>e.classList.remove('active'));el.classList.add('active');renderPool();}
 function ev(e,el){e.preventDefault();el.classList.add('drag-over');}
 function dl(el){el.classList.remove('drag-over');}
-function dsPool(e,name){dragM=all.find(m=>m.name===name);dragFrom=null;e.dataTransfer.effectAllowed='move';}
-function dsSlot(e,id){dragFrom=id;const s=Object.values(slots).flat().find(s=>s.id===id);dragM=s?s.m:null;e.dataTransfer.effectAllowed='move';}
+function dsPool(e,name){if(!isUnlocked){e.preventDefault();return;}dragM=all.find(m=>m.name===name);dragFrom=null;e.dataTransfer.effectAllowed='move';}
+function dsSlot(e,id){if(!isUnlocked){e.preventDefault();return;}dragFrom=id;const s=Object.values(slots).flat().find(s=>s.id===id);dragM=s?s.m:null;e.dataTransfer.effectAllowed='move';}
 function drop(e,role,id){
+  if(!isUnlocked) return;
   e.preventDefault();document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drag-over'));
   if(!dragM)return;
   const target=slots[role].find(s=>s.id===id);if(!target)return;
@@ -268,8 +354,8 @@ function drop(e,role,id){
   if(assigned().has(dragM.name))return;
   target.m=dragM;renderSlots();renderPool();
 }
-function rem(role,id){const s=slots[role].find(s=>s.id===id);if(s)s.m=null;renderSlots();renderPool();}
-function addSlot(role){const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});renderSlots();}
+function rem(role,id){if(!isUnlocked)return;const s=slots[role].find(s=>s.id===id);if(s)s.m=null;renderSlots();renderPool();}
+function addSlot(role){if(!isUnlocked)return;const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});renderSlots();}
 
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','raid'][i]===tab));
@@ -300,6 +386,7 @@ async function load(force=false){
     const cacheEl=document.getElementById('cacheStatus');
     cacheEl.textContent=data.cached?`캐시 (${data.cacheAge}초 전 데이터)`:'방금 갱신됨 ✓';
     renderRoster();
+    loadRaid();
   }catch(e){
     document.getElementById('roster-content').innerHTML=`<div class="error-state"><div style="font-size:32px">⚠️</div><div style="font-size:13px;color:#8b949e">${e.message}</div></div>`;
   }
