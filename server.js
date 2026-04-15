@@ -68,6 +68,31 @@ app.get('/api/guild', async (req, res) => {
   }
 });
 
+// 레이드 구성 저장
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+const RAID_FILE = './raid-composition.json';
+const RAID_PASSWORD = '0415';
+
+app.use(express.json());
+
+app.get('/api/raid', (req, res) => {
+  if (existsSync(RAID_FILE)) {
+    const data = JSON.parse(readFileSync(RAID_FILE, 'utf-8'));
+    res.json(data);
+  } else {
+    res.json({ slots: null });
+  }
+});
+
+app.post('/api/raid', (req, res) => {
+  const { password, slots } = req.body;
+  if (password !== RAID_PASSWORD) {
+    return res.status(401).json({ error: '비밀번호가 틀렸어요' });
+  }
+  writeFileSync(RAID_FILE, JSON.stringify({ slots, updatedAt: new Date().toISOString() }));
+  res.json({ ok: true });
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`\n✅ 서버 실행 중!`);
