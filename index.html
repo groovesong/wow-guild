@@ -315,7 +315,7 @@ function renderRoster(){
     </div>
     <div class="grid">${list.map((m,i)=>{
       const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;const pn=players[m.name]||'';
-      return`<a class="card" href="https://raider.io/characters/kr/azshara/${encodeURIComponent(m.name)}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
+      return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${encodeURIComponent(m.realm||'azshara')}/${encodeURIComponent(m.name)}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
         <div class="card-stripe" style="background:${c}"></div>
         <div class="card-top">
           <div class="class-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
@@ -559,7 +559,7 @@ async function load(force=false){
       role:m.character.active_spec_role,
       ilvl:m.character.items?.item_level_equipped||null,
       score:m.character.mythic_plus_scores_by_season?.[0]?.scores?.all||null,
-      rank:m.rank,isManual:false
+      rank:m.rank,realm:m.character.realm||'azshara',isManual:false
     })).filter(m=>m.role);
     // API 없는 항목에만 오버라이드 적용
     const processedApi=apiChars.map(m=>{
