@@ -48,11 +48,11 @@ const checkPw = (pw, res) => { if (pw !== PASSWORD) { res.status(401).json({ err
 app.get('/api/raid', (req, res) => res.json(readJ('./raid.json') || { slots: null }));
 app.post('/api/raid', (req, res) => { if (!checkPw(req.body.password, res)) return; writeJ('./raid.json', { slots: req.body.slots, updatedAt: new Date().toISOString() }); res.json({ ok: true }); });
 
-app.get('/api/players', (req, res) => res.json(readJ('./players.json') || {}));
-app.post('/api/players', (req, res) => { if (!checkPw(req.body.password, res)) return; writeJ('./players.json', req.body.players); res.json({ ok: true }); });
+app.get('/api/players', (req, res) => res.json(readJ('./players.json') || {players:{},overrides:{}}));
+app.post('/api/players', (req, res) => { if (!checkPw(req.body.password, res)) return; writeJ('./players.json', {players: req.body.players||{}, overrides: req.body.overrides||{}}); res.json({ ok: true }); });
 
 app.get('/api/manual', (req, res) => res.json(readJ('./manual.json') || []));
 app.post('/api/manual', (req, res) => { if (!checkPw(req.body.password, res)) return; writeJ('./manual.json', req.body.chars); res.json({ ok: true }); });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => console.log(`✅ http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`✅ http://localhost:${PORT}`));
