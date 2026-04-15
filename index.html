@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>붉 은 내 복 단 — 길드 대시보드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+.container{max-width:1200px;margin:0 auto;padding:1.5rem}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
+.guild-name{font-size:22px;font-weight:700;background:linear-gradient(135deg,#c41e3a,#f48cba);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.guild-sub{font-size:12px;color:#8b949e;margin-top:2px}
+.refresh-btn{padding:6px 14px;font-size:12px;font-weight:600;border:1px solid #30363d;border-radius:8px;background:#161b22;color:#8b949e;cursor:pointer;transition:all .15s;white-space:nowrap}
+.refresh-btn:hover{border-color:#8b949e;color:#e6edf3}
+.refresh-btn:disabled{opacity:.4;cursor:not-allowed}
+.cache-status{font-size:11px;color:#8b949e;margin-top:4px;text-align:right}
+.tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:1px solid #21262d}
+.tab{padding:10px 24px;font-size:13px;font-weight:600;color:#8b949e;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab:hover{color:#e6edf3}
+.tab.active{color:#e6edf3;border-bottom-color:#c41e3a}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.stat-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem}
+.stat-label{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
+.stat-val{font-size:26px;font-weight:700}
+.controls{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center}
+.role-tab{padding:6px 16px;font-size:12px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#161b22;color:#8b949e;cursor:pointer;transition:all .15s}
+.role-tab:hover{border-color:#8b949e}
+.role-tab.all.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
+.role-tab.tank.active{background:#0d1f35;color:#7ab8f5;border-color:#3a6ea8}
+.role-tab.heal.active{background:#0d2318;color:#56d364;border-color:#2d7a4a}
+.role-tab.dps.active{background:#2d0f0f;color:#f87171;border-color:#8a3232}
+.spacer{flex:1}
+.sort-sel{height:32px;padding:0 10px;font-size:12px;border:1px solid #30363d;border-radius:8px;background:#161b22;color:#8b949e;cursor:pointer;outline:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:.9rem 1rem;position:relative;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;text-decoration:none;display:block;color:inherit;animation:fadeUp .3s ease both}
+.card:hover{border-color:#30363d;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.card-stripe{position:absolute;top:0;left:0;right:0;height:3px}
+.card-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.class-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.char-info{flex:1;min-width:0}
+.char-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.char-spec{font-size:11px;margin-top:2px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.role-badge{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-top:1px solid #21262d;padding-top:9px}
+.cs-label{font-size:10px;color:#8b949e;margin-bottom:2px}
+.cs-val{font-size:13px;font-weight:700}
+.rank-num{position:absolute;bottom:9px;right:10px;font-size:10px;color:#30363d;font-weight:600}
+/* 레이드 탭 */
+.raid-layout{display:flex;flex-direction:column;gap:12px}
+.synergy-panel{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem 1.25rem}
+.syn-title{font-size:11px;font-weight:600;color:#8b949e;margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.6px}
+.syn-grid{display:flex;flex-wrap:wrap;gap:5px}
+.syn-badge{display:flex;align-items:flex-start;gap:6px;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;border:1px solid;line-height:1.2}
+.syn-badge.active{background:#0d2318;border-color:#2d7a4a;color:#56d364}
+.syn-badge.missing{background:#1a0d0d;border-color:#30363d;color:#8b949e;opacity:.6}
+.syn-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.syn-badge.active .syn-dot{background:#56d364}
+.syn-badge.missing .syn-dot{background:#8b949e}
+.raid-slots-wrap{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem 1.25rem}
+.role-section{margin-bottom:1rem}
+.role-section:last-child{margin-bottom:0}
+.role-header{display:flex;align-items:center;gap:8px;margin-bottom:.6rem}
+.role-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.role-count{font-size:11px;color:#8b949e}
+.slots-row{display:flex;flex-wrap:wrap;gap:6px}
+.slot{width:115px;height:62px;border:1px dashed #30363d;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;position:relative;font-size:10px;color:#30363d}
+.slot.drag-over{border-color:#8b949e!important;background:#21262d}
+.slot.filled{border-style:solid;cursor:grab}
+.slot.filled:active{cursor:grabbing;opacity:.8}
+.slot-stripe{position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0}
+.slot-remove{position:absolute;top:3px;right:5px;font-size:10px;color:#8b949e;cursor:pointer;opacity:0;line-height:1}
+.slot.filled:hover .slot-remove{opacity:1}
+.slot-name{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:105px;text-align:center;padding:0 4px}
+.slot-sub{font-size:9px;opacity:.6;margin-top:1px}
+.add-slot-btn{width:115px;height:62px;border:1px dashed #21262d;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#30363d;cursor:pointer;transition:all .15s}
+.add-slot-btn:hover{border-color:#8b949e;color:#8b949e}
+.member-pool{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem 1.25rem}
+.pool-title{font-size:11px;font-weight:600;color:#8b949e;margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.6px}
+.pool-filters{display:flex;gap:5px;margin-bottom:.75rem}
+.pool-filter{padding:3px 11px;font-size:11px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#0d1117;color:#8b949e;cursor:pointer;transition:all .15s}
+.pool-filter.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
+.pool-grid{display:flex;flex-wrap:wrap;gap:6px;max-height:150px;overflow-y:auto}
+.pool-member{display:flex;align-items:center;gap:7px;padding:5px 9px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:grab;transition:all .15s;user-select:none}
+.pool-member:active{cursor:grabbing;opacity:.6}
+.pool-member:hover{border-color:#30363d}
+.pool-member.assigned{opacity:.25;cursor:not-allowed;pointer-events:none}
+.pm-icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.pm-name{font-size:11px;font-weight:600;white-space:nowrap}
+.pm-sub{font-size:9px;opacity:.6;white-space:nowrap}
+.loading,.error-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem;gap:14px;text-align:center}
+.spinner{width:28px;height:28px;border:2px solid #21262d;border-top-color:#8b949e;border-radius:50%;animation:spin .8s linear infinite}
+.loading-msg{font-size:13px;color:#8b949e}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <div class="guild-name">⚔️ 붉 은 내 복 단</div>
+      <div class="guild-sub">아즈샤라 (KR) · <span id="lastUpdate"></span></div>
+    </div>
+    <div style="text-align:right">
+      <button class="refresh-btn" id="refreshBtn" onclick="refresh()">🔄 데이터 갱신</button>
+      <div class="cache-status" id="cacheStatus"></div>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('roster')">📋 현황</div>
+    <div class="tab" onclick="switchTab('raid')">🗡️ 레이드 구성</div>
+  </div>
+  <div id="tab-roster">
+    <div id="roster-content">
+      <div class="loading"><div class="spinner"></div><div class="loading-msg">길드 데이터 불러오는 중...<br><span style="font-size:11px;margin-top:4px;display:block;opacity:.6">아이템 레벨 조회로 시간이 걸릴 수 있어요</span></div></div>
+    </div>
+  </div>
+  <div id="tab-raid" style="display:none">
+    <div class="raid-layout">
+      <div class="synergy-panel">
+        <div class="syn-title">⚡ 레이드 시너지 현황</div>
+        <div class="syn-grid" id="synergy-grid"><div style="font-size:12px;color:#30363d">멤버를 배치하면 시너지가 표시됩니다</div></div>
+      </div>
+      <div class="raid-slots-wrap">
+        <div class="role-section">
+          <div class="role-header"><div class="role-label" style="color:#7ab8f5">🛡️ 탱커</div><div class="role-count" id="tank-count">0 / 2</div></div>
+          <div class="slots-row" id="slots-TANK"></div>
+        </div>
+        <div class="role-section">
+          <div class="role-header"><div class="role-label" style="color:#56d364">💚 힐러</div><div class="role-count" id="heal-count">0 / 4</div></div>
+          <div class="slots-row" id="slots-HEALING"></div>
+        </div>
+        <div class="role-section">
+          <div class="role-header"><div class="role-label" style="color:#f87171">⚔️ 딜러</div><div class="role-count" id="dps-count">0 / 14</div></div>
+          <div class="slots-row" id="slots-DPS"></div>
+        </div>
+      </div>
+      <div class="member-pool">
+        <div class="pool-title">길드원 — 드래그해서 슬롯에 배치하세요</div>
+        <div class="pool-filters">
+          <div class="pool-filter active" onclick="setPoolFilter('ALL',this)">전체</div>
+          <div class="pool-filter" onclick="setPoolFilter('TANK',this)">🛡️ 탱</div>
+          <div class="pool-filter" onclick="setPoolFilter('HEALING',this)">💚 힐</div>
+          <div class="pool-filter" onclick="setPoolFilter('DPS',this)">⚔️ 딜</div>
+        </div>
+        <div class="pool-grid" id="pool-grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const CC={'Death Knight':'#C41E3A','Demon Hunter':'#A330C9','Druid':'#FF7C0A','Evoker':'#33937F','Hunter':'#AAD372','Mage':'#3FC7EB','Monk':'#00FF98','Paladin':'#F48CBA','Priest':'#C8C8C8','Rogue':'#FFF468','Shaman':'#0070DD','Warlock':'#8788EE','Warrior':'#C69B3A'};
+const CKR={'Death Knight':'죽기','Demon Hunter':'악사','Druid':'드루','Evoker':'기원사','Hunter':'사냥꾼','Mage':'마법사','Monk':'수도사','Paladin':'성기사','Priest':'사제','Rogue':'도적','Shaman':'주술사','Warlock':'흑마','Warrior':'전사'};
+const CE={'Death Knight':'💀','Demon Hunter':'👁️','Druid':'🌿','Evoker':'🐉','Hunter':'🏹','Mage':'❄️','Monk':'☯️','Paladin':'⚔️','Priest':'✨','Rogue':'🗡️','Shaman':'⚡','Warlock':'🔮','Warrior':'🛡️'};
+const ROLES={'TANK':{label:'탱커',emoji:'🛡️',badgeBg:'#0d1f35',tab:'tank'},'HEALING':{label:'힐러',emoji:'💚',badgeBg:'#0d2318',tab:'heal'},'DPS':{label:'딜러',emoji:'⚔️',badgeBg:'#2d0f0f',tab:'dps'}};
+const SYNERGIES=[
+  {name:'영웅심',         effect:'전투 속도 +30% (10분 쿨)',      classes:['Shaman','Mage','Hunter','Evoker']},
+  {name:'신비한 지능',    effect:'지능 +5%',                       classes:['Mage']},
+  {name:'권능: 인내',     effect:'체력 +5%',                       classes:['Priest']},
+  {name:'야생의 표식',    effect:'다재다능 +3%',                   classes:['Druid']},
+  {name:'전투의 함성',    effect:'전투력 +5%',                     classes:['Warrior']},
+  {name:'신비로운 손길',  effect:'물리 피해 +5% (적에게)',          classes:['Monk']},
+  {name:'혼돈의 낙인',    effect:'마법 피해 +5% (적에게)',          classes:['Demon Hunter']},
+  {name:'하늘격노',       effect:'치명타·극대화 +3%',              classes:['Shaman']},
+  {name:'사냥꾼의 징표',  effect:'대상 받는 피해 +5%',             classes:['Hunter']},
+  {name:'겨울의 뿔피리',  effect:'숙련도 +8%',                     classes:['Death Knight']},
+  {name:'청동의 축복',    effect:'쿨타임 감소 버프',               classes:['Evoker']},
+  {name:'지휘의 외침',    effect:'최대 체력 +15% (15초)',          classes:['Warrior']},
+];
+let all=[],activeRoster='ALL',sortBy='ilvl',poolFilter='ALL';
+let slots={
+  TANK:[{id:'t1',m:null},{id:'t2',m:null}],
+  HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],
+  DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))
+};
+let dragM=null,dragFrom=null;
+
+function sc(s){if(s>=3000)return'#ff8000';if(s>=2500)return'#a335ee';if(s>=2000)return'#0070dd';if(s>=1500)return'#1eff00';return'#8b949e';}
+
+function renderRoster(){
+  const counts={ALL:all.length,TANK:0,HEALING:0,DPS:0};
+  all.forEach(m=>counts[m.role]=(counts[m.role]||0)+1);
+  let list=activeRoster==='ALL'?[...all]:all.filter(m=>m.role===activeRoster);
+  if(sortBy==='ilvl')list.sort((a,b)=>(b.ilvl||0)-(a.ilvl||0));
+  if(sortBy==='score')list.sort((a,b)=>(b.score||0)-(a.score||0));
+  if(sortBy==='name')list.sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  document.getElementById('roster-content').innerHTML=`
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">전체</div><div class="stat-val" style="color:#e6edf3">${all.length}</div></div>
+      <div class="stat-card"><div class="stat-label">🛡️ 탱커</div><div class="stat-val" style="color:#7ab8f5">${counts.TANK||0}</div></div>
+      <div class="stat-card"><div class="stat-label">💚 힐러</div><div class="stat-val" style="color:#56d364">${counts.HEALING||0}</div></div>
+      <div class="stat-card"><div class="stat-label">⚔️ 딜러</div><div class="stat-val" style="color:#f87171">${counts.DPS||0}</div></div>
+    </div>
+    <div class="controls">
+      ${['ALL','TANK','HEALING','DPS'].map(r=>{const rc=ROLES[r];const lbl=r==='ALL'?`전체 ${counts.ALL}`:`${rc.emoji} ${rc.label} ${counts[r]||0}`;return`<button class="role-tab ${rc?rc.tab:'all'} ${activeRoster===r?'active':''}" onclick="setRoster('${r}')">${lbl}</button>`;}).join('')}
+      <div class="spacer"></div>
+      <select class="sort-sel" onchange="setSort(this.value)">
+        <option value="ilvl" ${sortBy==='ilvl'?'selected':''}>아이템 레벨순</option>
+        <option value="score" ${sortBy==='score'?'selected':''}>IO 점수순</option>
+        <option value="name" ${sortBy==='name'?'selected':''}>이름순</option>
+      </select>
+    </div>
+    <div class="grid">${list.map((m,i)=>{const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES['DPS'];return`<a class="card" href="https://raider.io/characters/kr/azshara/${encodeURIComponent(m.name)}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s"><div class="card-stripe" style="background:${c}"></div><div class="card-top"><div class="class-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div><div class="char-info"><div class="char-name" style="color:${c}">${m.name}</div><div class="char-spec" style="color:${c}">${CKR[m.class]||m.class}${m.spec?' · '+m.spec:''}</div></div><div class="role-badge" style="background:${rc.badgeBg}">${rc.emoji}</div></div><div class="card-stats"><div><div class="cs-label">아이템 레벨</div><div class="cs-val" style="color:#e6edf3">${m.ilvl?m.ilvl.toFixed(1):'–'}</div></div><div><div class="cs-label">M+ Score</div><div class="cs-val" style="color:${sc(m.score||0)}">${m.score?Math.round(m.score):'–'}</div></div></div><div class="rank-num">#${i+1}</div></a>`;}).join('')}</div>`;
+}
+function setRoster(r){activeRoster=r;renderRoster();}
+function setSort(s){sortBy=s;renderRoster();}
+
+function assigned(){const n=new Set();Object.values(slots).forEach(arr=>arr.forEach(s=>{if(s.m)n.add(s.m.name);}));return n;}
+
+function renderSynergies(){
+  const inRaid=new Set(Object.values(slots).flat().filter(s=>s.m).map(s=>s.m.class));
+  document.getElementById('synergy-grid').innerHTML=SYNERGIES.map(syn=>{
+    const ok=syn.classes.some(c=>inRaid.has(c));
+    const who=syn.classes.find(c=>inRaid.has(c));
+    return`<div class="syn-badge ${ok?'active':'missing'}" title="${syn.effect}">
+      <div class="syn-dot"></div>
+      <div>
+        <div style="line-height:1.3">${syn.name}${ok&&who?` <span style="opacity:.5;font-size:9px">(${CKR[who]||who})</span>`:''}</div>
+        <div style="font-size:9px;opacity:.6;font-weight:400;margin-top:1px">${syn.effect}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderSlots(){
+  ['TANK','HEALING','DPS'].forEach(role=>{
+    const el=document.getElementById(`slots-${role}`);
+    const filled=slots[role].filter(s=>s.m).length;
+    const cntId=role==='TANK'?'tank-count':role==='HEALING'?'heal-count':'dps-count';
+    document.getElementById(cntId).textContent=`${filled} / ${slots[role].length}`;
+    el.innerHTML=slots[role].map(slot=>{
+      const m=slot.m;const c=m?(CC[m.class]||'#888'):'';
+      return m
+        ?`<div class="slot filled" draggable="true" ondragstart="dsSlot(event,'${slot.id}')" ondragover="ev(event,this)" ondragleave="dl(this)" ondrop="drop(event,'${role}','${slot.id}')" style="border-color:${c}50"><div class="slot-stripe" style="background:${c}"></div><span class="slot-remove" onclick="rem('${role}','${slot.id}')">✕</span><div style="font-size:13px">${CE[m.class]||'⚔️'}</div><div class="slot-name" style="color:${c}">${m.name}</div><div class="slot-sub">${m.ilvl?m.ilvl.toFixed(0):'?'} · ${m.spec||''}</div></div>`
+        :`<div class="slot" ondragover="ev(event,this)" ondragleave="dl(this)" ondrop="drop(event,'${role}','${slot.id}')"><span style="font-size:9px;color:#30363d">빈 슬롯</span></div>`;
+    }).join('');
+    el.innerHTML+=`<div class="add-slot-btn" onclick="addSlot('${role}')">+</div>`;
+  });
+  renderSynergies();
+}
+
+function renderPool(){
+  const an=assigned();
+  let members=[...all];
+  if(poolFilter!=='ALL')members=members.filter(m=>m.role===poolFilter);
+  members.sort((a,b)=>(b.ilvl||0)-(a.ilvl||0));
+  document.getElementById('pool-grid').innerHTML=members.map(m=>{
+    const c=CC[m.class]||'#888';const isA=an.has(m.name);
+    return`<div class="pool-member ${isA?'assigned':''}" draggable="${!isA}" ondragstart="dsPool(event,'${m.name}')">
+      <div class="pm-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
+      <div><div class="pm-name" style="color:${c}">${m.name}</div><div class="pm-sub">${CKR[m.class]||m.class} · ${m.ilvl?m.ilvl.toFixed(0):'?'}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function setPoolFilter(f,el){poolFilter=f;document.querySelectorAll('.pool-filter').forEach(e=>e.classList.remove('active'));el.classList.add('active');renderPool();}
+function ev(e,el){e.preventDefault();el.classList.add('drag-over');}
+function dl(el){el.classList.remove('drag-over');}
+function dsPool(e,name){dragM=all.find(m=>m.name===name);dragFrom=null;e.dataTransfer.effectAllowed='move';}
+function dsSlot(e,id){dragFrom=id;const s=Object.values(slots).flat().find(s=>s.id===id);dragM=s?s.m:null;e.dataTransfer.effectAllowed='move';}
+function drop(e,role,id){
+  e.preventDefault();document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drag-over'));
+  if(!dragM)return;
+  const target=slots[role].find(s=>s.id===id);if(!target)return;
+  if(dragFrom){const from=Object.values(slots).flat().find(s=>s.id===dragFrom);if(from){const tmp=from.m;from.m=target.m;target.m=tmp;renderSlots();renderPool();return;}}
+  if(assigned().has(dragM.name))return;
+  target.m=dragM;renderSlots();renderPool();
+}
+function rem(role,id){const s=slots[role].find(s=>s.id===id);if(s)s.m=null;renderSlots();renderPool();}
+function addSlot(role){const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});renderSlots();}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','raid'][i]===tab));
+  document.getElementById('tab-roster').style.display=tab==='roster'?'block':'none';
+  document.getElementById('tab-raid').style.display=tab==='raid'?'block':'none';
+  if(tab==='raid'){renderSlots();renderPool();}
+}
+
+async function load(force=false){
+  if(!force){
+    document.getElementById('roster-content').innerHTML=`<div class="loading"><div class="spinner"></div><div class="loading-msg">길드 데이터 불러오는 중...<br><span style="font-size:11px;margin-top:4px;display:block;opacity:.6">아이템 레벨 조회로 30초~1분 걸릴 수 있어요</span></div></div>`;
+  }
+  try{
+    const res=await fetch(`/api/guild${force?'?force=1':''}`);
+    if(!res.ok)throw new Error(`${res.status}`);
+    const data=await res.json();
+    if(data.statusCode===400||data.message)throw new Error(data.message||'API 오류');
+    all=(data.members||[]).map(m=>({
+      name:m.character.name,
+      class:m.character.class,
+      spec:m.character.active_spec_name,
+      role:m.character.active_spec_role,
+      ilvl:m.character.items?.item_level_equipped||null,
+      score:m.character.mythic_plus_scores_by_season?.[0]?.scores?.all||null,
+      rank:m.rank
+    })).filter(m=>m.role);
+    document.getElementById('lastUpdate').textContent='업데이트: '+new Date().toLocaleString('ko-KR');
+    const cacheEl=document.getElementById('cacheStatus');
+    cacheEl.textContent=data.cached?`캐시 (${data.cacheAge}초 전 데이터)`:'방금 갱신됨 ✓';
+    renderRoster();
+  }catch(e){
+    document.getElementById('roster-content').innerHTML=`<div class="error-state"><div style="font-size:32px">⚠️</div><div style="font-size:13px;color:#8b949e">${e.message}</div></div>`;
+  }
+}
+
+async function refresh(){
+  const btn=document.getElementById('refreshBtn');
+  btn.textContent='⏳ 갱신 중...';btn.disabled=true;
+  await load(true);
+  btn.textContent='🔄 데이터 갱신';btn.disabled=false;
+}
+
+load();
+</script>
+</body>
+</html>
