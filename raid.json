@@ -1,0 +1,227 @@
+{
+  "slots": {
+    "TANK": [
+      {
+        "id": "t1",
+        "m": {
+          "name": "Adestroyer",
+          "nameLower": "adestroyer",
+          "class": "Paladin",
+          "spec": "보호",
+          "role": "DPS",
+          "ilvl": 270,
+          "score": 2610.6,
+          "rank": 1,
+          "realm": "guldan",
+          "isManual": false,
+          "currentKey": null
+        }
+      },
+      {
+        "id": "t2",
+        "m": {
+          "name": "보리볼이빵빵",
+          "nameLower": "보리볼이빵빵",
+          "class": "수도사",
+          "spec": "양조",
+          "role": "TANK",
+          "ilvl": 249,
+          "score": 934.5,
+          "rank": 1,
+          "realm": "azshara",
+          "isManual": false
+        }
+      }
+    ],
+    "HEALING": [
+      {
+        "id": "h1",
+        "m": {
+          "name": "당연합니다",
+          "nameLower": "당연합니다",
+          "class": "기원사",
+          "spec": "황폐",
+          "role": "DPS",
+          "ilvl": 259,
+          "score": 2155.8,
+          "rank": 4,
+          "realm": "hyjal",
+          "isManual": false
+        }
+      },
+      {
+        "id": "h2",
+        "m": {
+          "name": "푸리리링",
+          "nameLower": "푸리리링",
+          "class": "주술사",
+          "spec": "복원",
+          "role": "HEALING",
+          "ilvl": 255,
+          "score": 1840.3,
+          "rank": 1,
+          "realm": "azshara",
+          "isManual": false
+        }
+      },
+      {
+        "id": "h3",
+        "m": {
+          "name": "빨간양념치킨",
+          "nameLower": "빨간양념치킨",
+          "class": "드루이드",
+          "spec": "조화",
+          "role": "DPS",
+          "ilvl": 273,
+          "score": 2710.4,
+          "rank": 1,
+          "realm": "azshara",
+          "isManual": false
+        }
+      },
+      {
+        "id": "h4",
+        "m": null
+      }
+    ],
+    "DPS": [
+      {
+        "id": "d1",
+        "m": {
+          "name": "가오법뀨",
+          "nameLower": "가오법뀨",
+          "class": "마법사",
+          "spec": "냉기",
+          "role": "DPS",
+          "ilvl": 266,
+          "score": 2155,
+          "rank": 1,
+          "realm": "hyjal",
+          "isManual": false
+        }
+      },
+      {
+        "id": "d2",
+        "m": {
+          "name": "악치덴츠",
+          "nameLower": "악치덴츠",
+          "class": "죽음의 기사",
+          "spec": "부정",
+          "role": "DPS",
+          "ilvl": 258,
+          "score": 1663.8,
+          "rank": 2,
+          "realm": "azshara",
+          "isManual": false
+        }
+      },
+      {
+        "id": "d3",
+        "m": {
+          "name": "빠빠기",
+          "nameLower": "빠빠기",
+          "class": "Rogue",
+          "spec": "잠행",
+          "role": "DPS",
+          "ilvl": 256,
+          "score": 1238,
+          "rank": 1,
+          "realm": "azshara",
+          "isManual": false,
+          "currentKey": null
+        }
+      },
+      {
+        "id": "d4",
+        "m": {
+          "name": "크롱이짱",
+          "nameLower": "크롱이짱",
+          "class": "마법사",
+          "spec": "냉기",
+          "role": "DPS",
+          "ilvl": 250,
+          "score": 1091,
+          "rank": 1,
+          "realm": "azshara",
+          "isManual": false
+        }
+      },
+      {
+        "id": "d5",
+        "m": {
+          "name": "천벌이",
+          "nameLower": "천벌이",
+          "class": "전사",
+          "spec": "무기",
+          "role": "DPS",
+          "ilvl": 248,
+          "score": 568.7,
+          "rank": 1,
+          "realm": "azshara",
+          "isManual": false
+        }
+      },
+      {
+        "id": "d6",
+        "m": {
+          "name": "Playlinks",
+          "nameLower": "playlinks",
+          "class": "Demon Hunter",
+          "spec": "파멸",
+          "role": "DPS",
+          "ilvl": 245,
+          "score": 732.3,
+          "rank": 1,
+          "realm": "hyjal",
+          "isManual": false,
+          "currentKey": null
+        }
+      },
+      {
+        "id": "d7",
+        "m": {
+          "name": "Viktorpanda",
+          "nameLower": "viktorpanda",
+          "class": "Warlock",
+          "spec": "악마",
+          "role": "DPS",
+          "ilvl": 233,
+          "score": 138.8,
+          "rank": 1,
+          "realm": "hyjal",
+          "isManual": false,
+          "currentKey": null
+        }
+      },
+      {
+        "id": "d8",
+        "m": null
+      },
+      {
+        "id": "d9",
+        "m": null
+      },
+      {
+        "id": "d10",
+        "m": null
+      },
+      {
+        "id": "d11",
+        "m": null
+      },
+      {
+        "id": "d12",
+        "m": null
+      },
+      {
+        "id": "d13",
+        "m": null
+      },
+      {
+        "id": "d14",
+        "m": null
+      }
+    ]
+  },
+  "updatedAt": "2026-04-16T03:09:31.845Z"
+}

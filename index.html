@@ -6,11 +6,11 @@
 <title>붉 은 내 복 단</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;font-size:15px}
 .container{max-width:1200px;margin:0 auto;padding:1.5rem}
 .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
 .guild-name{font-size:24px;font-weight:700;background:linear-gradient(135deg,#c41e3a,#f48cba);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.guild-sub{font-size:14px;color:#8b949e;margin-top:2px}
+.guild-sub{font-size:15px;color:#8b949e;margin-top:2px}
 .refresh-btn{padding:6px 14px;font-size:13px;font-weight:600;border:1px solid #30363d;border-radius:8px;background:#161b22;color:#8b949e;cursor:pointer}
 .refresh-btn:hover{border-color:#8b949e;color:#e6edf3}
 .refresh-btn:disabled{opacity:.4;cursor:not-allowed}
@@ -23,10 +23,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 /* 현황 탭 */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 .stat-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem}
-.stat-label{font-size:13px;color:#8b949e;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
+.stat-label{font-size:14px;color:#8b949e;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
 .stat-val{font-size:28px;font-weight:700}
 .controls{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center}
-.role-tab{padding:6px 16px;font-size:14px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#161b22;color:#8b949e;cursor:pointer;transition:all .15s}
+.role-tab{padding:7px 18px;font-size:15px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#161b22;color:#8b949e;cursor:pointer;transition:all .15s}
 .role-tab.all.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
 .role-tab.tank.active{background:#0d1f35;color:#7ab8f5;border-color:#3a6ea8}
 .role-tab.heal.active{background:#0d2318;color:#56d364;border-color:#2d7a4a}
@@ -34,19 +34,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .spacer{flex:1}
 .sort-sel{height:32px;padding:0 10px;font-size:14px;border:1px solid #30363d;border-radius:8px;background:#161b22;color:#8b949e;cursor:pointer;outline:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
-.card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:.9rem 1rem;position:relative;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;text-decoration:none;display:block;color:inherit;animation:fadeUp .3s ease both}
+.card{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:1.1rem 1.2rem;position:relative;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;text-decoration:none;display:block;color:inherit;animation:fadeUp .3s ease both}
 .card:hover{border-color:#30363d;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
 .card-stripe{position:absolute;top:0;left:0;right:0;height:3px}
 .card-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}
-.class-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.class-icon{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .char-info{flex:1;min-width:0}
-.char-name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.char-spec{font-size:13px;margin-top:2px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.char-player{font-size:11px;margin-top:2px;color:#8b949e}
+.char-name{font-size:17px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.char-spec{font-size:14px;margin-top:2px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.char-player{font-size:13px;margin-top:3px;color:#8b949e}
 .role-badge{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
-.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-top:1px solid #21262d;padding-top:9px}
-.cs-label{font-size:12px;color:#8b949e;margin-bottom:2px}
-.cs-val{font-size:15px;font-weight:700}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid #21262d;padding-top:11px}
+.cs-label{font-size:13px;color:#8b949e;margin-bottom:3px}
+.cs-val{font-size:18px;font-weight:700}
 .rank-num{position:absolute;bottom:9px;right:10px;font-size:12px;color:#30363d;font-weight:600}
 
 /* 레이드 탭 */
@@ -227,6 +227,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
           </div>
         </div>
         <div class="syn-grid" id="synergy-grid"><div style="font-size:13px;color:#30363d">멤버를 배치하면 시너지가 표시됩니다</div></div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #21262d">
+          <div style="font-size:12px;font-weight:600;color:#8b949e;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.5px">⚔️ 전투부활</div>
+          <div class="syn-grid" id="combat-rez-grid"><div style="font-size:13px;color:#30363d">멤버를 배치하면 표시됩니다</div></div>
+        </div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #21262d">
+          <div style="font-size:12px;font-weight:600;color:#8b949e;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.5px">📋 직업 현황</div>
+          <div id="class-overview" style="display:flex;flex-wrap:wrap;gap:4px"><div style="font-size:13px;color:#30363d">멤버를 배치하면 표시됩니다</div></div>
+        </div>
       </div>
       <div class="raid-slots-wrap">
         <div class="role-section"><div class="role-header"><div class="role-label" style="color:#7ab8f5">🛡️ 탱커</div><div class="role-count" id="tank-count">0/2</div></div><div class="slots-row" id="slots-TANK"></div></div>
@@ -246,55 +254,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
     </div>
   </div>
 
-  <!-- 쐐기돌 탭 -->
+  <!-- 쐐기돌 -->
   <div id="tab-keystone" style="display:none">
-    <div style="display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start">
-      <!-- 등록 폼 -->
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:14px;align-items:start">
       <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;position:sticky;top:1rem">
         <div style="font-size:14px;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #21262d">🗝️ 쐐기돌 등록</div>
-        <div class="pf-group">
-          <div class="pf-label">이름</div>
+        <div class="pf-group"><div class="pf-label">이름</div>
           <select class="pf-select" id="ks-player" onchange="updateKsChars()" style="width:100%">
             <option value="">선택</option>
           </select>
         </div>
-        <div class="pf-group">
-          <div class="pf-label">캐릭터</div>
-          <select class="pf-select" id="ks-char" style="width:100%">
-            <option value="">선택</option>
-          </select>
+        <div class="pf-group"><div class="pf-label">캐릭터</div>
+          <select class="pf-select" id="ks-char" style="width:100%"><option value="">선택</option></select>
         </div>
-        <div class="pf-group">
-          <div class="pf-label">던전</div>
+        <div class="pf-group"><div class="pf-label">던전</div>
           <select class="pf-select" id="ks-dungeon" style="width:100%">
             <option value="">던전 선택</option>
             <optgroup label="한밤 던전">
-              <option>윈드러너 첨탑</option>
-              <option>마법학자의 정원</option>
-              <option>마이사라 동굴</option>
-              <option>공결탑 제나스</option>
+              <option>윈드러너 첨탑</option><option>마법학자의 정원</option>
+              <option>마이사라 동굴</option><option>공결탑 제나스</option>
             </optgroup>
             <optgroup label="구 확장팩 던전">
-              <option>사론의 구덩이</option>
-              <option>하늘탑</option>
-              <option>삼두정의 권좌</option>
-              <option>알게타르 대학</option>
+              <option>사론의 구덩이</option><option>하늘탑</option>
+              <option>삼두정의 권좌</option><option>알게타르 대학</option>
             </optgroup>
           </select>
         </div>
-        <div class="pf-group">
-          <div class="pf-label">단수</div>
+        <div class="pf-group"><div class="pf-label">단수</div>
           <input class="pf-input" id="ks-level" type="number" min="2" max="30" placeholder="예: 10" style="width:100%">
         </div>
         <button class="btn btn-primary" onclick="submitKeystone()" style="width:100%;padding:8px;margin-top:.5rem">등록</button>
         <div style="margin-top:.75rem;border-top:1px solid #21262d;padding-top:.75rem">
-          <button class="btn btn-secondary" onclick="clearMyKeystone()" style="width:100%;font-size:12px;padding:5px">내 쐐기돌 삭제</button>
+          <button class="btn btn-secondary" onclick="clearMyKeystone()" style="width:100%;font-size:12px;padding:5px">선택 캐릭터 쐐기돌 삭제</button>
         </div>
       </div>
-      <!-- 목록 -->
       <div id="ks-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
   </div>
+
   <!-- 관리 -->
   <div id="tab-admin" style="display:none">
     <div class="lock-screen" id="admin-lock">
@@ -305,7 +302,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
     </div>
     <div id="admin-content" style="display:none">
       <div class="admin-section">
-        <div class="admin-section-title">👤 캐릭터별 설정 <span style="font-size:12px;color:#8b949e;font-weight:400">(회색 항목은 API 데이터 있음 — 수정 불가, 갱신 시 자동 덮어쓰기)</span></div>
+        <div class="admin-section-title">👥 플레이어 이름 관리</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.75rem" id="name-tags"></div>
+        <div style="display:flex;gap:8px">
+          <input class="form-input" id="new-name-input" placeholder="새 이름 추가" style="width:140px">
+          <button class="btn btn-primary" onclick="addPlayerName()" style="padding:6px 14px">추가</button>
+        </div>
+      </div>
+      <div class="admin-section">
+        <div class="admin-section-title">👤 캐릭터별 플레이어 배정</div>
         <div style="overflow-x:auto"><table class="player-table"><thead><tr><th>캐릭터</th><th>직업·특성</th><th>역할</th><th>템렙</th><th>M+</th><th>플레이어 이름</th></tr></thead><tbody id="ptbody"></tbody></table></div>
         <div style="margin-top:1rem"><button class="btn btn-primary" onclick="savePlayers()">💾 저장</button></div>
       </div>
@@ -333,9 +338,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 </div>
 
 <script>
-const CC={'Death Knight':'#C41E3A','Demon Hunter':'#A330C9','Druid':'#FF7C0A','Evoker':'#33937F','Hunter':'#AAD372','Mage':'#3FC7EB','Monk':'#00FF98','Paladin':'#F48CBA','Priest':'#C8C8C8','Rogue':'#FFF468','Shaman':'#0070DD','Warlock':'#8788EE','Warrior':'#C69B3A'};
+const CC={'Death Knight':'#C41E3A','Demon Hunter':'#A330C9','Druid':'#FF7C0A','Evoker':'#33937F','Hunter':'#AAD372','Mage':'#3FC7EB','Monk':'#00FF98','Paladin':'#F48CBA','Priest':'#C8C8C8','Rogue':'#FFF468','Shaman':'#0070DD','Warlock':'#8788EE','Warrior':'#C69B3A',
+// 한글 직업명 매핑
+'죽음의 기사':'#C41E3A','악마사냥꾼':'#A330C9','드루이드':'#FF7C0A','기원사':'#33937F','사냥꾼':'#AAD372','마법사':'#3FC7EB','수도사':'#00FF98','성기사':'#F48CBA','사제':'#C8C8C8','도적':'#FFF468','주술사':'#0070DD','흑마법사':'#8788EE','전사':'#C69B3A'};
 const CKR={'Death Knight':'죽음의 기사','Demon Hunter':'악마사냥꾼','Druid':'드루이드','Evoker':'기원사','Hunter':'사냥꾼','Mage':'마법사','Monk':'수도사','Paladin':'성기사','Priest':'사제','Rogue':'도적','Shaman':'주술사','Warlock':'흑마법사','Warrior':'전사'};
-const CE={'Death Knight':'💀','Demon Hunter':'👁️','Druid':'🌿','Evoker':'🐉','Hunter':'🏹','Mage':'❄️','Monk':'☯️','Paladin':'⚔️','Priest':'✨','Rogue':'🗡️','Shaman':'⚡','Warlock':'🔮','Warrior':'🛡️'};
+const CE={'Death Knight':'💀','Demon Hunter':'👁️','Druid':'🌿','Evoker':'🐉','Hunter':'🏹','Mage':'❄️','Monk':'☯️','Paladin':'⚔️','Priest':'✨','Rogue':'🗡️','Shaman':'⚡','Warlock':'🔮','Warrior':'🛡️',
+'죽음의 기사':'💀','악마사냥꾼':'👁️','드루이드':'🌿','기원사':'🐉','사냥꾼':'🏹','마법사':'❄️','수도사':'☯️','성기사':'⚔️','사제':'✨','도적':'🗡️','주술사':'⚡','흑마법사':'🔮','전사':'🛡️'};
 const ROLES={'TANK':{label:'탱커',emoji:'🛡️',badgeBg:'#0d1f35',tab:'tank'},'HEALING':{label:'힐러',emoji:'💚',badgeBg:'#0d2318',tab:'heal'},'DPS':{label:'딜러',emoji:'⚔️',badgeBg:'#2d0f0f',tab:'dps'}};
 const SPEC_MAP={
   'Death Knight':{'Blood':'혈기','Frost':'냉기','Unholy':'부정'},
@@ -362,23 +370,32 @@ function skr(cls,spec){return(SPEC_MAP[cls]&&SPEC_MAP[cls][spec])||spec||'';}
 
 
 const SYNERGIES=[
-  {name:'영웅심',effect:'전투 속도 +30%',classes:['Shaman','Mage','Hunter','Evoker']},
-  {name:'신비한 지능',effect:'지능 +5%',classes:['Mage']},
-  {name:'권능: 인내',effect:'체력 +5%',classes:['Priest']},
-  {name:'야생의 표식',effect:'다재다능 +3%',classes:['Druid']},
-  {name:'전투의 함성',effect:'전투력 +5%',classes:['Warrior']},
-  {name:'신비로운 손길',effect:'물리 피해 +5%',classes:['Monk']},
-  {name:'혼돈의 낙인',effect:'마법 피해 +5%',classes:['Demon Hunter']},
-  {name:'하늘격노',effect:'치명타·극대화 +3%',classes:['Shaman']},
-  {name:'사냥꾼의 징표',effect:'대상 피해 +5%',classes:['Hunter']},
-  {name:'겨울의 뿔피리',effect:'숙련도 +8%',classes:['Death Knight']},
-  {name:'청동의 축복',effect:'쿨타임 감소',classes:['Evoker']},
-  {name:'지휘의 외침',effect:'최대 체력 +15%',classes:['Warrior']},
+  {name:'영웅심',effect:'가속 +30% (2분 / 10분 쿨)',classes:['Shaman','Mage','Evoker'],classNames:['주술사','마법사','기원사']},
+  {name:'신비한 지능',effect:'지능 +5%',classes:['Mage'],classNames:['마법사']},
+  {name:'권능: 인내',effect:'체력 +5%',classes:['Priest'],classNames:['사제']},
+  {name:'야생의 표식',effect:'다재다능 +3%',classes:['Druid'],classNames:['드루이드']},
+  {name:'전투의 함성',effect:'힘·민첩 +5%',classes:['Warrior'],classNames:['전사']},
+  {name:'신비로운 손길',effect:'물리 피해 +5%',classes:['Monk'],classNames:['수도사']},
+  {name:'혼돈의 낙인',effect:'마법 피해 +5%',classes:['Demon Hunter'],classNames:['악마사냥꾼']},
+  {name:'하늘격노',effect:'치명타 피해 +3%',classes:['Shaman'],classNames:['주술사']},
+  {name:'사냥꾼의 징표',effect:'표적 받는 피해 +5%',classes:['Hunter'],classNames:['사냥꾼']},
+  {name:'겨울의 뿔피리',effect:'힘·민첩·지능 +3%',classes:['Death Knight'],classNames:['죽음의 기사']},
+  {name:'청동의 축복',effect:'주요 이동 기술 재사용 대기시간 15% 감소',classes:['Evoker'],classNames:['기원사']},
+  {name:'지휘의 외침',effect:'최대 체력 +15%',classes:['Warrior'],classNames:['전사']},
+];
+// 전투부활 가능 직업
+const COMBAT_REZ=[
+  {cls:'Druid',name:'드루이드'},
+  {cls:'Death Knight',name:'죽음의 기사'},
+  {cls:'Warlock',name:'흑마법사'},
+  {cls:'Paladin',name:'성기사'},
 ];
 
 // 상태
 let all=[],apiChars=[],manualChars=[],players={},overrides={};
-let activeRoster='ALL',sortBy='ilvl',poolFilter='ALL';
+let playerNames=[];
+const DEFAULT_PLAYER_NAMES=['선호','병환','그루','태정','현명','영선','하정','황휘','혜원','세진','원석','화수','영준'].sort((a,b)=>a.localeCompare(b,'ko'));
+let activeRoster='ALL',sortBy='ilvl',poolFilter='ALL',searchQuery='';
 let slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};
 let dragM=null,dragFrom=null,isUnlocked=false;
 
@@ -403,9 +420,15 @@ function renderRoster(){
   const counts={ALL:all.length,TANK:0,HEALING:0,DPS:0};
   all.forEach(m=>counts[m.role]=(counts[m.role]||0)+1);
   let list=activeRoster==='ALL'?[...all]:all.filter(m=>m.role===activeRoster);
+  // 검색 필터
+  if(searchQuery){
+    const q=searchQuery.toLowerCase();
+    list=list.filter(m=>m.name.toLowerCase().includes(q)||(players[m.name]||'').toLowerCase().includes(q));
+  }
   if(sortBy==='ilvl')list.sort((a,b)=>(b.ilvl||0)-(a.ilvl||0));
-  if(sortBy==='score')list.sort((a,b)=>(b.score||0)-(a.score||0));
-  if(sortBy==='name')list.sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  else if(sortBy==='score')list.sort((a,b)=>(b.score||0)-(a.score||0));
+  else if(sortBy==='name')list.sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  else if(sortBy==='player')list.sort((a,b)=>(players[a.name]||'').localeCompare(players[b.name]||'','ko'));
   document.getElementById('tab-roster').innerHTML=`
     <div class="stats-row">
       <div class="stat-card"><div class="stat-label">전체</div><div class="stat-val">${all.length}</div></div>
@@ -416,15 +439,17 @@ function renderRoster(){
     <div class="controls">
       ${['ALL','TANK','HEALING','DPS'].map(r=>{const rc=ROLES[r];const l=r==='ALL'?`전체 ${counts.ALL}`:`${rc.emoji} ${rc.label} ${counts[r]||0}`;return`<button class="role-tab ${rc?rc.tab:'all'} ${activeRoster===r?'active':''}" onclick="setRoster('${r}')">${l}</button>`;}).join('')}
       <div class="spacer"></div>
+      <input type="text" class="sort-sel" placeholder="🔍 캐릭터·유저 검색" value="${searchQuery}" oninput="setSearch(this.value)" style="width:160px;padding:0 10px">
       <select class="sort-sel" onchange="setSort(this.value)">
         <option value="ilvl" ${sortBy==='ilvl'?'selected':''}>아이템 레벨순</option>
         <option value="score" ${sortBy==='score'?'selected':''}>IO 점수순</option>
-        <option value="name" ${sortBy==='name'?'selected':''}>이름순</option>
+        <option value="name" ${sortBy==='name'?'selected':''}>캐릭터 이름순</option>
+        <option value="player" ${sortBy==='player'?'selected':''}>유저 이름순</option>
       </select>
     </div>
     <div class="grid">${list.map((m,i)=>{
       const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;const pn=players[m.name]||'';
-      return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${realmSlug(m.realm)}/${encodeURIComponent(m.name)}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
+      return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${realmSlug(m.realm)}/${encodeURIComponent(m.nameLower||m.name.toLowerCase())}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
         <div class="card-stripe" style="background:${c}"></div>
         <div class="card-top">
           <div class="class-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
@@ -439,21 +464,60 @@ function renderRoster(){
           <div><div class="cs-label">아이템 레벨</div><div class="cs-val" style="color:#e6edf3">${m.ilvl?m.ilvl.toFixed(1):'–'}</div></div>
           <div><div class="cs-label">M+ Score</div><div class="cs-val" style="color:${scol(m.score)}">${m.score?Math.round(m.score):'–'}</div></div>
         </div>
+        ${m.currentKey?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d;font-size:12px;color:#8b949e;display:flex;align-items:center;gap:5px">🗝️ <span style="color:#e6edf3;font-weight:600">${m.currentKey.level}단</span> ${m.currentKey.dungeon}</div>`:''}
         <div class="rank-num">#${i+1}</div>
       </a>`;}).join('')}</div>`;
 }
 function setRoster(r){activeRoster=r;renderRoster();}
 function setSort(s){sortBy=s;renderRoster();}
+function setSearch(q){searchQuery=q;renderRoster();}
 
 // 레이드
 function renderSyn(){
   const inR=new Set(Object.values(slots).flat().filter(s=>s.m).map(s=>s.m.class));
-  document.getElementById('synergy-grid').innerHTML=SYNERGIES.map(syn=>{
-    const ok=syn.classes.some(c=>inR.has(c));const who=syn.classes.find(c=>inR.has(c));
+  // 영문↔한글 둘 다 체크
+  const hasClass=(cls)=>inR.has(cls)||inR.has(CKR[cls])||Object.entries(CKR).some(([en,ko])=>ko===cls&&inR.has(en));
+
+  const synList=[...SYNERGIES].sort((a,b)=>b.classes.some(hasClass)-a.classes.some(hasClass));
+  document.getElementById('synergy-grid').innerHTML=synList.map(syn=>{
+    const ok=syn.classes.some(hasClass);
+    const whoNames=syn.classNames||syn.classes.map(c=>CKR[c]||c);
     return`<div class="syn-badge ${ok?'active':'missing'}"><div class="syn-dot"></div><div>
-      <div>${syn.name}${ok&&who?` <span style="opacity:.5;font-size:11px">(${CKR[who]})</span>`:''}</div>
+      <div>${syn.name} <span style="font-size:10px;opacity:.5">${whoNames.join('/')}</span></div>
       <div style="font-size:11px;opacity:.6;font-weight:400;margin-top:1px">${syn.effect}</div>
     </div></div>`;
+  }).join('');
+
+  const crezList=[...COMBAT_REZ].sort((a,b)=>hasClass(b.cls)-hasClass(a.cls));
+  document.getElementById('combat-rez-grid').innerHTML=crezList.map(cr=>{
+    const ok=hasClass(cr.cls);const c=CC[cr.cls]||CC[CKR[cr.cls]]||'#888';
+    return`<div class="syn-badge ${ok?'active':'missing'}"><div class="syn-dot"></div><div>
+      <div style="${ok?`color:${c}`:''}">${cr.name}</div>
+    </div></div>`;
+  }).join('');
+
+  const classCount={};
+  Object.values(slots).flat().filter(s=>s.m).forEach(s=>{ classCount[s.m.class]=(classCount[s.m.class]||0)+1; });
+  const ov=document.getElementById('class-overview');
+  if(!Object.keys(classCount).length){ov.innerHTML='<div style="font-size:13px;color:#30363d">멤버를 배치하면 표시됩니다</div>';return;}
+  // 전체 직업 목록 (한글명 기준 ㄱㄴㄷ 정렬)
+  const ALL_KR_CLASSES=Object.values(CKR).sort((a,b)=>a.localeCompare(b,'ko'));
+  // 있는 직업 앞으로, 없는 직업 뒤로 (각각 ㄱㄴㄷ)
+  const active=ALL_KR_CLASSES.filter(kr=>Object.entries(classCount).some(([cls])=>(CKR[cls]||cls)===kr));
+  const inactive=ALL_KR_CLASSES.filter(kr=>!active.includes(kr));
+  const sorted=[...active,...inactive];
+  ov.innerHTML=sorted.map(kr=>{
+    const entry=Object.entries(classCount).find(([cls])=>(CKR[cls]||cls)===kr);
+    const cls=entry?entry[0]:Object.keys(CKR).find(k=>CKR[k]===kr)||kr;
+    const cnt=entry?entry[1]:0;
+    const c=CC[cls]||CC[kr]||'#444';
+    return cnt>0
+      ?`<div style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:${c}20;border:1px solid ${c}40;font-size:12px">
+          <span>${CE[cls]||CE[kr]||'⚔️'}</span><span style="color:${c};font-weight:600">${kr}</span>${cnt>1?`<span style="color:#8b949e">x${cnt}</span>`:''}
+        </div>`
+      :`<div style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:#21262d22;border:1px solid #30363d33;font-size:12px;opacity:.35">
+          <span>${CE[cls]||CE[kr]||'⚔️'}</span><span style="color:#8b949e">${kr}</span>
+        </div>`;
   }).join('');
 }
 
@@ -472,8 +536,8 @@ function renderSlots(){
             <div class="slot-stripe" style="background:${c}"></div>
             ${isUnlocked?`<span class="slot-remove" onclick="rem('${role}','${slot.id}')">✕</span>`:''}
             <div class="slot-emoji">${CE[m.class]||'⚔️'}</div>
-            <div class="slot-name">${m.name}</div>
-            <div class="slot-ilvl" style="color:${c}">${ilvlText}</div>
+            <div class="slot-name" style="color:${c}">${m.name}</div>
+            <div class="slot-ilvl" style="color:${c}88;font-size:12px">${CKR[m.class]||''} ${ilvlText}</div>
             ${pn?`<div class="slot-player">👤 ${pn}</div>`:''}
           </div>`
         :`<div class="slot" ondragover="${isUnlocked?'ev(event,this)':''}" ondragleave="${isUnlocked?'dl(this)':''}" ondrop="${isUnlocked?`drop(event,'${role}','${slot.id}')`:''}" style="cursor:default">
@@ -497,7 +561,7 @@ function renderPool(){
       <div class="pm-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
       <div>
         <div class="pm-name" style="color:${c}">${m.name}${m.isManual?' ✦':''}</div>
-        <div class="pm-sub">${CKR[m.class]||m.class} · ${skr(m.class,m.spec)} · ${m.ilvl?m.ilvl.toFixed(0):'?'}</div>
+        <div class="pm-sub">${CKR[m.class]||m.class} · ${m.ilvl?m.ilvl.toFixed(0):'?'}</div>
         ${pn?`<div class="pm-player">👤 ${pn}${isBusy?' ⚠️ 이미 배치됨':''}</div>`:''}
       </div>
     </div>`;
@@ -551,52 +615,103 @@ function unlockAdmin(){
   if(document.getElementById('admin-pw').value==='0415'){
     document.getElementById('admin-lock').style.display='none';
     document.getElementById('admin-content').style.display='block';
-    renderPTable();renderMList();
+    renderNameTags();renderPTable();renderMList();
   }else alert('비밀번호 틀렸어요!');
 }
 
+function updateAdminSpec(charName, clsSel){
+  const cls=clsSel.value;
+  const specSel=document.querySelector(`select[data-char="${charName}"][data-field="spec"]`);
+  if(!specSel)return;
+  const specs=SPEC_KR_LIST[cls]||[];
+  const curSpec=overrides[charName]?.spec||'';
+  specSel.innerHTML='<option value="">특성</option>'+specs.map(s=>`<option ${curSpec===s?'selected':''}>${s}</option>`).join('');
+}
 function renderPTable(){
+  const ALL_CLASSES=Object.keys(SPEC_KR_LIST);
   document.getElementById('ptbody').innerHTML=all.map(m=>{
     const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;
     const pn=players[m.name]||'';
     const apiM=apiChars.find(a=>a.name===m.name&&!a.isManual);
-    const hasIlvl=!!(apiM&&apiM.ilvl);
-    const hasScore=!!(apiM&&apiM.score);
     const ovIlvl=overrides[m.name]?.ilvl||'';
     const ovScore=overrides[m.name]?.score||'';
+    const apiIlvl=apiM?.ilvl?Math.round(apiM.ilvl):'';
+    const apiScore=apiM?.score?Math.round(apiM.score):'';
+    const hasClass=!!(m.class);
+    const curCls=m.class||'';
+    const specs=SPEC_KR_LIST[curCls]||[];
+    const curSpec=m.spec||overrides[m.name]?.spec||'';
     return`<tr>
       <td><span style="color:${c};font-weight:600">${CE[m.class]||''} ${m.name}${m.isManual?' ✦':''}</span></td>
-      <td style="color:#8b949e;font-size:12px">${CKR[m.class]||m.class} · ${skr(m.class,m.spec)}</td>
+      <td style="font-size:12px">
+        ${hasClass
+          ?`<span style="color:${c}">${CKR[m.class]||m.class}</span> <span style="color:#8b949e">· ${skr(m.class,m.spec)||'?'}</span>`
+          :`<select class="form-select" data-char="${m.name}" data-field="class" style="width:100px;height:26px;font-size:12px" onchange="updateAdminSpec('${m.name}',this)">
+              <option value="">직업</option>${ALL_CLASSES.map(cls=>`<option value="${cls}" ${curCls===cls?'selected':''}>${CKR[cls]||cls}</option>`).join('')}
+            </select>
+            <select class="form-select" data-char="${m.name}" data-field="spec" style="width:80px;height:26px;font-size:12px;margin-left:2px">
+              <option value="">특성</option>${specs.map(s=>`<option value="${s}" ${curSpec===s?'selected':''}>${s}</option>`).join('')}
+            </select>`}
+      </td>
       <td>${rc.emoji}</td>
-      <td>${hasIlvl
-        ?`<span class="readonly-val">${m.ilvl.toFixed(1)} 🔒</span>`
-        :`<input class="player-input" style="width:70px" data-char="${m.name}" data-field="ilvl" type="number" placeholder="템렙" value="${ovIlvl}">`}
+      <td>
+        <input class="player-input" style="width:72px" data-char="${m.name}" data-field="ilvl" type="number"
+          placeholder="${apiIlvl||'템렙'}" value="${ovIlvl}">
+        ${apiIlvl?`<div style="font-size:10px;color:#8b949e">API ${apiIlvl}</div>`:''}
       </td>
-      <td>${hasScore
-        ?`<span class="readonly-val" style="color:${scol(m.score)}">${Math.round(m.score)} 🔒</span>`
-        :`<input class="player-input" style="width:70px" data-char="${m.name}" data-field="score" type="number" placeholder="M+" value="${ovScore}">`}
+      <td>
+        <input class="player-input" style="width:72px" data-char="${m.name}" data-field="score" type="number"
+          placeholder="${apiScore||'M+'}" value="${ovScore}">
+        ${apiScore?`<div style="font-size:10px;color:#8b949e">API ${apiScore}</div>`:''}
       </td>
-      <td><input class="player-input" style="width:140px" data-char="${m.name}" data-field="player" value="${pn}" placeholder="플레이어 이름"></td>
+      <td><select class="player-input form-select" data-char="${m.name}" data-field="player" style="width:110px">
+        <option value="">미배정</option>${playerNames.map(n=>`<option value="${n}" ${pn===n?'selected':''}>${n}</option>`).join('')}
+      </select></td>
     </tr>`;
   }).join('');
 }
 
 async function savePlayers(){
   const np={};const no={};
+  // 플레이어 이름 (드롭다운)
+  document.querySelectorAll('#ptbody select[data-char]').forEach(sel=>{
+    const char=sel.dataset.char;const val=sel.value;
+    if(val&&sel.dataset.field==='player')np[char]=val;
+  });
+  // 수동 입력값 (템렙, M+, 직업, 특성)
   document.querySelectorAll('#ptbody input[data-char]').forEach(inp=>{
     const char=inp.dataset.char;const field=inp.dataset.field;const val=inp.value.trim();
     if(!val)return;
-    if(field==='player')np[char]=val;
-    else{if(!no[char])no[char]={};no[char][field]=parseFloat(val);}
+    if(!no[char])no[char]={};
+    no[char][field]=parseFloat(val);
   });
-  players=np;overrides=no;
-  // 오버라이드 all에 반영
+  // 직업/특성 (API에 없는 경우에만)
+  document.querySelectorAll('#ptbody select[data-field="class"]').forEach(sel=>{
+    const char=sel.dataset.char;const val=sel.value;if(!val)return;
+    if(!no[char])no[char]={};no[char].class=val;
+  });
+  document.querySelectorAll('#ptbody select[data-field="spec"]').forEach(sel=>{
+    const char=sel.dataset.char;const val=sel.value;if(!val)return;
+    if(!no[char])no[char]={};no[char].spec=val;
+  });
+  players=np;
+  // 기존 오버라이드와 병합
+  Object.keys(no).forEach(char=>{
+    if(!overrides[char])overrides[char]={};
+    overrides[char]={...overrides[char],...no[char]};
+  });
+  // 신뢰도 적용: max(api, manual) + class/spec 반영
   all=all.map(m=>{
-    const ov=no[m.name];if(!ov)return m;
-    const apiM=apiChars.find(a=>a.name===m.name&&!a.isManual);
-    return{...m,ilvl:(apiM?.ilvl)?m.ilvl:(ov.ilvl||m.ilvl),score:(apiM?.score)?m.score:(ov.score||m.score)};
+    const ov=overrides[m.name];if(!ov)return m;
+    return{...m,
+      ilvl:Math.max(m.ilvl||0,ov.ilvl||0)||null,
+      score:Math.max(m.score||0,ov.score||0)||null,
+      currentKey:m.currentKey||ov.keystone||null,
+      class:m.class||ov.class||m.class,
+      spec:m.spec||ov.spec||m.spec,
+    };
   });
-  const r=await(await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players,overrides})})).json();
+  const r=await(await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',names:playerNames,players,overrides})})).json();
   if(r.ok)alert('저장됐어요!');
   renderRoster();renderPool();renderPTable();
 }
@@ -649,7 +764,7 @@ function switchTab(tab){
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','raid','keystone','admin'][i]===tab));
   ['roster','raid','keystone','admin'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display=t===tab?'block':'none';});
   if(tab==='raid'){renderSlots();renderPool();}
-  if(tab==='keystone'){populateKsPlayer();loadKeystones();}
+  if(tab==='keystone'){loadKeystones();}
 }
 
 // ── 파티 모집 ──
@@ -1086,11 +1201,11 @@ async function deletePost(postId,type){
 // ── 쐐기돌 ──
 const DUNGEONS=['윈드러너 첨탑','마법학자의 정원','마이사라 동굴','공결탑 제나스','사론의 구덩이','하늘탑','삼두정의 권좌','알게타르 대학'];
 const DUNGEON_ABBR={'윈드러너 첨탑':'윈첨','마법학자의 정원':'마정','마이사라 동굴':'마동','공결탑 제나스':'공탑','사론의 구덩이':'사론','하늘탑':'하탑','삼두정의 권좌':'삼두','알게타르 대학':'알게'};
+function ksLvlColor(lv){if(!lv)return'#30363d';if(lv>=15)return'#ff8000';if(lv>=10)return'#a335ee';if(lv>=7)return'#0070dd';if(lv>=4)return'#1eff00';return'#8b949e';}
 
 function populateKsPlayer(){
   const sel=document.getElementById('ks-player');if(!sel)return;
-  const names=[...new Set(Object.values(players))].sort();
-  sel.innerHTML='<option value="">선택</option>'+names.map(n=>`<option>${n}</option>`).join('');
+  sel.innerHTML='<option value="">선택</option>'+playerNames.map(n=>`<option>${n}</option>`).join('');
 }
 function updateKsChars(){
   const player=document.getElementById('ks-player').value;
@@ -1104,77 +1219,89 @@ async function submitKeystone(){
   const dungeon=document.getElementById('ks-dungeon').value;
   const level=parseInt(document.getElementById('ks-level').value);
   if(!player||!char||!dungeon||!level){alert('모든 항목을 입력해주세요');return;}
-  if(level<2||level>30){alert('단수는 2~30 사이로 입력해주세요');return;}
+  if(level<2||level>30){alert('단수는 2~30');return;}
   const r=await(await fetch('/api/keystones',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({player,char,dungeon,level})})).json();
-  if(r.ok){document.getElementById('ks-level').value='';loadKeystones();}
-  else alert(r.error||'오류');
+  if(r.ok){
+    // 오버라이드에 저장
+    if(!overrides[char])overrides[char]={};
+    overrides[char].keystone={dungeon,level};
+    document.getElementById('ks-level').value='';
+    loadKeystones();
+  } else alert(r.error||'오류');
 }
 async function clearMyKeystone(){
-  const player=document.getElementById('ks-player').value;
   const char=document.getElementById('ks-char').value;
-  if(!player||!char){alert('이름과 캐릭터를 선택해주세요');return;}
+  if(!char){alert('캐릭터를 선택해주세요');return;}
   if(!confirm(`${char}의 쐐기돌을 삭제할까요?`))return;
   const r=await(await fetch(`/api/keystones/${encodeURIComponent(char)}`,{method:'DELETE'})).json();
-  if(r.ok)loadKeystones();
+  if(r.ok){if(overrides[char])delete overrides[char].keystone;loadKeystones();}
 }
 async function loadKeystones(){
   const el=document.getElementById('ks-list');if(!el)return;
+  populateKsPlayer();
   try{
-    const data=await(await fetch('/api/keystones')).json();
-    if(!data.length){el.innerHTML='<div style="text-align:center;padding:3rem;color:#8b949e;font-size:14px">등록된 쐐기돌이 없어요</div>';return;}
-    // 플레이어별로 그룹
+    const ksData=await(await fetch('/api/keystones')).json();
+    // 오버라이드에 쐐기돌 정보 반영
+    ksData.forEach(k=>{if(!overrides[k.char])overrides[k.char]={};overrides[k.char].keystone={dungeon:k.dungeon,level:k.level};});
+    const withKey=ksData.filter(k=>k.dungeon&&k.level);
+    if(!withKey.length){
+      el.innerHTML='<div style="text-align:center;padding:3rem;color:#8b949e;font-size:14px">등록된 쐐기돌이 없어요<br><span style="font-size:12px;opacity:.6">왼쪽에서 등록해주세요</span></div>';
+      return;
+    }
     const byPlayer={};
-    data.forEach(k=>{
-      const pn=players[k.char]||k.player||k.char;
-      if(!byPlayer[pn])byPlayer[pn]=[];
-      byPlayer[pn].push(k);
-    });
+    withKey.forEach(k=>{const pn=players[k.char]||k.player||k.char;if(!byPlayer[pn])byPlayer[pn]=[];byPlayer[pn].push(k);});
     el.innerHTML=`
-      <div style="margin-bottom:1rem">
-        <div style="font-size:13px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.75rem">등록된 쐐기돌 (${data.length}개)</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
-          ${Object.entries(byPlayer).map(([pn,keys])=>`
-            <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem">
-              <div style="font-size:14px;font-weight:700;margin-bottom:.75rem">👤 ${pn}</div>
-              ${keys.map(k=>{
-                const m=all.find(x=>x.name===k.char);const c=CC[m?.class]||'#888';
-                const lvlColor=k.level>=15?'#ff8000':k.level>=10?'#a335ee':k.level>=7?'#0070dd':k.level>=4?'#1eff00':'#8b949e';
-                return`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #21262d">
-                  <span style="color:${c};font-size:14px">${CE[m?.class]||'⚔️'}</span>
-                  <div style="flex:1">
-                    <div style="font-size:13px;font-weight:600;color:${c}">${k.char}</div>
-                    <div style="font-size:12px;color:#8b949e">${k.dungeon}</div>
-                  </div>
-                  <div style="font-size:18px;font-weight:700;color:${lvlColor}">${k.level}단</div>
-                </div>`;
-              }).join('')}
-            </div>`).join('')}
-        </div>
+      <div style="font-size:13px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1rem">🗝️ 쐐기돌 현황 (${withKey.length}개)</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:1.5rem">
+        ${Object.entries(byPlayer).map(([pn,keys])=>`
+          <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem">
+            <div style="font-size:14px;font-weight:700;margin-bottom:.75rem">👤 ${pn}</div>
+            ${keys.map(k=>{const m=all.find(x=>x.name===k.char);const c=CC[m?.class]||'#888';const clr=ksLvlColor(k.level);
+              return`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #21262d">
+                <span style="color:${c};font-size:14px">${CE[m?.class]||'⚔️'}</span>
+                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:${c}">${k.char}</div>
+                <div style="font-size:12px;color:#8b949e">${k.dungeon}</div></div>
+                <div style="font-size:20px;font-weight:700;color:${clr}">${k.level}단</div>
+              </div>`;}).join('')}
+          </div>`).join('')}
       </div>
-      <div>
-        <div style="font-size:13px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.75rem">던전별 현황</div>
-        <div style="overflow-x:auto">
-          <table style="width:100%;border-collapse:collapse;font-size:13px">
-            <thead><tr style="border-bottom:1px solid #21262d">
-              <th style="text-align:left;padding:6px 8px;color:#8b949e;font-weight:600">이름</th>
-              ${DUNGEONS.map(d=>`<th style="padding:6px 8px;color:#8b949e;font-weight:600;text-align:center;font-size:11px">${DUNGEON_ABBR[d]||d}</th>`).join('')}
-            </tr></thead>
-            <tbody>${Object.entries(byPlayer).map(([pn,keys])=>`
-              <tr style="border-bottom:1px solid #21262d">
-                <td style="padding:6px 8px;font-weight:600">${pn}</td>
-                ${DUNGEONS.map(d=>{
-                  const k=keys.find(x=>x.dungeon===d);
-                  if(!k)return`<td style="padding:6px 8px;text-align:center;color:#30363d">–</td>`;
-                  const lvlColor=k.level>=15?'#ff8000':k.level>=10?'#a335ee':k.level>=7?'#0070dd':k.level>=4?'#1eff00':'#8b949e';
-                  return`<td style="padding:6px 8px;text-align:center;font-weight:700;color:${lvlColor}">${k.level}</td>`;
-                }).join('')}
-              </tr>`).join('')}
-            </tbody>
-          </table>
-        </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:600px">
+          <thead><tr style="border-bottom:1px solid #21262d">
+            <th style="text-align:left;padding:6px 8px;color:#8b949e">이름</th>
+            ${DUNGEONS.map(d=>`<th style="padding:6px 8px;color:#8b949e;text-align:center;font-size:11px">${DUNGEON_ABBR[d]}</th>`).join('')}
+          </tr></thead>
+          <tbody>${Object.entries(byPlayer).map(([pn,keys])=>`
+            <tr style="border-bottom:1px solid #21262d">
+              <td style="padding:6px 8px;font-weight:600">${pn}</td>
+              ${DUNGEONS.map(d=>{const k=keys.find(x=>x.dungeon===d);if(!k)return`<td style="padding:6px 8px;text-align:center;color:#30363d">–</td>`;
+                return`<td style="padding:6px 8px;text-align:center;font-weight:700;color:${ksLvlColor(k.level)}">${k.level}</td>`;}).join('')}
+            </tr>`).join('')}
+          </tbody>
+        </table>
       </div>`;
   }catch(e){el.innerHTML='<div style="color:#f87171;padding:1rem">로딩 실패</div>';}
 }
+
+// ── 이름 관리 ──
+function renderNameTags(){
+  const el=document.getElementById('name-tags');if(!el)return;
+  el.innerHTML=playerNames.map(n=>`<div style="display:flex;align-items:center;gap:4px;background:#21262d;border-radius:6px;padding:4px 10px;font-size:13px">
+    ${n}<button onclick="removePlayerName('${n}')" style="background:none;border:none;color:#8b949e;cursor:pointer;padding:0;margin-left:2px;font-size:14px">×</button>
+  </div>`).join('');
+}
+function addPlayerName(){
+  const inp=document.getElementById('new-name-input');
+  const name=inp.value.trim();
+  if(!name||playerNames.includes(name)){alert(name?'이미 있는 이름이에요':'이름을 입력해주세요');return;}
+  playerNames.push(name);playerNames.sort((a,b)=>a.localeCompare(b,'ko'));inp.value='';
+  renderNameTags();renderPTable();
+}
+function removePlayerName(name){
+  playerNames=playerNames.filter(n=>n!==name);
+  renderNameTags();
+}
+
 
 async function load(force=false){
   if(!force)document.getElementById('tab-roster').innerHTML=`<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div>`;
@@ -1188,46 +1315,42 @@ async function load(force=false){
   }
 
   try{
-    const [g,pd,mc]=await Promise.all([
+    const [g,pd,mc,ks]=await Promise.all([
       fetch(`/api/guild${force?'?force=1':''}`).then(r=>r.json()),
       fetch('/api/players').then(r=>r.json()),
       fetch('/api/manual').then(r=>r.json()),
+      fetch('/api/keystones').then(r=>r.json()).catch(()=>[]),
     ]);
-    if(g.statusCode===400||g.message)throw new Error(g.message||'API 오류');
+    if(g.error)throw new Error(g.error||'API 오류');
+    if(!g.members)throw new Error('길드 데이터를 불러오지 못했어요');
 
-    // 서버 저장값 불러오되, 갱신 시엔 현재 메모리값 우선
-    const serverPlayers=pd?.players||pd||{};
-    const serverOverrides=pd?.overrides||{};
-    if(!force){players=serverPlayers;overrides=serverOverrides;}
-    else{
-      // 플레이어 이름은 서버것 사용
-      players=serverPlayers;
-      // 오버라이드는 서버것과 현재 메모리것 병합 (현재것 우선)
-      overrides={...serverOverrides,...overrides};
-    }
-
-    // 수동 캐릭터: 갱신 시엔 현재 메모리 유지, 서버것으로 보완
-    if(!force||!manualChars.length){
-      manualChars=mc||[];
-    }
+    // 저장 데이터 로드 (항상 유지)
+    players = pd?.players || {};
+    overrides = pd?.overrides || {};
+    playerNames = (pd?.names || DEFAULT_PLAYER_NAMES).sort((a,b)=>a.localeCompare(b,'ko'));
+    if(!force||!manualChars.length) manualChars = mc||[];
+    // 쐐기돌 오버라이드 반영
+    (ks||[]).forEach(k=>{if(!overrides[k.char])overrides[k.char]={};overrides[k.char].keystone={dungeon:k.dungeon,level:k.level};});
 
     apiChars=(g.members||[]).map(m=>({
-      name:m.character.name,class:m.character.class,spec:m.character.active_spec_name,
-      role:m.character.active_spec_role,
-      ilvl:m.character.items?.item_level_equipped||null,
-      score:m.character.mythic_plus_scores_by_season?.[0]?.scores?.all||null,
-      rank:m.rank,realm:m.character.realm||'azshara',isManual:false
-    })).filter(m=>m.role);
+      name:m.name, nameLower:m.nameLower||m.name.toLowerCase(),
+      class:m.class||'', spec:m.spec||'',
+      role:m.role||'DPS',
+      ilvl:m.ilvl||null, score:m.score||null,
+      rank:m.rank, realm:m.realm||'azshara', isManual:false
+    })).filter(m=>m.name);
 
-    // API값 없는 항목에만 오버라이드 적용
-    const processedApi=apiChars.map(m=>{
-      const ov=overrides[m.name];if(!ov)return m;
-      return{...m,ilvl:m.ilvl||(ov.ilvl||null),score:m.score||(ov.score||null)};
-    });
-    all=[...processedApi,...manualChars.map(m=>{
-      const ov=overrides[m.name];if(!ov)return m;
-      return{...m,ilvl:m.ilvl||(ov.ilvl||null),score:m.score||(ov.score||null)};
-    })];
+    // 신뢰도: 배틀넷/레이더 > 직접입력 (높은 값 우선)
+    const applyOverrides = (m) => {
+      const ov = overrides[m.name]; if(!ov) return m;
+      const newIlvl = Math.max(m.ilvl||0, ov.ilvl||0) || null;
+      const newScore = Math.max(m.score||0, ov.score||0) || null;
+      const newKey = m.currentKey || ov.keystone || null;
+      const newClass = m.class || ov.class || '';
+      const newSpec = m.spec || ov.spec || '';
+      return {...m, ilvl:newIlvl, score:newScore, currentKey:newKey, class:newClass, spec:newSpec};
+    };
+    all=[...apiChars.map(applyOverrides),...manualChars.map(applyOverrides)];
 
     document.getElementById('lastUpdate').textContent='업데이트: '+new Date().toLocaleString('ko-KR');
     document.getElementById('cacheStatus').textContent=g.cached?`캐시 (${g.cacheAge}초 전)`:'방금 갱신됨 ✓';
