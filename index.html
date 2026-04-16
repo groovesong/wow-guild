@@ -944,7 +944,7 @@ async function loadParties(){
           <span style="font-size:12px;color:${sc};border:1px solid ${sc}40;border-radius:12px;padding:2px 10px">${STATUS_LABEL[p.status]||p.status}</span>
         </div>
         <div style="font-size:13px;color:#8b949e;margin-bottom:.7rem">
-          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}${p.startTime?`⏰ ${p.startTime} · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
+          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}${p.startTime?` · <span style="color:#f09000;font-weight:700">⏰ ${p.startTime}</span>`:''}
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
@@ -1061,7 +1061,8 @@ function renderPartyModal(){
           <span id="party-title-text" style="font-size:18px;font-weight:700">${p.title}</span>
           <button onclick="startEditTitle('${p.id}','${p.title.replace(/'/g,"&#39;")}')" style="background:none;border:none;color:#8b949e;cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;border:1px solid #30363d" title="제목 수정">✏️</button>
         </div>
-        <div style="font-size:13px;color:#8b949e">${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}${p.startTime?`⏰ ${p.startTime} · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
+        <div style="font-size:13px;color:#8b949e">${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
+        ${p.startTime?`<div style="margin-top:4px;font-size:16px;font-weight:700;color:#f09000">⏰ 출발 희망 ${p.startTime}</div>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:6px">
         <select id="status-select" class="form-select" style="width:90px;font-size:12px;height:28px">
@@ -1225,7 +1226,7 @@ function addToPlan(name,char,role,spec){
   if(plan.filter(s=>s.role===role).length>=max){alert(`${role} 슬롯이 가득 찼어요`);return;}
   plan.push({name,char,role,planSpec:spec});planDirty=true;
   updatePlanSlots();
-  showAddToPlan(addToPlanRole);
+  document.getElementById('add-to-plan-popup').style.display='none';
   setPtTab(ptabRole);
 }
 function removeFromPlan(name,role){
