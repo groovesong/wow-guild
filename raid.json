@@ -9,6 +9,7 @@
           "class": "Paladin",
           "spec": "보호",
           "role": "DPS",
+          "level": 0,
           "ilvl": 270,
           "score": 2610.6,
           "rank": 1,
@@ -25,6 +26,7 @@
           "class": "수도사",
           "spec": "양조",
           "role": "TANK",
+          "level": 90,
           "ilvl": 249,
           "score": 934.5,
           "rank": 1,
@@ -42,11 +44,16 @@
           "class": "기원사",
           "spec": "황폐",
           "role": "DPS",
+          "level": 90,
           "ilvl": 259,
           "score": 2155.8,
           "rank": 4,
           "realm": "hyjal",
-          "isManual": false
+          "isManual": false,
+          "currentKey": {
+            "dungeon": "마이사라 동굴",
+            "level": 5
+          }
         }
       },
       {
@@ -57,27 +64,21 @@
           "class": "주술사",
           "spec": "복원",
           "role": "HEALING",
+          "level": 90,
           "ilvl": 255,
           "score": 1840.3,
           "rank": 1,
           "realm": "azshara",
-          "isManual": false
+          "isManual": false,
+          "currentKey": {
+            "dungeon": "마법학자의 정원",
+            "level": 8
+          }
         }
       },
       {
         "id": "h3",
-        "m": {
-          "name": "빨간양념치킨",
-          "nameLower": "빨간양념치킨",
-          "class": "드루이드",
-          "spec": "조화",
-          "role": "DPS",
-          "ilvl": 273,
-          "score": 2710.4,
-          "rank": 1,
-          "realm": "azshara",
-          "isManual": false
-        }
+        "m": null
       },
       {
         "id": "h4",
@@ -93,26 +94,33 @@
           "class": "마법사",
           "spec": "냉기",
           "role": "DPS",
-          "ilvl": 266,
+          "level": 90,
+          "ilvl": 265,
           "score": 2155,
           "rank": 1,
           "realm": "hyjal",
-          "isManual": false
+          "isManual": false,
+          "currentKey": {
+            "dungeon": "마이사라 동굴",
+            "level": 10
+          }
         }
       },
       {
         "id": "d2",
         "m": {
-          "name": "악치덴츠",
-          "nameLower": "악치덴츠",
-          "class": "죽음의 기사",
-          "spec": "부정",
+          "name": "Viktorpanda",
+          "nameLower": "viktorpanda",
+          "class": "Warlock",
+          "spec": "악마",
           "role": "DPS",
-          "ilvl": 258,
-          "score": 1663.8,
-          "rank": 2,
-          "realm": "azshara",
-          "isManual": false
+          "level": 0,
+          "ilvl": 233,
+          "score": 138.8,
+          "rank": 1,
+          "realm": "hyjal",
+          "isManual": false,
+          "currentKey": null
         }
       },
       {
@@ -123,6 +131,7 @@
           "class": "Rogue",
           "spec": "잠행",
           "role": "DPS",
+          "level": 0,
           "ilvl": 256,
           "score": 1238,
           "rank": 1,
@@ -139,7 +148,8 @@
           "class": "마법사",
           "spec": "냉기",
           "role": "DPS",
-          "ilvl": 250,
+          "level": 90,
+          "ilvl": 252,
           "score": 1091,
           "rank": 1,
           "realm": "azshara",
@@ -154,44 +164,25 @@
           "class": "전사",
           "spec": "무기",
           "role": "DPS",
+          "level": 90,
           "ilvl": 248,
           "score": 568.7,
           "rank": 1,
           "realm": "azshara",
-          "isManual": false
+          "isManual": false,
+          "currentKey": {
+            "dungeon": "마법학자의 정원",
+            "level": 2
+          }
         }
       },
       {
         "id": "d6",
-        "m": {
-          "name": "Playlinks",
-          "nameLower": "playlinks",
-          "class": "Demon Hunter",
-          "spec": "파멸",
-          "role": "DPS",
-          "ilvl": 245,
-          "score": 732.3,
-          "rank": 1,
-          "realm": "hyjal",
-          "isManual": false,
-          "currentKey": null
-        }
+        "m": null
       },
       {
         "id": "d7",
-        "m": {
-          "name": "Viktorpanda",
-          "nameLower": "viktorpanda",
-          "class": "Warlock",
-          "spec": "악마",
-          "role": "DPS",
-          "ilvl": 233,
-          "score": 138.8,
-          "rank": 1,
-          "realm": "hyjal",
-          "isManual": false,
-          "currentKey": null
-        }
+        "m": null
       },
       {
         "id": "d8",
@@ -223,5 +214,5 @@
       }
     ]
   },
-  "updatedAt": "2026-04-16T03:09:31.845Z"
+  "updatedAt": "2026-04-16T07:07:25.048Z"
 }
