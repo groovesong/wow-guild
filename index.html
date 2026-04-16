@@ -211,7 +211,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
   </div>
 
   <!-- 현황 -->
-  <div id="tab-roster"><div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...</div></div></div>
+  <div id="tab-roster">
+    <div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...</div></div>
+  </div>
 
   <!-- 레이드 구성 -->
   <div id="tab-raid" style="display:none">
@@ -415,62 +417,79 @@ function applyOverrides(chars){
   });
 }
 
-// 현황
+// 현황 - controls는 최초 1회만, grid만 업데이트
+function initRosterControls(){
+  if(document.getElementById('roster-controls'))return;
+  const el=document.getElementById('tab-roster');
+  el.innerHTML=`
+    <div class="stats-row" id="roster-stats"></div>
+    <div class="controls" id="roster-controls">
+      <div id="roster-role-btns" style="display:contents"></div>
+      <div class="spacer"></div>
+      <input type="text" id="roster-search" class="sort-sel" placeholder="🔍 캐릭터·유저 검색" style="width:160px;padding:0 10px">
+      <select id="roster-sort" class="sort-sel">
+        <option value="ilvl">아이템 레벨순</option>
+        <option value="score">IO 점수순</option>
+        <option value="name">캐릭터 이름순</option>
+        <option value="player">유저 이름순</option>
+      </select>
+    </div>
+    <div class="grid" id="roster-grid"></div>`;
+  document.getElementById('roster-search').addEventListener('input',function(){searchQuery=this.value;renderRosterGrid();});
+  document.getElementById('roster-sort').addEventListener('change',function(){sortBy=this.value;renderRosterGrid();});
+}
+
 function renderRoster(){
+  initRosterControls();
   const counts={ALL:all.length,TANK:0,HEALING:0,DPS:0};
   all.forEach(m=>counts[m.role]=(counts[m.role]||0)+1);
+  // stats
+  document.getElementById('roster-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-label">전체</div><div class="stat-val">${all.length}</div></div>
+    <div class="stat-card"><div class="stat-label">🛡️ 탱커</div><div class="stat-val" style="color:#7ab8f5">${counts.TANK||0}</div></div>
+    <div class="stat-card"><div class="stat-label">💚 힐러</div><div class="stat-val" style="color:#56d364">${counts.HEALING||0}</div></div>
+    <div class="stat-card"><div class="stat-label">⚔️ 딜러</div><div class="stat-val" style="color:#f87171">${counts.DPS||0}</div></div>`;
+  // role btns
+  document.getElementById('roster-role-btns').innerHTML=
+    ['ALL','TANK','HEALING','DPS'].map(r=>{const rc=ROLES[r];const l=r==='ALL'?`전체 ${counts.ALL}`:`${rc.emoji} ${rc.label} ${counts[r]||0}`;
+    return`<button class="role-tab ${rc?rc.tab:'all'} ${activeRoster===r?'active':''}" onclick="setRoster('${r}')">${l}</button>`;}).join('');
+  // sort select 동기화
+  const ss=document.getElementById('roster-sort');if(ss)ss.value=sortBy;
+  renderRosterGrid();
+}
+
+function renderRosterGrid(){
+  const grid=document.getElementById('roster-grid');if(!grid)return;
   let list=activeRoster==='ALL'?[...all]:all.filter(m=>m.role===activeRoster);
-  // 검색 필터
-  if(searchQuery){
-    const q=searchQuery.toLowerCase();
-    list=list.filter(m=>m.name.toLowerCase().includes(q)||(players[m.name]||'').toLowerCase().includes(q));
-  }
+  if(searchQuery){const q=searchQuery.toLowerCase();list=list.filter(m=>m.name.toLowerCase().includes(q)||(players[m.name]||'').toLowerCase().includes(q));}
   if(sortBy==='ilvl')list.sort((a,b)=>(b.ilvl||0)-(a.ilvl||0));
   else if(sortBy==='score')list.sort((a,b)=>(b.score||0)-(a.score||0));
   else if(sortBy==='name')list.sort((a,b)=>a.name.localeCompare(b.name,'ko'));
   else if(sortBy==='player')list.sort((a,b)=>(players[a.name]||'').localeCompare(players[b.name]||'','ko'));
-  document.getElementById('tab-roster').innerHTML=`
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">전체</div><div class="stat-val">${all.length}</div></div>
-      <div class="stat-card"><div class="stat-label">🛡️ 탱커</div><div class="stat-val" style="color:#7ab8f5">${counts.TANK||0}</div></div>
-      <div class="stat-card"><div class="stat-label">💚 힐러</div><div class="stat-val" style="color:#56d364">${counts.HEALING||0}</div></div>
-      <div class="stat-card"><div class="stat-label">⚔️ 딜러</div><div class="stat-val" style="color:#f87171">${counts.DPS||0}</div></div>
-    </div>
-    <div class="controls">
-      ${['ALL','TANK','HEALING','DPS'].map(r=>{const rc=ROLES[r];const l=r==='ALL'?`전체 ${counts.ALL}`:`${rc.emoji} ${rc.label} ${counts[r]||0}`;return`<button class="role-tab ${rc?rc.tab:'all'} ${activeRoster===r?'active':''}" onclick="setRoster('${r}')">${l}</button>`;}).join('')}
-      <div class="spacer"></div>
-      <input type="text" class="sort-sel" placeholder="🔍 캐릭터·유저 검색" value="${searchQuery}" oninput="setSearch(this.value)" style="width:160px;padding:0 10px">
-      <select class="sort-sel" onchange="setSort(this.value)">
-        <option value="ilvl" ${sortBy==='ilvl'?'selected':''}>아이템 레벨순</option>
-        <option value="score" ${sortBy==='score'?'selected':''}>IO 점수순</option>
-        <option value="name" ${sortBy==='name'?'selected':''}>캐릭터 이름순</option>
-        <option value="player" ${sortBy==='player'?'selected':''}>유저 이름순</option>
-      </select>
-    </div>
-    <div class="grid">${list.map((m,i)=>{
-      const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;const pn=players[m.name]||'';
-      return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${realmSlug(m.realm)}/${encodeURIComponent(m.nameLower||m.name.toLowerCase())}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
-        <div class="card-stripe" style="background:${c}"></div>
-        <div class="card-top">
-          <div class="class-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
-          <div class="char-info">
-            <div class="char-name" style="color:${c}">${m.name}${m.isManual?' ✦':''}</div>
-            <div class="char-spec" style="color:${c}">${CKR[m.class]||m.class}${m.spec?' · '+skr(m.class,m.spec):''}</div>
-            ${pn?`<div class="char-player">👤 ${pn}</div>`:''}
-          </div>
-          <div class="role-badge" style="background:${rc.badgeBg}">${rc.emoji}</div>
+  grid.innerHTML=list.map((m,i)=>{
+    const c=CC[m.class]||'#888';const rc=ROLES[m.role]||ROLES.DPS;const pn=players[m.name]||'';
+    return`<a class="card" href="https://worldofwarcraft.blizzard.com/ko-kr/character/kr/${realmSlug(m.realm)}/${encodeURIComponent(m.nameLower||m.name.toLowerCase())}" target="_blank" style="animation-delay:${Math.min(i*.04,.5)}s">
+      <div class="card-stripe" style="background:${c}"></div>
+      <div class="card-top">
+        <div class="class-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
+        <div class="char-info">
+          <div class="char-name" style="color:${c}">${m.name}${m.isManual?' ✦':''}</div>
+          <div class="char-spec" style="color:${c}">${CKR[m.class]||m.class}${m.spec?' · '+skr(m.class,m.spec):''}</div>
+          ${pn?`<div class="char-player">👤 ${pn}</div>`:''}
         </div>
-        <div class="card-stats">
-          <div><div class="cs-label">아이템 레벨</div><div class="cs-val" style="color:#e6edf3">${m.ilvl?m.ilvl.toFixed(1):'–'}</div></div>
-          <div><div class="cs-label">M+ Score</div><div class="cs-val" style="color:${scol(m.score)}">${m.score?Math.round(m.score):'–'}</div></div>
-        </div>
-        ${m.currentKey?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d;font-size:12px;color:#8b949e;display:flex;align-items:center;gap:5px">🗝️ <span style="color:#e6edf3;font-weight:600">${m.currentKey.level}단</span> ${m.currentKey.dungeon}</div>`:''}
-        <div class="rank-num">#${i+1}</div>
-      </a>`;}).join('')}</div>`;
+        <div class="role-badge" style="background:${rc.badgeBg}">${rc.emoji}</div>
+      </div>
+      <div class="card-stats">
+        <div><div class="cs-label">아이템 레벨</div><div class="cs-val" style="color:#e6edf3">${m.ilvl?m.ilvl.toFixed(1):'–'}</div></div>
+        <div><div class="cs-label">M+ Score</div><div class="cs-val" style="color:${scol(m.score)}">${m.score?Math.round(m.score):'–'}</div></div>
+      </div>
+      ${m.currentKey?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d;font-size:12px;color:#8b949e;display:flex;align-items:center;gap:5px">🗝️ <span style="color:#e6edf3;font-weight:600">${m.currentKey.level}단</span> ${m.currentKey.dungeon}</div>`:''}
+      <div class="rank-num">#${i+1}</div>
+    </a>`;}).join('');
 }
 function setRoster(r){activeRoster=r;renderRoster();}
-function setSort(s){sortBy=s;renderRoster();}
-function setSearch(q){searchQuery=q;renderRoster();}
+function setSort(s){sortBy=s;renderRosterGrid();}
+function setSearch(q){searchQuery=q;renderRosterGrid();}
 
 // 레이드
 function renderSyn(){
