@@ -926,7 +926,15 @@ async function loadParties(){
   try{
     parties=await(await fetch('/api/parties')).json();
     if(!parties.length){el.innerHTML='<div style="text-align:center;padding:3rem;color:#8b949e;font-size:14px">등록된 모집 글이 없어요</div>';return;}
-    const nameClassChip=(name,char)=>{const m=all.find(x=>x.name===char);const c=CC[m?.class]||'#888';const cls=CKR[m?.class]||m?.class||'';return`<div style="display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:${c}18;border:1px solid ${c}40;border-radius:5px;font-size:12px;margin:1px"><span style="color:${c};font-weight:600">${name}</span>${cls?`<span style="color:#8b949e;font-size:11px">${cls}</span>`:''}</div>`;};
+    const nameClassChip=(name,char,spec)=>{
+      const m=all.find(x=>x.name===char)||all.find(x=>x.name===name);
+      const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];
+      const roleColor=spec?(T.some(t=>spec.includes(t))?'#7ab8f5':H.some(h=>spec.includes(h))?'#56d364':'#f87171'):null;
+      const c=CC[m?.class]||roleColor||'#888';
+      const cls=CKR[m?.class]||m?.class||'';
+      const specLabel=spec&&!cls?spec:'';
+      return`<div style="display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:${c}20;border:1px solid ${c}50;border-radius:5px;font-size:12px;margin:1px"><span style="color:${c};font-weight:600">${name}</span>${(cls||specLabel)?`<span style="color:#8b949e;font-size:11px">${cls||specLabel}</span>`:''}</div>`;
+    };
     el.innerHTML=parties.map(p=>{
       const sc=STATUS_COLOR[p.status]||'#8b949e';
       const authorM=all.find(x=>x.name===p.authorChar);const ac=CC[authorM?.class]||'#8b949e';
@@ -950,15 +958,15 @@ async function loadParties(){
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
             <div style="color:#7ab8f5;font-weight:700;margin-bottom:4px">🛡️ 탱</div>
-            ${byRolePlan('TANK').map(s=>nameClassChip(s.name,s.char)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
+            ${byRolePlan('TANK').map(s=>nameClassChip(s.name,s.char,s.planSpec)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
           </div>
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
             <div style="color:#56d364;font-weight:700;margin-bottom:4px">💚 힐</div>
-            ${byRolePlan('HEALING').map(s=>nameClassChip(s.name,s.char)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
+            ${byRolePlan('HEALING').map(s=>nameClassChip(s.name,s.char,s.planSpec)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
           </div>
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
             <div style="color:#f87171;font-weight:700;margin-bottom:4px">⚔️ 딜</div>
-            ${byRolePlan('DPS').map(s=>nameClassChip(s.name,s.char)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
+            ${byRolePlan('DPS').map(s=>nameClassChip(s.name,s.char,s.planSpec)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
           </div>
         </div>
         ${(()=>{const planNames=new Set(plan.map(s=>s.name));const unassigned=allM.filter(a=>!planNames.has(a.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko'));if(!unassigned.length)return '';const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];const ri=s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️';const summary=unassigned.map(a=>(a.specs||[]).map(s=>ri(s)).join('')||ri2(a.role)).join(' ');return `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:11px;color:#8b949e">신청자</span>${unassigned.map(a=>{const icons=(a.specs||[]).map(s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️');return `<span style="font-size:11px">${nameClassChip(a.name,a.char||a.name)} ${icons.join('')}</span>`;}).join('')}</div>`;})()}
