@@ -880,12 +880,20 @@ function ptUpdateSpecs(){
   const specs=SPEC_KR_LIST[cls]||[];
   ptSelectedSpecs=[];
   document.getElementById('pt-spec-group').style.display=specs.length?'block':'none';
-  document.getElementById('pt-specs').innerHTML=specs.map(s=>`<div class="spec-check" onclick="ptToggleSpec(this,'${s}')">${s}</div>`).join('');
+  document.getElementById('pt-specs').innerHTML=specs.map(s=>`<div class="spec-check" onclick="ptToggleSpec(this,'${s}')"><span>${specRoleIcon(s)}</span>${s}</div>`).join('');
   renderPtRoleBadges();
+}
+
+function specRoleIcon(spec){
+  const T=['혈기','보호','수호','양조','복수','방어'];
+  const H=['신성','회복','운무','보존','복원','수양'];
+  if(T.some(t=>spec.includes(t)))return'🛡️';
+  if(H.some(h=>spec.includes(h)))return'💚';
+  return'⚔️';
 }
 function ptToggleSpec(el,spec){
   if(el.classList.contains('selected')){el.classList.remove('selected');ptSelectedSpecs=ptSelectedSpecs.filter(s=>s!==spec);}
-  else{if(ptSelectedSpecs.length>=2){alert('특성은 최대 2개');return;}el.classList.add('selected');ptSelectedSpecs.push(spec);}
+  else{if(ptSelectedSpecs.length>=3){alert('특성은 최대 3개');return;}el.classList.add('selected');ptSelectedSpecs.push(spec);}
   renderPtRoleBadges();
 }
 function renderPtRoleBadges(){
@@ -1048,7 +1056,10 @@ function renderPartyModal(){
   document.getElementById('party-modal-content').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem">
       <div>
-        <div style="font-size:18px;font-weight:700;margin-bottom:.25rem">${p.title}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:.25rem">
+          <span id="party-title-text" style="font-size:18px;font-weight:700">${p.title}</span>
+          <button onclick="startEditTitle('${p.id}','${p.title.replace(/'/g,"&#39;")}')" style="background:none;border:none;color:#8b949e;cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;border:1px solid #30363d" title="제목 수정">✏️</button>
+        </div>
         <div style="font-size:13px;color:#8b949e">${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
       </div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1319,12 +1330,12 @@ function apUpdateSpecs(){
   const specs=SPEC_KR_LIST[cls]||[];
   apSpecs=[];
   const g=document.getElementById('ap-spec-group');if(g)g.style.display=specs.length?'block':'none';
-  const el=document.getElementById('ap-specs');if(el)el.innerHTML=specs.map(s=>`<div class="spec-check" onclick="apToggleSpec(this,'${s}')">${s}</div>`).join('');
+  const el=document.getElementById('ap-specs');if(el)el.innerHTML=specs.map(s=>`<div class="spec-check" onclick="apToggleSpec(this,'${s}')"><span>${specRoleIcon(s)}</span>${s}</div>`).join('');
   const rb=document.getElementById('ap-role-badge');if(rb)rb.innerHTML='';
 }
 function apToggleSpec(el,spec){
   if(el.classList.contains('selected')){el.classList.remove('selected');apSpecs=apSpecs.filter(s=>s!==spec);}
-  else{if(apSpecs.length>=2){alert('최대 2개');return;}el.classList.add('selected');apSpecs.push(spec);}
+  else{if(apSpecs.length>=3){alert('최대 3개');return;}el.classList.add('selected');apSpecs.push(spec);}
   const rb=document.getElementById('ap-role-badge');if(!rb)return;
   if(!apSpecs.length){rb.innerHTML='';return;}
   const T2=['혈기','보호','수호','양조','복수','방어'];const H2=['신성','회복','운무','보존','복원','수양'];
@@ -1547,6 +1558,20 @@ function partyDrop(e,role){
   addToPlan(name,char,role,autoSpec);
   _partyDragKey=null;
 }
+
+function startEditTitle(id, currentTitle){
+  const pw=prompt('비밀번호를 입력해주세요');
+  if(!pw)return;
+  const newTitle=prompt('새 제목을 입력해주세요', currentTitle);
+  if(!newTitle||!newTitle.trim())return;
+  fetch(`/api/parties/${id}/title`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,title:newTitle.trim()})})
+    .then(r=>r.json()).then(r=>{
+      if(r.error){alert(r.error);return;}
+      document.getElementById('party-title-text').textContent=newTitle.trim();
+      loadParties();
+    });
+}
+
 function showToast(msg){
   let t=document.getElementById('party-toast');
   if(!t){t=document.createElement('div');t.id='party-toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#21262d;border:1px solid #f87171;color:#f87171;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:300;transition:opacity .3s';document.body.appendChild(t);}

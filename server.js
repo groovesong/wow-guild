@@ -157,6 +157,8 @@ app.get('/api/guild', async (req, res) => {
     const roster = await bnet(`/data/wow/guild/${GUILD_REALM}/${encodeURIComponent(GUILD_SLUG)}/roster`);
     const members = roster.members || [];
     rosterCache = members; // 레벨 필터링용
+    const levelMap = {};
+    members.forEach(m => { if(m.character?.name) levelMap[m.character.name] = m.character.level || 0; });
     console.log(`멤버 ${members.length}명 조회 시작`);
     const BATCH = 10;
     const results = [];
@@ -203,10 +205,10 @@ app.get('/api/guild', async (req, res) => {
           return {
             name,
             nameLower: name.toLowerCase(),
-            class: char.character_class?.name || '',
-            spec:  char.active_spec?.name || '',
-            role:  getRole(char.active_spec?.name || ''),
-            level: char.level || 0,
+            class: char.character_class?.name || rio?.class || '',
+            spec:  char.active_spec?.name || rio?.active_spec_name || '',
+            role:  getRole(char.active_spec?.name || rio?.active_spec_name || ''),
+            level: char.level || rio?.level || levelMap[name] || 0,
             ilvl,
             score,
             bestRuns,
@@ -216,7 +218,7 @@ app.get('/api/guild', async (req, res) => {
         } catch (e) {
           console.log(`${name} 실패: ${e.message}`);
           // 레이더io에서 클래스/스펙 보완 시도
-          let cls = '', spec = '', rioIlvl = null, rioScore = null;
+          let cls = '', spec = '', rioIlvl = null, rioScore = null, rioLevel = 0;
           try {
             const rio = await fetchWithTimeout(
               `https://raider.io/api/v1/characters/profile?region=kr&realm=${realm}&name=${encodeURIComponent(name)}&fields=mythic_plus_scores_by_season:current,gear`,
@@ -226,11 +228,12 @@ app.get('/api/guild', async (req, res) => {
             spec = rio.active_spec_name || '';
             rioIlvl = rio.gear?.item_level_equipped || null;
             rioScore = rio.mythic_plus_scores_by_season?.[0]?.scores?.all || null;
+            rioLevel = rio.level || 0;
           } catch {}
           return {
             name, nameLower: name.toLowerCase(),
             class: cls, spec, role: getRole(spec),
-            level: m.character.level || 0,
+            level: levelMap[name] || rioLevel || 0,
             ilvl: rioIlvl, score: rioScore, bestRuns: {},
             rank: m.rank, realm,
           };
@@ -239,6 +242,8 @@ app.get('/api/guild', async (req, res) => {
       results.push(...fetched);
       console.log(`${Math.min(i + BATCH, members.length)} / ${members.length}`);
     }
+    // 레벨 0인 경우 roster에서 강제 보완
+    results.forEach(m => { if(!m.level && levelMap[m.name]) m.level = levelMap[m.name]; });
 
     dataCache = { members: results };
     dataCacheTime = Date.now();
@@ -354,6 +359,18 @@ app.put('/api/parties/:id/plan', (req, res) => {
   if (!p) return res.status(404).json({ error: '없는 글' });
   if (password !== p.password && password !== '0415') return res.status(401).json({ error: '비밀번호 오류' });
   p.plans = { plan1: plan1||null, plan2: plan2||null };
+  writeParties(parties);
+  res.json({ ok: true });
+});
+
+app.put('/api/parties/:id/title', (req, res) => {
+  const { password, title } = req.body;
+  const parties = readParties();
+  const p = parties.find(p => p.id === req.params.id);
+  if (!p) return res.status(404).json({ error: '없는 글' });
+  if (password !== p.password && password !== PASSWORD) return res.status(401).json({ error: '비밀번호 오류' });
+  if (!title?.trim()) return res.status(400).json({ error: '제목을 입력해주세요' });
+  p.title = title.trim();
   writeParties(parties);
   res.json({ ok: true });
 });
