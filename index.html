@@ -324,7 +324,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
           </select>
         </div>
         <div class="pf-group" id="pt-spec-group" style="display:none">
-          <div class="pf-label">특성 (최대 2개)</div>
+          <div class="pf-label">특성 (최대 3개)</div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px" id="pt-specs"></div>
           <div style="margin-top:6px;display:flex;gap:4px" id="pt-role-badges"></div>
         </div>
@@ -944,7 +944,7 @@ async function loadParties(){
           <span style="font-size:12px;color:${sc};border:1px solid ${sc}40;border-radius:12px;padding:2px 10px">${STATUS_LABEL[p.status]||p.status}</span>
         </div>
         <div style="font-size:13px;color:#8b949e;margin-bottom:.7rem">
-          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
+          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}${p.startTime?`⏰ ${p.startTime} · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
@@ -960,7 +960,7 @@ async function loadParties(){
             ${byRolePlan('DPS').map(s=>nameClassChip(s.name,s.char)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
           </div>
         </div>
-        ${(()=>{const planNames=new Set(plan.map(s=>s.name));const unassigned=allM.filter(a=>!planNames.has(a.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko'));return unassigned.length?`<div style="font-size:11px;color:#8b949e;margin-bottom:4px">신청자</div><div style="display:flex;flex-wrap:wrap;gap:3px">${unassigned.map(a=>nameClassChip(a.name,a.char||a.name)).join('')}</div>`:'';})()}
+        ${(()=>{const planNames=new Set(plan.map(s=>s.name));const unassigned=allM.filter(a=>!planNames.has(a.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko'));if(!unassigned.length)return '';const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];const ri=s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️';const summary=unassigned.map(a=>(a.specs||[]).map(s=>ri(s)).join('')||ri2(a.role)).join(' ');return `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:11px;color:#8b949e">신청자</span>${unassigned.map(a=>{const icons=(a.specs||[]).map(s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️');return `<span style="font-size:11px">${nameClassChip(a.name,a.char||a.name)} ${icons.join('')}</span>`;}).join('')}</div>`;})()}
         <div style="display:flex;justify-content:flex-end;margin-top:.6rem">
           <button onclick="event.stopPropagation();deleteParty('${p.id}')" class="btn btn-danger" style="padding:3px 10px;font-size:12px">🗑️ 삭제</button>
         </div>
@@ -1023,7 +1023,7 @@ function renderPartyModal(){
         ${m?.score?`<span style="color:${scol(m.score)};font-size:12px"> · ${Math.round(m.score)}</span>`:''}
         ${a.isAuthor?`<span style="color:#f09000;font-size:11px;margin-left:4px">✍️</span>`:''}
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const selected=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:1px 7px;background:${selected?'#58a6ff25':'#21262d'};border:1px solid ${selected?'#58a6ff':'#30363d'};border-radius:4px;color:${selected?'#58a6ff':'#8b949e'}">${s}${selected?' ✓':''}</span>`;}).join('')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const selected=inPlan&&inPlan.planSpec===s;const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];const ic=T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️';return`<span style="font-size:11px;padding:1px 7px;background:${selected?'#58a6ff25':'#21262d'};border:1px solid ${selected?'#58a6ff':'#30363d'};border-radius:4px;color:${selected?'#58a6ff':'#8b949e'}">${ic} ${s}</span>`;}).join('')}</div>
       ${showCancel&&!a.isAuthor&&p.status==='open'?`<button onclick="cancelApply('${p.id}','${a.name}')" class="btn btn-danger" style="padding:2px 8px;font-size:11px">취소</button>`:''}
     </div>`;
   };
@@ -1061,7 +1061,7 @@ function renderPartyModal(){
           <span id="party-title-text" style="font-size:18px;font-weight:700">${p.title}</span>
           <button onclick="startEditTitle('${p.id}','${p.title.replace(/'/g,"&#39;")}')" style="background:none;border:none;color:#8b949e;cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;border:1px solid #30363d" title="제목 수정">✏️</button>
         </div>
-        <div style="font-size:13px;color:#8b949e">${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
+        <div style="font-size:13px;color:#8b949e">${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}${p.startTime?`⏰ ${p.startTime} · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
       </div>
       <div style="display:flex;align-items:center;gap:6px">
         <select id="status-select" class="form-select" style="width:90px;font-size:12px;height:28px">
@@ -1079,7 +1079,7 @@ function renderPartyModal(){
       <!-- 신청자 목록 (항상 표시, 내부 스크롤) -->
       <div style="display:flex;flex-direction:column">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
-          <div style="font-size:13px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.5px">신청자 (${uniq}명)</div>
+          <div style="font-size:13px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.5px">신청자 ${uniq}명</div>
           ${['TANK','HEALING','DPS'].map(r=>`<button onclick="setPtTab('${r}')" id="ptab-${r}" class="btn btn-secondary" style="padding:3px 8px;font-size:11px">${ROLE_EMOJI[r]} ${byRole(r).length}</button>`).join('')}
         </div>
         <div id="ptab-list" style="min-height:80px;max-height:280px;overflow-y:auto;border:1px solid #21262d;border-radius:8px;padding:6px">
@@ -1119,7 +1119,7 @@ function renderPartyModal(){
         </select>
       </div>
       <div id="ap-spec-group" style="display:none;margin-bottom:6px">
-        <div style="font-size:12px;color:#8b949e;margin-bottom:4px">특성 (최대 2개)</div>
+        <div style="font-size:12px;color:#8b949e;margin-bottom:4px">특성 (최대 3개)</div>
         <div style="display:flex;flex-wrap:wrap;gap:5px" id="ap-specs"></div>
         <div style="margin-top:5px;font-size:13px" id="ap-role-badge"></div>
       </div>
@@ -1129,6 +1129,13 @@ function renderPartyModal(){
     </div>`:p.status==='closed'?
     `<div style="margin-top:1rem;font-size:13px;color:#f87171;padding:8px">⛔ 모집이 마감됐어요</div>`:
     `<div style="margin-top:1rem;padding:10px;background:#0d2318;border:1px solid #2d7a4a;border-radius:8px;font-size:13px;color:#56d364">✅ 파티가 확정됐어요</div>`}
+
+    <!-- 배치 선택 팝업 -->
+    <div id="add-to-plan-popup" style="display:none;margin-top:1rem;padding:1rem;background:#0d1117;border:1px solid #30363d;border-radius:10px">
+      <div style="font-size:13px;font-weight:700;margin-bottom:.75rem">배치할 신청자 선택</div>
+      <div id="add-to-plan-list"></div>
+      <button onclick="document.getElementById('add-to-plan-popup').style.display='none'" class="btn btn-secondary" style="margin-top:.5rem;padding:4px 12px;font-size:12px">취소</button>
+    </div>
 
     <!-- 댓글 -->
     <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #21262d">
@@ -1143,13 +1150,6 @@ function renderPartyModal(){
         <button onclick="submitComment('${p.id}')" class="btn btn-primary" style="padding:5px 12px;font-size:13px">등록</button>
       </div>
       <div style="font-size:11px;color:#484f58;text-align:right;margin-top:3px"><span id="cm-len">0</span>/50</div>
-    </div>
-
-    <!-- 배치 선택 팝업 -->
-    <div id="add-to-plan-popup" style="display:none;margin-top:1rem;padding:1rem;background:#0d1117;border:1px solid #30363d;border-radius:10px">
-      <div style="font-size:13px;font-weight:700;margin-bottom:.75rem">배치할 신청자 선택</div>
-      <div id="add-to-plan-list"></div>
-      <button onclick="document.getElementById('add-to-plan-popup').style.display='none'" class="btn btn-secondary" style="margin-top:.5rem;padding:4px 12px;font-size:12px">취소</button>
     </div>`;
 }
 
