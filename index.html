@@ -937,14 +937,15 @@ async function loadParties(){
       const allM=[author,...(p.applications||[])].filter(Boolean);
       const byRolePlan=r=>plan.filter(s=>s.role===r);
       const byRoleApp=r=>allM.filter(a=>a.role===r);
-      const byRole=r=>hasPlan?byRolePlan(r):byRoleApp(r);
+      const byRole=r=>byRoleApp(r);  // 항상 신청자 기준 (plan과 별도)
       return`<div onclick="openPartyModal('${p.id}')" style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.1rem 1.25rem;cursor:pointer;margin-bottom:10px;transition:border-color .15s" onmouseover="this.style.borderColor='#30363d'" onmouseout="this.style.borderColor='#21262d'">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem">
           <div style="font-size:16px;font-weight:700">${p.title}</div>
           <span style="font-size:12px;color:${sc};border:1px solid ${sc}40;border-radius:12px;padding:2px 10px">${STATUS_LABEL[p.status]||p.status}</span>
         </div>
+        ${p.startTime?`<div style="font-size:14px;font-weight:700;color:#f09000;margin-bottom:4px">⏰ ${p.startTime} 출발</div>`:''}
         <div style="font-size:13px;color:#8b949e;margin-bottom:.7rem">
-          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}${p.startTime?` · <span style="color:#f09000;font-weight:700">⏰ ${p.startTime}</span>`:''}
+          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
@@ -1173,10 +1174,12 @@ function setPtTab(role){
     const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||'#888';
     const inPlan=plan.find(s=>s.name===a.name);
     const dk2=`drag_${a.name}`;_partyDragMap[dk2]={name:a.name,char:a.char,specs:a.specs||[]};
+    const T2=['혈기','보호','수호','양조','복수','방어'],H2=['신성','회복','운무','보존','복원','수양'];
+    const ic2=s=>T2.some(t=>s.includes(t))?'🛡️':H2.some(h=>s.includes(h))?'💚':'⚔️';
     return`<div draggable="true" ondragstart="partyDragStart(event,'${dk2}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#0d1117;border:1px solid ${inPlan?'#58a6ff':'#21262d'};border-radius:8px;font-size:13px;margin-bottom:4px;cursor:grab">
       <span>${CE[m?.class]||'⚔️'}</span>
       <div style="flex:1"><span style="color:${c};font-weight:600">${a.name}</span><span style="color:#8b949e;font-size:12px"> · ${CKR[m?.class]||a.char}</span>${m?.ilvl?` <span style="color:#8b949e;font-size:12px">· 템${Math.round(m.ilvl)}</span>`:''}${m?.score?` <span style="color:${scol(m.score)};font-size:12px">${Math.round(m.score)}</span>`:''}${a.isAuthor?` <span style="color:#f09000;font-size:11px">✍️</span>`:''}</div>
-      ${inPlan?`<span style="font-size:11px;color:#58a6ff">✓</span>`:''}
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const isSel=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:2px 7px;background:${isSel?'#58a6ff25':'#21262d'};border:1px solid ${isSel?'#58a6ff':'#30363d'};border-radius:4px;color:${isSel?'#58a6ff':'#8b949e'}">${ic2(s)} ${s}</span>`;}).join('')}</div>
       ${!a.isAuthor&&currentParty?.status==='open'?`<button onclick="cancelApply('${currentParty.id}','${a.name}')" class="btn btn-danger" style="padding:2px 8px;font-size:11px">취소</button>`:''}
     </div>`;
   }).join('')||'<div style="color:#8b949e;font-size:13px">해당 없음</div>';
@@ -1226,7 +1229,13 @@ function addToPlan(name,char,role,spec){
   if(plan.filter(s=>s.role===role).length>=max){alert(`${role} 슬롯이 가득 찼어요`);return;}
   plan.push({name,char,role,planSpec:spec});planDirty=true;
   updatePlanSlots();
-  document.getElementById('add-to-plan-popup').style.display='none';
+  // 슬롯 가득 찼으면 팝업 닫기, 아니면 유지
+  const maxNow={TANK:1,HEALING:1,DPS:3}[role];
+  if(plan.filter(s=>s.role===role).length>=maxNow){
+    document.getElementById('add-to-plan-popup').style.display='none';
+  } else {
+    showAddToPlan(role);
+  }
   setPtTab(ptabRole);
 }
 function removeFromPlan(name,role){
