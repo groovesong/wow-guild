@@ -311,6 +311,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
             </select>
           </div>
           <div class="pf-group" style="width:70px"><div class="pf-label">단수</div><input class="pf-input" id="pt-level" type="number" min="2" max="30" placeholder="10" style="width:100%"></div>
+          <div class="pf-group" style="width:100px"><div class="pf-label">⏰ 출발 희망</div><input class="pf-input" id="pt-starttime" type="time" style="width:100%;color-scheme:dark"></div>
         </div>
         <div class="pf-group"><div class="pf-label">이름</div>
           <select class="pf-select" id="pt-author" onchange="ptUpdateChars()" style="width:100%">
@@ -914,8 +915,8 @@ async function submitParty(){
   if(!title||!authorName||!password){alert('제목, 이름, 비밀번호는 필수예요');return;}
   if(!authorChar){alert('캐릭터를 선택해주세요');return;}
   if(!ptSelectedSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
-  const r=await(await fetch('/api/parties',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,dungeon,level,authorName,authorChar,authorSpecs:ptSelectedSpecs,password})})).json();
-  if(r.ok){['pt-title','pt-level','pt-pw'].forEach(id=>document.getElementById(id).value='');ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
+  const r=await(await fetch('/api/parties',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,dungeon,level,startTime:document.getElementById('pt-starttime').value||'',authorName,authorChar,authorSpecs:ptSelectedSpecs,password})})).json();
+  if(r.ok){['pt-title','pt-level','pt-pw','pt-starttime'].forEach(id=>document.getElementById(id).value='');ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
   else alert(r.error||'오류');
 }
 
@@ -1631,12 +1632,11 @@ async function load(force=false){
   }
 
   try{
-    const [g,pd,mc,ks,rosterLevels]=await Promise.all([
+    const [g,pd,mc,ks]=await Promise.all([
       fetch(`/api/guild${force?'?force=1':''}`).then(r=>r.json()),
       fetch('/api/players').then(r=>r.json()),
       fetch('/api/manual').then(r=>r.json()),
       fetch('/api/keystones').then(r=>r.json()).catch(()=>[]),
-      fetch('/api/roster-levels').then(r=>r.json()).catch(()=>({})),
     ]);
     if(g.error)throw new Error(g.error||'API 오류');
     if(!g.members)throw new Error('길드 데이터를 불러오지 못했어요');
@@ -1653,7 +1653,7 @@ async function load(force=false){
       name:m.name, nameLower:m.nameLower||m.name.toLowerCase(),
       class:m.class||'', spec:m.spec||'',
       role:m.role||'DPS',
-      level:m.level||rosterLevels[m.name]||0,
+      level:m.level||0,
       ilvl:m.ilvl||null, score:m.score||null,
       rank:m.rank, realm:m.realm||'azshara', isManual:false
     })).filter(m=>m.name);

@@ -148,8 +148,16 @@ app.get('/api/debug-guild', async (req, res) => {
 // 길드 데이터: 블리자드(템렙+쐐기돌) + Raider.io(M+점수) 병합
 app.get('/api/guild', async (req, res) => {
   const force = req.query.force === '1';
-  if (!force && dataCache && Date.now() - dataCacheTime < CACHE_MS)
+  if (!force && dataCache && Date.now() - dataCacheTime < CACHE_MS) {
+    // 캐시 반환 시에도 level=0인 캐릭터는 로스터에서 패치
+    try {
+      const roster = await bnet(`/data/wow/guild/${GUILD_REALM}/${encodeURIComponent(GUILD_SLUG)}/roster`);
+      const lm = {};
+      (roster.members || []).forEach(m => { if(m.character?.name) lm[m.character.name] = m.character.level || 0; });
+      dataCache.members.forEach(m => { if(!m.level && lm[m.name]) m.level = lm[m.name]; });
+    } catch {}
     return res.json({ ...dataCache, cached: true, cacheAge: Math.round((Date.now() - dataCacheTime) / 1000) });
+  }
 
   try {
     // 길드 로스터 (문서: /data/wow/guild/{realmSlug}/{nameSlug}/roster, namespace=profile-kr)
@@ -314,11 +322,11 @@ function specToRole(specs) {
 app.get('/api/parties', (req, res) => res.json(readParties()));
 
 app.post('/api/parties', (req, res) => {
-  const { title, dungeon, level, authorName, authorChar, authorSpecs, password } = req.body;
+  const { title, dungeon, level, startTime, authorName, authorChar, authorSpecs, password } = req.body;
   if (!title || !authorName || !password) return res.status(400).json({ error: '필수 항목 누락' });
   const parties = readParties();
   const id = Date.now().toString();
-  parties.unshift({ id, title, dungeon: dungeon||'', level: parseInt(level)||0,
+  parties.unshift({ id, title, dungeon: dungeon||'', level: parseInt(level)||0, startTime: startTime||'',
     authorName, authorChar: authorChar||'', authorSpecs: authorSpecs||[],
     authorRole: specToRole(authorSpecs), password, status: 'open',
     createdAt: new Date().toISOString(), applications: [], plans: { plan1: null, plan2: null }, comments: [] });
