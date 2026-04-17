@@ -1771,15 +1771,16 @@ async function load(force=false){
   }
 }
 async function refresh(){const b=document.getElementById('refreshBtn');b.textContent='⏳...';b.disabled=true;await load(true);b.textContent='🔄 데이터 갱신';b.disabled=false;}
-load().then(()=>{
-  const partyId=new URLSearchParams(location.search).get('party');
-  if(partyId){
-    switchTab('party');
-    loadParties().then(()=>{
-      if(parties.find(p=>p.id===partyId)) openPartyModal(partyId);
-    });
-  }
-});
+const _urlPartyId=new URLSearchParams(location.search).get('party');
+if(_urlPartyId){
+  switchTab('party');
+  loadParties().then(()=>{
+    if(parties.find(p=>p.id===_urlPartyId)) openPartyModal(_urlPartyId);
+  });
+  load(); // 현황 데이터는 백그라운드
+} else {
+  load();
+}
 </script>
 </body>
 </html>
