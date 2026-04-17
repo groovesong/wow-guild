@@ -361,7 +361,7 @@ async function notifySlack(party) {
             elements: [{
               type: 'button',
               text: { type: 'plain_text', text: '파티 찾기 보기' },
-              url: 'https://wow-guild-production.up.railway.app/'
+              url: `https://wow-guild-production.up.railway.app/?party=${p.id}`
             }]
           }
         ]
@@ -399,7 +399,7 @@ ${specs||'-'}` },
             { type:'mrkdwn', text:`*신청자*
 ${appCount}명` },
           ]},
-          { type:'actions', elements:[{ type:'button', text:{ type:'plain_text', text:'파티 찾기 보기 →' }, url:'https://wow-guild-production.up.railway.app/' }] }
+          { type:'actions', elements:[{ type:'button', text:{ type:'plain_text', text:'파티 찾기 보기 →' }, url:`https://wow-guild-production.up.railway.app/?party=${p.id}` }] }
         ]
       })
     });
