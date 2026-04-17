@@ -356,14 +356,7 @@ async function notifySlack(party) {
               { type: 'mrkdwn', text: `*특성*\n${specs||'-'}` },
             ]
           },
-          {
-            type: 'actions',
-            elements: [{
-              type: 'button',
-              text: { type: 'plain_text', text: '파티 찾기 보기' },
-              url: `https://wow-guild-production.up.railway.app/?party=${p.id}`
-            }]
-          }
+          { type: 'section', text: { type: 'mrkdwn', text: `<https://wow-guild-production.up.railway.app/?party=${p.id}|🔗 파티 찾기에서 보기>` } }
         ]
       })
     });
@@ -379,7 +372,7 @@ app.post('/api/slack-share', async (req, res) => {
   const dunInfo = p.dungeon ? `${p.dungeon} ${p.level}단` : '던전 미정';
   const timeInfo = p.startTime ? ` · ⏰ ${p.startTime} 출발` : '';
   const specs = (p.authorSpecs||[]).join(', ');
-  const appCount = p.applications?.length || 0;
+  const appCount = (p.applications?.length || 0) + (p.authorChar ? 1 : 0);
   const STATUS = { open:'🟢 모집중', closed:'🔴 마감', confirmed:'✅ 확정' };
   try {
     await fetch(SLACK_WEBHOOK, {
@@ -399,7 +392,7 @@ ${specs||'-'}` },
             { type:'mrkdwn', text:`*신청자*
 ${appCount}명` },
           ]},
-          { type:'actions', elements:[{ type:'button', text:{ type:'plain_text', text:'파티 찾기 보기 →' }, url:`https://wow-guild-production.up.railway.app/?party=${p.id}` }] }
+          { type:'section', text:{ type:'mrkdwn', text:`<https://wow-guild-production.up.railway.app/?party=${p.id}|🔗 파티 찾기에서 보기>` } }
         ]
       })
     });
