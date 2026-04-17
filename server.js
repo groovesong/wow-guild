@@ -576,7 +576,7 @@ app.post('/api/parties/:id/comments', (req, res) => {
   const p = parties.find(p => p.id === req.params.id);
   if (!p) return res.status(404).json({ error: '없는 글' });
   if (!p.comments) p.comments = [];
-  p.comments.push({ id: Date.now().toString(), name, password: password||'', text: text.slice(0,50), createdAt: new Date().toISOString() });
+  p.comments.push({ id: Date.now().toString(), name, password: password||'', text: text.slice(0,200), createdAt: new Date().toISOString() });
   writeParties(parties);
   res.json({ ok: true });
 });
@@ -588,7 +588,7 @@ app.put('/api/parties/:id/comments/:cid', (req, res) => {
   const c = (p.comments||[]).find(c => c.id === req.params.cid);
   if (!c) return res.status(404).json({ error: '없는 댓글' });
   if (password !== c.password && password !== '0415') return res.status(401).json({ error: '비밀번호 오류' });
-  c.text = text.slice(0,50);
+  c.text = text.slice(0,200);
   writeParties(parties);
   res.json({ ok: true });
 });
@@ -604,7 +604,7 @@ app.delete('/api/parties/:id/comments/:cid', (req, res) => {
   writeParties(parties);
   res.json({ ok: true });
 });
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`\n✅ 서버 실행 중! http://localhost:${PORT}`);
   console.log(`🔍 토큰 테스트: http://localhost:${PORT}/api/debug-token`);
