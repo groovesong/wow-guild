@@ -1771,7 +1771,18 @@ async function load(force=false){
   }
 }
 async function refresh(){const b=document.getElementById('refreshBtn');b.textContent='⏳...';b.disabled=true;await load(true);b.textContent='🔄 데이터 갱신';b.disabled=false;}
-load();
+load().then(()=>{
+  const partyId=new URLSearchParams(location.search).get('party');
+  if(partyId){
+    switchTab('party');
+    // 파티 로드 후 모달 열기
+    const tryOpen=()=>{
+      if(parties.find(p=>p.id===partyId)){openPartyModal(partyId);}
+      else{setTimeout(tryOpen,300);}
+    };
+    setTimeout(tryOpen,500);
+  }
+});
 </script>
 </body>
 </html>
