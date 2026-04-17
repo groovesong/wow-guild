@@ -15,7 +15,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .refresh-btn:hover{border-color:#8b949e;color:#e6edf3}
 .refresh-btn:disabled{opacity:.4;cursor:not-allowed}
 .cache-status{font-size:11px;color:#8b949e;margin-top:4px;text-align:right}
-.tabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid #21262d}
+.tabs{display:flex;margin-bottom:1.5rem;border-bottom:1px solid #21262d;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.tabs::-webkit-scrollbar{display:none}
 .tab{padding:10px 24px;font-size:15px;font-weight:600;color:#8b949e;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
 .tab:hover{color:#e6edf3}
 .tab.active{color:#e6edf3;border-bottom-color:#c41e3a}
@@ -189,6 +190,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .container{padding:.75rem}
+  .tabs{overflow-x:auto;white-space:nowrap;margin-bottom:1rem;-webkit-overflow-scrolling:touch}
+  .tab{padding:8px 14px;font-size:13px}
+  .stats-row{grid-template-columns:repeat(2,1fr);gap:6px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px}
+  .char-card{padding:.75rem}
+  .modal{padding:1rem;border-radius:10px;max-height:95vh}
+  .modal-overlay{align-items:flex-end}
+  .party-layout{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .tab{padding:7px 10px;font-size:12px}
+}
+
+@media(max-width:768px){
+  .raid-layout{grid-template-columns:1fr !important}
+  .party-card-grid{grid-template-columns:1fr !important}
+  .party-modal-grid{grid-template-columns:1fr !important}
+  .modal{max-width:100% !important;border-radius:12px 12px 0 0 !important;margin:0 !important}
+  .modal-overlay{align-items:flex-end !important;padding:0 !important}
+  .pf-group{margin-bottom:.5rem}
+}
 </style>
 </head>
 <body>
@@ -260,7 +288,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 
   <!-- 쐐기돌 -->
   <div id="tab-keystone" style="display:none">
-    <div style="display:grid;grid-template-columns:300px 1fr;gap:14px;align-items:start">
+    <div style="display:grid;grid-template-columns:min(300px,100%) 1fr;gap:14px;align-items:start" class="raid-layout">
       <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;position:sticky;top:1rem">
         <div style="font-size:14px;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #21262d">🗝️ 쐐기돌 등록</div>
         <div class="pf-group"><div class="pf-label">이름</div>
@@ -294,7 +322,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 
   <!-- 파티 찾기 -->
   <div id="tab-party" style="display:none">
-    <div style="display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start">
+    <div style="display:grid;grid-template-columns:min(320px,100%) 1fr;gap:14px;align-items:start" class="raid-layout">
       <!-- 작성 폼 -->
       <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;position:sticky;top:1rem">
         <div style="font-size:14px;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #21262d">✍️ 파티 모집 등록</div>
@@ -310,8 +338,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
               <option>삼두정의 권좌</option><option>알게타르 대학</option>
             </select>
           </div>
-          <div class="pf-group" style="width:70px"><div class="pf-label">단수</div><input class="pf-input" id="pt-level" type="number" min="2" max="30" placeholder="10" style="width:100%"></div>
-          <div class="pf-group" style="width:100px"><div class="pf-label">⏰ 출발 희망</div><input class="pf-input" id="pt-starttime" type="time" style="width:100%;color-scheme:dark"></div>
+          <div class="pf-group" style="width:55px;flex-shrink:0"><div class="pf-label">단수</div><input class="pf-input" id="pt-level" type="number" min="2" max="30" placeholder="10" style="width:100%"></div>
+          <div class="pf-group" style="flex-shrink:0"><div class="pf-label">⏰ 출발</div>
+            <div style="display:flex;gap:3px;align-items:center">
+              <select class="pf-select" id="pt-start-ampm" style="width:54px">
+                <option value="">AM/PM</option>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+              <select class="pf-select" id="pt-start-h" style="width:48px">
+                <option value="">시</option>
+                ${Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}
+              </select>
+              <span style="color:#8b949e">:</span>
+              <select class="pf-select" id="pt-start-m" style="width:48px">
+                <option value="">분</option>
+                ${['00','10','20','30','40','50'].map(m=>`<option value="${m}">${m}</option>`).join('')}
+              </select>
+            </div>
+          </div>
         </div>
         <div class="pf-group"><div class="pf-label">이름</div>
           <select class="pf-select" id="pt-author" onchange="ptUpdateChars()" style="width:100%">
@@ -915,8 +960,8 @@ async function submitParty(){
   if(!title||!authorName||!password){alert('제목, 이름, 비밀번호는 필수예요');return;}
   if(!authorChar){alert('캐릭터를 선택해주세요');return;}
   if(!ptSelectedSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
-  const r=await(await fetch('/api/parties',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,dungeon,level,startTime:document.getElementById('pt-starttime').value||'',authorName,authorChar,authorSpecs:ptSelectedSpecs,password})})).json();
-  if(r.ok){['pt-title','pt-level','pt-pw','pt-starttime'].forEach(id=>document.getElementById(id).value='');ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
+  const r=await(await fetch('/api/parties',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,dungeon,level,startTime:(()=>{const ap=document.getElementById('pt-start-ampm').value,h=document.getElementById('pt-start-h').value,m=document.getElementById('pt-start-m').value;return ap&&h&&m?`${ap} ${h}:${m}`:'';})(),authorName,authorChar,authorSpecs:ptSelectedSpecs,password})})).json();
+  if(r.ok){['pt-title','pt-level','pt-pw','pt-start-ampm','pt-start-h','pt-start-m'].forEach(id=>document.getElementById(id).value='');ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
   else alert(r.error||'오류');
 }
 
@@ -955,7 +1000,7 @@ async function loadParties(){
         <div style="font-size:13px;color:#8b949e;margin-bottom:.7rem">
           ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
+        <div class="party-card-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
             <div style="color:#7ab8f5;font-weight:700;margin-bottom:4px">🛡️ 탱</div>
             ${byRolePlan('TANK').map(s=>nameClassChip(s.name,s.char,s.planSpec)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
@@ -1085,7 +1130,7 @@ function renderPartyModal(){
     </div>
 
     <!-- 신청자 + 플랜 (2열) -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="party-modal-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <!-- 신청자 목록 (항상 표시, 내부 스크롤) -->
       <div style="display:flex;flex-direction:column">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
@@ -1501,14 +1546,14 @@ async function loadKeyTracker(){
     const allNames=[...playerNames,...extraNames].sort((a,b)=>a.localeCompare(b,'ko'));
 
     const dunCell=(k)=>{
-      if(!k)return`<td style="padding:4px;text-align:center;color:#30363d;font-size:13px">–</td>`;
+      if(!k)return`<td style="padding:3px;text-align:center"><div style="width:64px;min-height:38px;margin:0 auto;border-radius:6px;background:#21262d20;border:1px solid #30363d;display:flex;align-items:center;justify-content:center;color:#484f58;font-size:12px">–</div></td>`;
       const clr=ksLvlColor(k.level);
       const itColor=k.inTime?'#56d364':'#f87171';
       const itIcon=k.inTime?'시클O':'시클X';
       return`<td style="padding:3px;text-align:center">
-        <div style="background:${clr}15;border:1px solid ${clr}40;border-radius:6px;padding:3px 6px;display:inline-block;min-width:50px">
-          <div style="font-size:14px;font-weight:700;color:${clr}">${k.level}단 <span style="font-size:12px;color:${itColor}">${itIcon}</span></div>
-          ${k.spec?`<div style="font-size:10px;color:#8b949e">${k.spec}</div>`:''}
+        <div style="width:64px;margin:0 auto;background:${clr}15;border:1px solid ${clr}40;border-radius:6px;padding:3px 4px;box-sizing:border-box">
+          <div style="font-size:13px;font-weight:700;color:${clr};white-space:nowrap">${k.level}단 <span style="font-size:11px;color:${itColor}">${itIcon}</span></div>
+          ${k.spec?`<div style="font-size:10px;color:#8b949e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${k.spec}</div>`:'<div style="font-size:10px">&nbsp;</div>'}
         </div>
       </td>`;
     };
