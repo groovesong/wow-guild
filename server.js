@@ -537,7 +537,10 @@ app.get('/api/keytracker', async (req, res) => {
           const me = (run.members || []).find(mb => mb.character?.name === m.name);
           const spec = me?.specialization?.name || '';
           const inTime = run.is_completed_within_time || false;
-          if (!bestRuns[dun] || run.keystone_level > bestRuns[dun].level)
+          const cur = bestRuns[dun];
+          if (!cur
+              || run.keystone_level > cur.level
+              || (run.keystone_level === cur.level && inTime && !cur.inTime))
             bestRuns[dun] = { level: run.keystone_level, spec, inTime };
         });
       } catch {
@@ -553,7 +556,10 @@ app.get('/api/keytracker', async (req, res) => {
             const specEn = run.spec?.name || '';
             const spec = RIO_SPEC[specEn] || specEn;
             const inTime = (run.num_keystone_upgrades || 0) > 0;
-            if (!bestRuns[dun] || run.mythic_level > bestRuns[dun].level)
+            const cur = bestRuns[dun];
+            if (!cur
+                || run.mythic_level > cur.level
+                || (run.mythic_level === cur.level && inTime && !cur.inTime))
               bestRuns[dun] = { level: run.mythic_level, spec, inTime };
           });
         } catch {}
