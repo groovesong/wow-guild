@@ -328,6 +328,48 @@ function specToRole(specs) {
   return 'DPS';
 }
 
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
+
+async function notifySlack(party) {
+  if (!SLACK_WEBHOOK) return;
+  const dunInfo = party.dungeon ? `${party.dungeon} ${party.level}단` : '던전 미정';
+  const timeInfo = party.startTime ? ` · ⏰ ${party.startTime} 출발` : '';
+  const specs = (party.authorSpecs||[]).join(', ');
+  try {
+    await fetch(SLACK_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: `🗝️ *새 파티 모집 등록*\n*${party.title}*`
+            }
+          },
+          {
+            type: 'section',
+            fields: [
+              { type: 'mrkdwn', text: `*던전*\n${dunInfo}${timeInfo}` },
+              { type: 'mrkdwn', text: `*작성자*\n${party.authorName} · ${party.authorChar||'-'}` },
+              { type: 'mrkdwn', text: `*특성*\n${specs||'-'}` },
+            ]
+          },
+          {
+            type: 'actions',
+            elements: [{
+              type: 'button',
+              text: { type: 'plain_text', text: '파티 찾기 보기' },
+              url: 'https://wow-guild-production.up.railway.app/'
+            }]
+          }
+        ]
+      })
+    });
+  } catch(e) { console.log('Slack 알림 실패:', e.message); }
+}
+
 app.get('/api/parties', (req, res) => res.json(readParties()));
 
 app.post('/api/parties', (req, res) => {
@@ -340,6 +382,7 @@ app.post('/api/parties', (req, res) => {
     authorRole: specToRole(authorSpecs), password, status: 'open',
     createdAt: new Date().toISOString(), applications: [], plans: { plan1: null, plan2: null }, comments: [] });
   writeParties(parties);
+  notifySlack(parties[0]);
   res.json({ ok: true, id });
 });
 
