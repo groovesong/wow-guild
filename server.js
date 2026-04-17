@@ -328,7 +328,7 @@ function specToRole(specs) {
   return 'DPS';
 }
 
-const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK || 'https://hooks.slack.com/services/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';
 
 async function notifySlack(party) {
   if (!SLACK_WEBHOOK) return;
@@ -370,6 +370,43 @@ async function notifySlack(party) {
   } catch(e) { console.log('Slack 알림 실패:', e.message); }
 }
 
+
+app.post('/api/slack-share', async (req, res) => {
+  if (!SLACK_WEBHOOK) return res.json({ error: 'Slack 설정 안됨' });
+  const parties = readParties();
+  const p = parties.find(x => x.id === req.body.partyId);
+  if (!p) return res.status(404).json({ error: '파티 없음' });
+  const dunInfo = p.dungeon ? `${p.dungeon} ${p.level}단` : '던전 미정';
+  const timeInfo = p.startTime ? ` · ⏰ ${p.startTime} 출발` : '';
+  const specs = (p.authorSpecs||[]).join(', ');
+  const appCount = p.applications?.length || 0;
+  const STATUS = { open:'🟢 모집중', closed:'🔴 마감', confirmed:'✅ 확정' };
+  try {
+    await fetch(SLACK_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        blocks: [
+          { type:'section', text:{ type:'mrkdwn', text:`🗝️ *파티 모집* ${STATUS[p.status]||''}
+*${p.title}*` } },
+          { type:'section', fields:[
+            { type:'mrkdwn', text:`*던전*
+${dunInfo}${timeInfo}` },
+            { type:'mrkdwn', text:`*작성자*
+${p.authorName} · ${p.authorChar||'-'}` },
+            { type:'mrkdwn', text:`*특성*
+${specs||'-'}` },
+            { type:'mrkdwn', text:`*신청자*
+${appCount}명` },
+          ]},
+          { type:'actions', elements:[{ type:'button', text:{ type:'plain_text', text:'파티 찾기 보기 →' }, url:'https://wow-guild-production.up.railway.app/' }] }
+        ]
+      })
+    });
+    res.json({ ok: true });
+  } catch(e) { res.json({ error: e.message }); }
+});
+
 app.get('/api/parties', (req, res) => res.json(readParties()));
 
 app.post('/api/parties', (req, res) => {
@@ -382,7 +419,6 @@ app.post('/api/parties', (req, res) => {
     authorRole: specToRole(authorSpecs), password, status: 'open',
     createdAt: new Date().toISOString(), applications: [], plans: { plan1: null, plan2: null }, comments: [] });
   writeParties(parties);
-  notifySlack(parties[0]);
   res.json({ ok: true, id });
 });
 
