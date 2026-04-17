@@ -263,50 +263,59 @@ app.get('/api/guild', async (req, res) => {
 });
 
 // 저장 API
-const readJ  = f => existsSync(f) ? JSON.parse(readFileSync(f,'utf-8')) : null;
-const writeJ = (f,d) => writeFileSync(f, JSON.stringify(d, null, 2));
+const DATA_DIR = process.env.RAILWAY_VOLUME_MOUNT_PATH || '.';
+const dataPath = f => `${DATA_DIR}/${f}`;
+const readJ  = f => existsSync(dataPath(f)) ? JSON.parse(readFileSync(dataPath(f),'utf-8')) : null;
+const writeJ = (f,d) => writeFileSync(dataPath(f), JSON.stringify(d, null, 2));
 const checkPw = (pw,res) => { if(pw!==PASSWORD){res.status(401).json({error:'비밀번호 오류'});return false;}return true;};
 
 const DEFAULT_NAMES = ['선호','병환','그루','태정','현명','영선','하정','황휘','혜원','세진','원석','화수','영준'];
 function readPlayers() {
-  const d = readJ('./players.json') || {};
-  return { names: d.names || DEFAULT_NAMES, players: d.players || {}, overrides: d.overrides || {} };
+  // Railway 환경변수 우선, 없으면 파일
+  const envData = process.env.PLAYERS_DATA ? JSON.parse(process.env.PLAYERS_DATA) : null;
+  const d = readJ('players.json') || envData || {};
+  const base = envData || {};
+  return {
+    names:     d.names     || base.names     || DEFAULT_NAMES,
+    players:   d.players   || base.players   || {},
+    overrides: d.overrides || base.overrides || {}
+  };
 }
 
-app.get('/api/raid',    (req,res) => res.json(readJ('./raid.json')||{slots:null}));
-app.post('/api/raid',   (req,res) => {if(!checkPw(req.body.password,res))return;writeJ('./raid.json',{slots:req.body.slots,updatedAt:new Date().toISOString()});res.json({ok:true});});
+app.get('/api/raid',    (req,res) => res.json(readJ('raid.json')||{slots:null}));
+app.post('/api/raid',   (req,res) => {if(!checkPw(req.body.password,res))return;writeJ('raid.json',{slots:req.body.slots,updatedAt:new Date().toISOString()});res.json({ok:true});});
 app.get('/api/players', (req,res) => res.json(readPlayers()));
 app.post('/api/players',(req,res) => {
   if(!checkPw(req.body.password,res))return;
   const cur=readPlayers();
-  writeJ('./players.json',{
+  writeJ('players.json',{
     names: req.body.names ?? cur.names,
     players: req.body.players ?? cur.players,
     overrides: req.body.overrides ?? cur.overrides,
   });
   res.json({ok:true});
 });
-app.get('/api/manual',  (req,res) => res.json(readJ('./manual.json')||[]));
-app.post('/api/manual', (req,res) => {if(!checkPw(req.body.password,res))return;writeJ('./manual.json',req.body.chars);res.json({ok:true});});
+app.get('/api/manual',  (req,res) => res.json(readJ('manual.json')||[]));
+app.post('/api/manual', (req,res) => {if(!checkPw(req.body.password,res))return;writeJ('manual.json',req.body.chars);res.json({ok:true});});
 
 // 쐐기돌 수동 입력
-app.get('/api/keystones', (req,res) => res.json(readJ('./keystones.json')||[]));
+app.get('/api/keystones', (req,res) => res.json(readJ('keystones.json')||[]));
 app.post('/api/keystones', (req,res) => {
   const {player,char,dungeon,level}=req.body;
   if(!char||!dungeon||!level)return res.status(400).json({error:'필수 항목 누락'});
-  let ks=readJ('./keystones.json')||[];
+  let ks=readJ('keystones.json')||[];
   ks=ks.filter(k=>k.char!==char);
   ks.push({player,char,dungeon,level:parseInt(level),updatedAt:new Date().toISOString()});
-  writeJ('./keystones.json',ks);
+  writeJ('keystones.json',ks);
   res.json({ok:true});
 });
 app.delete('/api/keystones/:char', (req,res) => {
-  writeJ('./keystones.json',(readJ('./keystones.json')||[]).filter(k=>k.char!==decodeURIComponent(req.params.char)));
+  writeJ('keystones.json',(readJ('keystones.json')||[]).filter(k=>k.char!==decodeURIComponent(req.params.char)));
   res.json({ok:true});
 });
 
 // ── 5인 파티 찾기 ──
-const PARTY_FILE = './parties.json';
+const PARTY_FILE = 'parties.json';
 const readParties = () => readJ(PARTY_FILE) || [];
 const writeParties = d => writeJ(PARTY_FILE, d);
 
