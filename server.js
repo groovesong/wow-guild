@@ -328,7 +328,7 @@ function specToRole(specs) {
   return 'DPS';
 }
 
-const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK || 'https://hooks.slack.com/services/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';
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
 
 async function notifySlack(party) {
   if (!SLACK_WEBHOOK) return;
