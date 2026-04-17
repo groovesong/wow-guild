@@ -1016,6 +1016,7 @@ async function loadParties(){
         </div>
         ${(()=>{const planNames=new Set(plan.map(s=>s.name));const unassigned=allM.filter(a=>!planNames.has(a.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko'));if(!unassigned.length)return '';const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];const ri=s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️';const summary=unassigned.map(a=>(a.specs||[]).map(s=>ri(s)).join('')||ri2(a.role)).join(' ');return `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:11px;color:#8b949e">신청자</span>${unassigned.map(a=>{const icons=(a.specs||[]).map(s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️');return `<span style="font-size:11px">${nameClassChip(a.name,a.char||a.name)} ${icons.join('')}</span>`;}).join('')}</div>`;})()}
         <div style="display:flex;justify-content:flex-end;margin-top:.6rem">
+          <button onclick="event.stopPropagation();shareToSlack('${p.id}')" class="btn btn-secondary" style="padding:3px 10px;font-size:12px">💬 슬랙 공유</button>
           <button onclick="event.stopPropagation();deleteParty('${p.id}')" class="btn btn-danger" style="padding:3px 10px;font-size:12px">🗑️ 삭제</button>
         </div>
       </div>`;
@@ -1371,6 +1372,20 @@ async function cancelApply(id,name){
   const r=await(await fetch(`/api/parties/${id}/apply/${encodeURIComponent(name)}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415'})})).json();
   if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else alert(r.error||'오류');
 }
+
+async function shareToSlack(id){
+  const p=parties.find(x=>x.id===id);if(!p)return;
+  const dunInfo=p.dungeon?`${p.dungeon} ${p.level}단`:'던전 미정';
+  const timeInfo=p.startTime?` · ⏰ ${p.startTime} 출발`:'';
+  const specs=(p.authorSpecs||[]).join(', ');
+  const appCount=p.applications?.length||0;
+  try{
+    const r=await(await fetch('/api/slack-share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({partyId:id})})).json();
+    if(r.ok)showToast('슬랙에 공유했어요! 💬');
+    else showToast('슬랙 공유 실패: '+r.error);
+  }catch(e){showToast('슬랙 공유 실패');}
+}
+
 async function deleteParty(id){
   const pw=prompt('비밀번호를 입력해주세요:');if(!pw)return;
   if(!confirm('정말 삭제할까요?'))return;
