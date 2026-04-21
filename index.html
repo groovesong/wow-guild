@@ -22,7 +22,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .tab.active{color:#e6edf3;border-bottom-color:#c41e3a}
 
 /* 현황 탭 */
-.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 .stat-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem}
 .stat-label{font-size:14px;color:#8b949e;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
 .stat-val{font-size:28px;font-weight:700}
@@ -75,9 +75,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .slot.filled{border-style:solid;cursor:grab}
 .slot.filled:active{cursor:grabbing;opacity:.8}
 .slot-stripe{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
-.slot-remove{position:absolute;top:4px;right:6px;font-size:14px;color:#8b949e;cursor:pointer;opacity:0;line-height:1;padding:3px 6px;border-radius:4px}
+.slot-remove{position:absolute;top:4px;right:6px;font-size:11px;color:#8b949e;cursor:pointer;opacity:0;line-height:1}
 .slot.filled:hover .slot-remove{opacity:1}
-@media(hover:none){.slot-remove{opacity:.7;background:#21262d}}
 .slot-emoji{font-size:14px;margin-bottom:2px}
 .slot-name{font-size:14px;font-weight:700;color:#e6edf3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;text-align:center;padding:0 4px}
 .slot-ilvl{font-size:13px;font-weight:600;margin-top:2px}
@@ -93,8 +92,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .pool-filter{padding:3px 11px;font-size:14px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#0d1117;color:#8b949e;cursor:pointer;transition:all .15s}
 .pool-filter.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
 .pool-grid{display:flex;flex-wrap:wrap;gap:6px;max-height:165px;overflow-y:auto}
-.pool-member{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:pointer;transition:all .15s;user-select:none;touch-action:manipulation}
-@media(hover:hover){.pool-member{cursor:grab}}
+.pool-member{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:grab;transition:all .15s;user-select:none}
 .pool-member:hover{border-color:#30363d}
 .pool-member.assigned{opacity:.25;cursor:not-allowed;pointer-events:none}
 .pool-member.player-busy{opacity:.3;cursor:not-allowed;pointer-events:none;border-color:#3a1a1a}
@@ -190,26 +188,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .spinner{width:28px;height:28px;border:2px solid #21262d;border-top-color:#8b949e;border-radius:50%;animation:spin .8s linear infinite}
 .readonly-val{font-size:13px;color:#8b949e}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* ui-modal (alert/confirm/prompt 대체) */
-.ui-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;padding:1rem;animation:uiOv .15s ease}
-.ui-modal{background:#161b22;border:1px solid #30363d;border-radius:12px;width:100%;max-width:420px;padding:1.5rem;animation:uiIn .2s ease;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-.ui-modal-title{font-size:15px;font-weight:700;margin-bottom:.9rem;padding-bottom:.7rem;border-bottom:1px solid #21262d;color:#e6edf3}
-.ui-modal-body{font-size:14px;margin-bottom:1.2rem;line-height:1.5;color:#c9d1d9;white-space:pre-line}
-.ui-modal-input{width:100%;height:38px;padding:0 12px;font-size:14px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#e6edf3;outline:none;font-family:inherit}
-.ui-modal-input:focus{border-color:#8b949e}
-.ui-modal-btns{display:flex;gap:8px;justify-content:flex-end}
-.ui-modal-btns .btn{padding:7px 18px;font-size:13px}
-@keyframes uiOv{from{opacity:0}to{opacity:1}}
-@keyframes uiIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-/* skeleton */
-.sk{background:linear-gradient(90deg,#161b22 0%,#21262d 50%,#161b22 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:6px}
-@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.sk-card{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:1.1rem 1.2rem;min-height:142px;animation:fadeUp .3s ease both}
-.sk-row{display:flex;gap:9px;margin-bottom:11px}
-.sk-icon{width:46px;height:46px;border-radius:10px;flex-shrink:0}
-.sk-line{height:12px}
-.sk-stat{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem;height:76px}
-.sk-tr{height:44px;border-bottom:1px solid #21262d;display:flex;align-items:center;gap:10px;padding:0 10px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
 
@@ -246,7 +224,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
   <div class="header">
     <div>
       <div class="guild-name">⚔️ 붉 은 내 복 단</div>
-      <div style="font-size:12px;color:#8b949e;letter-spacing:.4px;margin-top:2px;font-weight:500">Playlinks World of Warcraft Guild</div>
       <div class="guild-sub">아즈샤라 (KR) · <span id="lastUpdate"></span></div>
     </div>
     <div style="text-align:right">
@@ -265,17 +242,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 
   <!-- 현황 -->
   <div id="tab-roster">
-    <div class="stats-row">
-      <div class="sk sk-stat"></div><div class="sk sk-stat"></div><div class="sk sk-stat"></div><div class="sk sk-stat"></div><div class="sk sk-stat"></div>
-    </div>
-    <div class="grid">
-      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:70%;margin-bottom:8px"></div><div class="sk sk-line" style="width:50%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
-      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:60%;margin-bottom:8px"></div><div class="sk sk-line" style="width:45%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
-      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:75%;margin-bottom:8px"></div><div class="sk sk-line" style="width:40%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
-      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:65%;margin-bottom:8px"></div><div class="sk sk-line" style="width:55%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
-      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:55%;margin-bottom:8px"></div><div class="sk sk-line" style="width:48%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
-      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:70%;margin-bottom:8px"></div><div class="sk sk-line" style="width:52%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
-    </div>
+    <div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...</div></div>
   </div>
 
   <!-- 레이드 구성 -->
@@ -381,12 +348,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
               </select>
               <select class="pf-select" id="pt-start-h" style="width:48px">
                 <option value="">시</option>
-                ${Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
               </select>
               <span style="color:#8b949e">:</span>
               <select class="pf-select" id="pt-start-m" style="width:48px">
                 <option value="">분</option>
-                ${['00','10','20','30','40','50'].map(m=>`<option value="${m}">${m}</option>`).join('')}
+                <option value="00">00</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="40">40</option><option value="50">50</option>
               </select>
             </div>
           </div>
@@ -512,7 +479,7 @@ const SYNERGIES=[
   {name:'하늘격노',effect:'치명타 피해 +3%',classes:['Shaman'],classNames:['주술사']},
   {name:'사냥꾼의 징표',effect:'표적 받는 피해 +5%',classes:['Hunter'],classNames:['사냥꾼']},
   {name:'겨울의 뿔피리',effect:'힘·민첩·지능 +3%',classes:['Death Knight'],classNames:['죽음의 기사']},
-  {name:'청동의 축복',effect:'이동 기술 쿨타임 15% 감소',classes:['Evoker'],classNames:['기원사']},
+  {name:'청동의 축복',effect:'주요 이동 기술 재사용 대기시간 15% 감소',classes:['Evoker'],classNames:['기원사']},
   {name:'지휘의 외침',effect:'최대 체력 +15%',classes:['Warrior'],classNames:['전사']},
 ];
 // 전투부활 가능 직업
@@ -530,61 +497,6 @@ const DEFAULT_PLAYER_NAMES=['선호','병환','그루','태정','현명','영선
 let activeRoster='ALL',sortBy='ilvl',poolFilter='ALL',searchQuery='';
 let slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};
 let dragM=null,dragFrom=null,isUnlocked=false;
-
-// ── UI 모달 (alert/confirm/prompt 대체) ──
-function uiModal({title,body,buttons=[]}={}){
-  return new Promise(resolve=>{
-    const ov=document.createElement('div');
-    ov.className='ui-modal-overlay';
-    ov.innerHTML=`<div class="ui-modal" role="dialog" aria-modal="true">
-      ${title?`<div class="ui-modal-title">${title}</div>`:''}
-      <div class="ui-modal-body">${body||''}</div>
-      <div class="ui-modal-btns">${buttons.map((b,i)=>`<button class="btn ${b.cls||'btn-secondary'}" data-i="${i}">${b.label}</button>`).join('')}</div>
-    </div>`;
-    document.body.appendChild(ov);
-    const close=(val)=>{ov.remove();document.removeEventListener('keydown',onKey);resolve(val);};
-    const doBtn=(i)=>{const b=buttons[i];close(b.resolve?b.resolve(ov):b.value);};
-    ov.addEventListener('click',e=>{if(e.target===ov)close(null);});
-    ov.querySelectorAll('button[data-i]').forEach((b,i)=>b.addEventListener('click',()=>doBtn(i)));
-    const onKey=(e)=>{
-      if(e.key==='Escape')close(null);
-      if(e.key==='Enter'){const pi=buttons.findIndex(b=>b.primary);if(pi>=0){e.preventDefault();doBtn(pi);}}
-    };
-    document.addEventListener('keydown',onKey);
-    setTimeout(()=>{const inp=ov.querySelector('input');if(inp){inp.focus();inp.select?.();}},40);
-  });
-}
-function uiAlert(msg,title='알림'){
-  return uiModal({title,body:String(msg||''),buttons:[{label:'확인',cls:'btn-primary',value:true,primary:true}]});
-}
-function uiConfirm(msg,title='확인'){
-  return uiModal({title,body:String(msg||''),buttons:[
-    {label:'취소',cls:'btn-secondary',value:false},
-    {label:'확인',cls:'btn-primary',value:true,primary:true}
-  ]});
-}
-function uiPrompt(opts){
-  if(typeof opts==='string')opts={message:opts};
-  const {message='',title='입력',defaultValue='',placeholder='',password=false,maxlength}=opts||{};
-  const esc=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  const body=`${message?`<div style="margin-bottom:.6rem">${esc(message)}</div>`:''}
-    <input class="ui-modal-input" type="${password?'password':'text'}" value="${esc(defaultValue)}" placeholder="${esc(placeholder)}"${maxlength?` maxlength="${maxlength}"`:''}>`;
-  return uiModal({title,body,buttons:[
-    {label:'취소',cls:'btn-secondary',value:null},
-    {label:'확인',cls:'btn-primary',primary:true,resolve:(ov)=>ov.querySelector('input').value}
-  ]});
-}
-
-// ── 스켈레톤 로딩 HTML ──
-const SK_CARD=`<div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:70%;margin-bottom:8px"></div><div class="sk sk-line" style="width:50%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>`;
-const SK_ROSTER=`
-  <div class="stats-row">${'<div class="sk sk-stat"></div>'.repeat(5)}</div>
-  <div class="grid">${SK_CARD.repeat(8)}</div>`;
-const SK_KEYTRACKER=`
-  <div style="background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden">
-    ${'<div class="sk-tr"><div class="sk" style="width:120px;height:14px"></div><div class="sk" style="flex:1;height:14px;max-width:500px"></div></div>'.repeat(8)}
-  </div>`;
-const SK_KEYSTONE=`<div style="display:flex;flex-direction:column;gap:8px">${'<div class="sk" style="height:54px;border-radius:8px"></div>'.repeat(6)}</div>`;
 
 function scol(s){if(!s)return'#8b949e';if(s>=3000)return'#ff8000';if(s>=2500)return'#a335ee';if(s>=2000)return'#0070dd';if(s>=1500)return'#1eff00';return'#8b949e';}
 function aNames(){const n=new Set();Object.values(slots).flat().forEach(s=>{if(s.m)n.add(s.m.name);});return n;}
@@ -629,10 +541,8 @@ function renderRoster(){
   const counts={ALL:all.length,TANK:0,HEALING:0,DPS:0};
   all.forEach(m=>counts[m.role]=(counts[m.role]||0)+1);
   // stats
-  const uniqueUsers=new Set(all.map(m=>players[m.name]).filter(Boolean)).size;
   document.getElementById('roster-stats').innerHTML=`
     <div class="stat-card"><div class="stat-label">전체</div><div class="stat-val">${all.length}</div></div>
-    <div class="stat-card"><div class="stat-label">👥 유저</div><div class="stat-val" style="color:#f48cba">${uniqueUsers}</div></div>
     <div class="stat-card"><div class="stat-label">🛡️ 탱커</div><div class="stat-val" style="color:#7ab8f5">${counts.TANK||0}</div></div>
     <div class="stat-card"><div class="stat-label">💚 힐러</div><div class="stat-val" style="color:#56d364">${counts.HEALING||0}</div></div>
     <div class="stat-card"><div class="stat-label">⚔️ 딜러</div><div class="stat-val" style="color:#f87171">${counts.DPS||0}</div></div>`;
@@ -750,7 +660,7 @@ function renderSlots(){
             ${pn?`<div class="slot-player">👤 ${pn}</div>`:''}
           </div>`
         :`<div class="slot" ondragover="${isUnlocked?'ev(event,this)':''}" ondragleave="${isUnlocked?'dl(this)':''}" ondrop="${isUnlocked?`drop(event,'${role}','${slot.id}')`:''}" style="cursor:default">
-            <span class="slot-empty-label">${isUnlocked?'탭 또는 드래그':'–'}</span>
+            <span class="slot-empty-label">${isUnlocked?'드래그':'–'}</span>
           </div>`;
     }).join('');
     if(isUnlocked)el.innerHTML+=`<div class="add-slot-btn" onclick="addSlot('${role}')">+</div>`;
@@ -766,7 +676,7 @@ function renderPool(){
   document.getElementById('pool-grid').innerHTML=members.map(m=>{
     const c=CC[m.class]||'#888';const isA=an.has(m.name);const pn=players[m.name]||'';
     const isBusy=!isA&&pn&&ap.has(pn);
-    return`<div class="pool-member ${isA?'assigned':''} ${isBusy?'player-busy':''}" draggable="${isUnlocked&&!isA&&!isBusy}" ondragstart="dsp(event,'${m.name}')" onclick="mobileAssignMember('${m.name}')">
+    return`<div class="pool-member ${isA?'assigned':''} ${isBusy?'player-busy':''}" draggable="${isUnlocked&&!isA&&!isBusy}" ondragstart="dsp(event,'${m.name}')">
       <div class="pm-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
       <div>
         <div class="pm-name" style="color:${c}">${m.name}${m.isManual?' ✦':''}</div>
@@ -791,24 +701,11 @@ function drop(e,role,id){
   t.m=dragM;renderSlots();renderPool();
 }
 function rem(role,id){if(!isUnlocked)return;const s=slots[role].find(s=>s.id===id);if(s)s.m=null;renderSlots();renderPool();}
-function mobileAssignMember(name){
-  if(!isUnlocked){showToast('🔒 잠겨있어요');return;}
-  const m=all.find(x=>x.name===name);if(!m)return;
-  if(aNames().has(m.name)){showToast('이미 배치됨');return;}
-  const pn=players[m.name];
-  if(pn&&aPlayers().has(pn)){showToast(`${pn}님 이미 배치됨`);return;}
-  const role=m.role||'DPS';
-  const target=slots[role].find(s=>!s.m);
-  if(!target){showToast(`${(ROLES[role]||{}).label||role} 슬롯이 가득 찼어요`);return;}
-  target.m=m;renderSlots();renderPool();
-}
 function addSlot(role){if(!isUnlocked)return;const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});renderSlots();}
 
-async function toggleLock(){
+function toggleLock(){
   if(isUnlocked){isUnlocked=false;lockUI();renderSlots();renderPool();return;}
-  const pw=await uiPrompt({title:'관리자 모드',message:'비밀번호를 입력해주세요',password:true});
-  if(pw==='0415'){isUnlocked=true;lockUI();renderSlots();renderPool();}
-  else if(pw!==null)uiAlert('비밀번호가 틀렸어요!');
+  const pw=prompt('비밀번호:');if(pw==='0415'){isUnlocked=true;lockUI();renderSlots();renderPool();}else if(pw!==null)alert('비밀번호가 틀렸어요!');
 }
 function lockUI(){
   const u=isUnlocked;
@@ -830,7 +727,7 @@ async function loadRaid(){
     });
   }catch(e){}
 }
-async function resetRaid(){if(!await uiConfirm('레이드 구성을 초기화할까요?','초기화'))return;slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};renderSlots();renderPool();}
+function resetRaid(){if(!confirm('초기화?'))return;slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};renderSlots();renderPool();}
 
 // 관리
 function unlockAdmin(){
@@ -838,7 +735,7 @@ function unlockAdmin(){
     document.getElementById('admin-lock').style.display='none';
     document.getElementById('admin-content').style.display='block';
     renderNameTags();renderPTable();renderMList();
-  }else uiAlert('비밀번호 틀렸어요!');
+  }else alert('비밀번호 틀렸어요!');
 }
 
 function updateAdminSpec(charName, clsSel){
@@ -934,7 +831,7 @@ async function savePlayers(){
     };
   });
   const r=await(await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',names:playerNames,players,overrides})})).json();
-  if(r.ok)uiAlert('저장됐어요!');
+  if(r.ok)alert('저장됐어요!');
   renderRoster();renderPool();renderPTable();
 }
 
@@ -949,8 +846,8 @@ function addChar(){
   const role=document.getElementById('m-role').value;
   const ilvl=parseFloat(document.getElementById('m-ilvl').value)||null;
   const player=document.getElementById('m-player').value.trim();
-  if(!name||!cls){uiAlert('이름과 직업을 입력해주세요');return;}
-  if(all.find(m=>m.name===name)){uiAlert('이미 있는 이름이에요');return;}
+  if(!name||!cls){alert('이름과 직업을 입력해주세요');return;}
+  if(all.find(m=>m.name===name)){alert('이미 있는 이름이에요');return;}
   const specEn=(SPEC_EN_MAP[cls]&&SPEC_EN_MAP[cls][specKr])||specKr||'';
   const char={name,class:cls,spec:specEn,role,ilvl,score:null,isManual:true};
   manualChars.push(char);
@@ -979,7 +876,7 @@ function renderMList(){
 async function saveManual(){
   await fetch('/api/manual',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',chars:manualChars})});
   await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players,overrides})});
-  uiAlert('저장됐어요!');
+  alert('저장됐어요!');
 }
 
 function switchTab(tab){
@@ -1042,7 +939,7 @@ function specRoleIcon(spec){
 }
 function ptToggleSpec(el,spec){
   if(el.classList.contains('selected')){el.classList.remove('selected');ptSelectedSpecs=ptSelectedSpecs.filter(s=>s!==spec);}
-  else{if(ptSelectedSpecs.length>=3){uiAlert('특성은 최대 3개');return;}el.classList.add('selected');ptSelectedSpecs.push(spec);}
+  else{if(ptSelectedSpecs.length>=3){alert('특성은 최대 3개');return;}el.classList.add('selected');ptSelectedSpecs.push(spec);}
   renderPtRoleBadges();
 }
 function renderPtRoleBadges(){
@@ -1060,12 +957,12 @@ async function submitParty(){
   const authorName=document.getElementById('pt-author').value;
   const authorChar=document.getElementById('pt-char').value;
   const password=document.getElementById('pt-pw').value.trim();
-  if(!title||!authorName||!password){uiAlert('제목, 이름, 비밀번호는 필수예요');return;}
-  if(!authorChar){uiAlert('캐릭터를 선택해주세요');return;}
-  if(!ptSelectedSpecs.length){uiAlert('특성을 최소 1개 선택해주세요');return;}
+  if(!title||!authorName||!password){alert('제목, 이름, 비밀번호는 필수예요');return;}
+  if(!authorChar){alert('캐릭터를 선택해주세요');return;}
+  if(!ptSelectedSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
   const r=await(await fetch('/api/parties',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,dungeon,level,startTime:(()=>{const ap=document.getElementById('pt-start-ampm').value,h=document.getElementById('pt-start-h').value,m=document.getElementById('pt-start-m').value;return ap&&h&&m?`${ap} ${h}:${m}`:'';})(),authorName,authorChar,authorSpecs:ptSelectedSpecs,password})})).json();
   if(r.ok){['pt-title','pt-level','pt-pw','pt-start-ampm','pt-start-h','pt-start-m'].forEach(id=>document.getElementById(id).value='');ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
-  else uiAlert(r.error||'오류');
+  else alert(r.error||'오류');
 }
 
 async function loadParties(){
@@ -1141,11 +1038,11 @@ let planDirty=false;
 function markPlanDirty(){planDirty=true;}
 async function tryClosePartyModal(id){
   if(!planDirty){closePartyModal();return;}
-  if(!await uiConfirm('저장하지 않은 파티 구성이 있어요.\n저장하시겠어요?\n(저장은 글 작성자만 가능합니다. 취소하면 그냥 닫힙니다.)','파티 구성 저장')){closePartyModal();return;}
-  const pw=await uiPrompt({title:'작성자 비밀번호',message:'글 작성자의 비밀번호를 입력해주세요',password:true});
+  if(!confirm('저장하지 않은 파티 구성이 있어요.\n저장하시겠어요?\n저장은 글 작성자만 가능합니다!\n(취소하면 그냥 닫힙니다.)'))  {closePartyModal();return;}
+  const pw=prompt('글 작성자 비밀번호를 입력해주세요:');
   if(!pw){return;}
   const r=await(await fetch(`/api/parties/${id}/plan`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,plan1:currentParty?.plans?.plan1||null,plan2:null})})).json();
-  if(r.ok){closePartyModal();loadParties();}else{uiAlert(r.error||'비밀번호 오류');}}
+  if(r.ok){closePartyModal();loadParties();}else{alert(r.error||'비밀번호 오류');}}
 
 function renderPartyModal(){
   const p=currentParty;if(!p)return;
@@ -1304,11 +1201,11 @@ function renderPartyModal(){
         <select class="form-select" id="cm-name" style="width:100px;font-size:13px">
           <option value="">이름</option>${playerNames.map(n=>`<option>${n}</option>`).join('')}
         </select>
-        <input class="form-input" id="cm-text" placeholder="200자 이내" maxlength="200" style="flex:1;min-width:120px" oninput="document.getElementById('cm-len').textContent=this.value.length">
+        <input class="form-input" id="cm-text" placeholder="50자 이내" maxlength="50" style="flex:1;min-width:120px" oninput="document.getElementById('cm-len').textContent=this.value.length">
         <input class="form-input" id="cm-pw" type="password" placeholder="비밀번호" style="width:90px">
         <button onclick="submitComment('${p.id}')" class="btn btn-primary" style="padding:5px 12px;font-size:13px">등록</button>
       </div>
-      <div style="font-size:11px;color:#484f58;text-align:right;margin-top:3px"><span id="cm-len">0</span>/200</div>
+      <div style="font-size:11px;color:#484f58;text-align:right;margin-top:3px"><span id="cm-len">0</span>/50</div>
     </div>`;
 }
 
@@ -1381,9 +1278,9 @@ function addToPlan(name,char,role,spec){
   if(!currentParty.plans)currentParty.plans={plan1:null,plan2:null};
   if(!currentParty.plans[planMode])currentParty.plans[planMode]=[];
   const plan=currentParty.plans[planMode];
-  if(plan.find(s=>s.name===name)){uiAlert('이미 배치됐어요');return;}
+  if(plan.find(s=>s.name===name)){alert('이미 배치됐어요');return;}
   const max={TANK:1,HEALING:1,DPS:3}[role];
-  if(plan.filter(s=>s.role===role).length>=max){uiAlert(`${role} 슬롯이 가득 찼어요`);return;}
+  if(plan.filter(s=>s.role===role).length>=max){alert(`${role} 슬롯이 가득 찼어요`);return;}
   plan.push({name,char,role,planSpec:spec});planDirty=true;
   updatePlanSlots();
   // 슬롯 가득 찼으면 팝업 닫기, 아니면 유지
@@ -1459,26 +1356,29 @@ function updatePlanSlots(){
 
 async function savePlan(id){
   const pw=document.getElementById('plan-pw')?.value;
-  if(!pw){uiAlert('비밀번호 입력해주세요');return;}
+  if(!pw){alert('비밀번호 입력해주세요');return;}
   const p=currentParty;
   const r=await(await fetch(`/api/parties/${id}/plan`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,plan1:p.plans?.plan1||null,plan2:p.plans?.plan2||null})})).json();
-  if(r.ok){planDirty=false;uiAlert('저장됐어요!');loadParties();}else uiAlert(r.error||'오류');
+  if(r.ok){planDirty=false;alert('저장됐어요!');loadParties();}else alert(r.error||'오류');
 }
 async function changeStatus(id){
   const next=document.getElementById('status-select')?.value;if(!next)return;
-  const pw=await uiPrompt({title:'상태 변경',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
+  const pw=prompt('비밀번호를 입력해주세요:');if(!pw)return;
   const r=await(await fetch(`/api/parties/${id}/status`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,status:next})})).json();
-  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();setTimeout(updatePlanSlots,0);}}else uiAlert(r.error||'오류');
+  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();setTimeout(updatePlanSlots,0);}}else alert(r.error||'오류');
 }
 async function cancelApply(id,name){
-  if(!await uiConfirm(`${name}님의 신청을 취소할까요?`,'신청 취소'))return;
+  if(!confirm(`${name}님의 신청을 취소할까요?`))return;
   const r=await(await fetch(`/api/parties/${id}/apply/${encodeURIComponent(name)}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415'})})).json();
-  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else uiAlert(r.error||'오류');
+  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else alert(r.error||'오류');
 }
 
 async function shareToSlack(id){
   const p=parties.find(x=>x.id===id);if(!p)return;
-  if(!await uiConfirm('붉은내복단 채널로 파티찾기 링크가 공유됩니다.\n실행하시겠어요?','슬랙 공유'))return;
+  const dunInfo=p.dungeon?`${p.dungeon} ${p.level}단`:'던전 미정';
+  const timeInfo=p.startTime?` · ⏰ ${p.startTime} 출발`:'';
+  const specs=(p.authorSpecs||[]).join(', ');
+  const appCount=p.applications?.length||0;
   try{
     const r=await(await fetch('/api/slack-share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({partyId:id})})).json();
     if(r.ok)showToast('슬랙에 공유했어요! 💬');
@@ -1487,10 +1387,10 @@ async function shareToSlack(id){
 }
 
 async function deleteParty(id){
-  const pw=await uiPrompt({title:'파티 삭제',message:'작성자 비밀번호를 입력해주세요',password:true});if(!pw)return;
-  if(!await uiConfirm('정말 삭제할까요? 되돌릴 수 없어요.','삭제 확인'))return;
+  const pw=prompt('비밀번호를 입력해주세요:');if(!pw)return;
+  if(!confirm('정말 삭제할까요?'))return;
   const r=await(await fetch(`/api/parties/${id}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})).json();
-  if(r.ok){closePartyModal();loadParties();}else uiAlert(r.error||'오류');
+  if(r.ok){closePartyModal();loadParties();}else alert(r.error||'오류');
 }
 
 // 신청 폼
@@ -1514,7 +1414,7 @@ function apUpdateSpecs(){
 }
 function apToggleSpec(el,spec){
   if(el.classList.contains('selected')){el.classList.remove('selected');apSpecs=apSpecs.filter(s=>s!==spec);}
-  else{if(apSpecs.length>=3){uiAlert('최대 3개');return;}el.classList.add('selected');apSpecs.push(spec);}
+  else{if(apSpecs.length>=3){alert('최대 3개');return;}el.classList.add('selected');apSpecs.push(spec);}
   const rb=document.getElementById('ap-role-badge');if(!rb)return;
   if(!apSpecs.length){rb.innerHTML='';return;}
   const T2=['혈기','보호','수호','양조','복수','방어'];const H2=['신성','회복','운무','보존','복원','수양'];
@@ -1525,11 +1425,11 @@ async function submitApply(id){
   const name=document.getElementById('ap-name')?.value;
   const char=document.getElementById('ap-char')?.value;
   const cancelPw='';
-  if(!name||!char){uiAlert('이름과 캐릭터를 선택해주세요');return;}
-  if(!apSpecs.length){uiAlert('특성을 최소 1개 선택해주세요');return;}
-  if(!apSpecs.length){uiAlert('특성을 최소 1개 선택해주세요');return;}
+  if(!name||!char){alert('이름과 캐릭터를 선택해주세요');return;}
+  if(!apSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
+  if(!apSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
   const r=await(await fetch(`/api/parties/${id}/apply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,char,specs:apSpecs,cancelPw})})).json();
-  if(r.ok){apSpecs=[];const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else uiAlert(r.error||'오류');
+  if(r.ok){apSpecs=[];const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else alert(r.error||'오류');
 }
 
 
@@ -1546,7 +1446,7 @@ function populateKsPlayer(){
 function updateKsChars(){
   const player=document.getElementById('ks-player').value;
   const charSel=document.getElementById('ks-char');
-  const myChars=all.filter(m=>players[m.name]===player&&(!m.level||m.level>=90));
+  const myChars=all.filter(m=>players[m.name]===player);
   charSel.innerHTML='<option value="">선택</option>'+myChars.map(m=>`<option value="${m.name}">${CE[m.class]||''} ${m.name} (${CKR[m.class]||m.class})</option>`).join('');
 }
 async function submitKeystone(){
@@ -1554,8 +1454,8 @@ async function submitKeystone(){
   const char=document.getElementById('ks-char').value;
   const dungeon=document.getElementById('ks-dungeon').value;
   const level=parseInt(document.getElementById('ks-level').value);
-  if(!player||!char||!dungeon||!level){uiAlert('모든 항목을 입력해주세요');return;}
-  if(level<2||level>30){uiAlert('단수는 2~30');return;}
+  if(!player||!char||!dungeon||!level){alert('모든 항목을 입력해주세요');return;}
+  if(level<2||level>30){alert('단수는 2~30');return;}
   const r=await(await fetch('/api/keystones',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({player,char,dungeon,level})})).json();
   if(r.ok){
     // 오버라이드에 저장
@@ -1563,18 +1463,17 @@ async function submitKeystone(){
     overrides[char].keystone={dungeon,level};
     document.getElementById('ks-level').value='';
     loadKeystones();
-  } else uiAlert(r.error||'오류');
+  } else alert(r.error||'오류');
 }
 async function clearMyKeystone(){
   const char=document.getElementById('ks-char').value;
-  if(!char){uiAlert('캐릭터를 선택해주세요');return;}
-  if(!await uiConfirm(`${char}의 쐐기돌을 삭제할까요?`,'쐐기돌 삭제'))return;
+  if(!char){alert('캐릭터를 선택해주세요');return;}
+  if(!confirm(`${char}의 쐐기돌을 삭제할까요?`))return;
   const r=await(await fetch(`/api/keystones/${encodeURIComponent(char)}`,{method:'DELETE'})).json();
   if(r.ok){if(overrides[char])delete overrides[char].keystone;loadKeystones();}
 }
 async function loadKeystones(){
   const el=document.getElementById('ks-list');if(!el)return;
-  el.innerHTML=SK_KEYSTONE;
   populateKsPlayer();
   try{
     const ksData=await(await fetch('/api/keystones')).json();
@@ -1630,7 +1529,7 @@ function renderNameTags(){
 function addPlayerName(){
   const inp=document.getElementById('new-name-input');
   const name=inp.value.trim();
-  if(!name||playerNames.includes(name)){uiAlert(name?'이미 있는 이름이에요':'이름을 입력해주세요');return;}
+  if(!name||playerNames.includes(name)){alert(name?'이미 있는 이름이에요':'이름을 입력해주세요');return;}
   playerNames.push(name);playerNames.sort((a,b)=>a.localeCompare(b,'ko'));inp.value='';
   renderNameTags();renderPTable();
 }
@@ -1643,7 +1542,7 @@ function removePlayerName(name){
 // ── 쐐기진행도 ──
 async function loadKeyTracker(){
   const el=document.getElementById('keytracker-content');if(!el)return;
-  el.innerHTML=SK_KEYTRACKER;
+  el.innerHTML='<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px;margin-top:.5rem">블리자드 API에서 불러오는 중...</div></div>';
   try{
     const ktData=await(await fetch('/api/keytracker')).json();
     if(ktData.error){el.innerHTML=`<div style="color:#f87171;padding:1rem">${ktData.error}</div>`;return;}
@@ -1662,12 +1561,12 @@ async function loadKeyTracker(){
     const allNames=[...playerNames,...extraNames].sort((a,b)=>a.localeCompare(b,'ko'));
 
     const dunCell=(k)=>{
-      if(!k)return`<td style="padding:3px;text-align:center"><div style="width:76px;min-height:38px;margin:0 auto;border-radius:6px;background:#21262d20;border:1px solid #30363d;display:flex;align-items:center;justify-content:center;color:#484f58;font-size:12px">–</div></td>`;
+      if(!k)return`<td style="padding:3px;text-align:center"><div style="width:64px;min-height:38px;margin:0 auto;border-radius:6px;background:#21262d20;border:1px solid #30363d;display:flex;align-items:center;justify-content:center;color:#484f58;font-size:12px">–</div></td>`;
       const clr=ksLvlColor(k.level);
       const itColor=k.inTime?'#56d364':'#f87171';
       const itIcon=k.inTime?'시클O':'시클X';
       return`<td style="padding:3px;text-align:center">
-        <div style="width:76px;margin:0 auto;background:${clr}15;border:1px solid ${clr}40;border-radius:6px;padding:3px 4px;box-sizing:border-box">
+        <div style="width:64px;margin:0 auto;background:${clr}15;border:1px solid ${clr}40;border-radius:6px;padding:3px 4px;box-sizing:border-box">
           <div style="font-size:13px;font-weight:700;color:${clr};white-space:nowrap">${k.level}단 <span style="font-size:11px;color:${itColor}">${itIcon}</span></div>
           ${k.spec?`<div style="font-size:10px;color:#8b949e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${k.spec}</div>`:'<div style="font-size:10px">&nbsp;</div>'}
         </div>
@@ -1675,7 +1574,7 @@ async function loadKeyTracker(){
     };
 
     el.innerHTML=`<div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:850px">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:750px">
         <thead><tr style="border-bottom:2px solid #30363d">
           <th style="text-align:left;padding:8px 12px;color:#8b949e;font-weight:600;min-width:130px">이름</th>
           ${DUNGEONS.map(d=>`<th style="padding:6px 4px;color:#8b949e;font-weight:600;text-align:center;font-size:11px">${DUNGEON_ABBR[d]||d}</th>`).join('')}
@@ -1739,14 +1638,14 @@ function partyDrop(e,role){
   _partyDragKey=null;
 }
 
-async function startEditTitle(id, currentTitle){
-  const pw=await uiPrompt({title:'제목 수정',message:'작성자 비밀번호를 입력해주세요',password:true});
+function startEditTitle(id, currentTitle){
+  const pw=prompt('비밀번호를 입력해주세요');
   if(!pw)return;
-  const newTitle=await uiPrompt({title:'제목 수정',message:'새 제목을 입력해주세요',defaultValue:currentTitle});
+  const newTitle=prompt('새 제목을 입력해주세요', currentTitle);
   if(!newTitle||!newTitle.trim())return;
   fetch(`/api/parties/${id}/title`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,title:newTitle.trim()})})
     .then(r=>r.json()).then(r=>{
-      if(r.error){uiAlert(r.error);return;}
+      if(r.error){alert(r.error);return;}
       document.getElementById('party-title-text').textContent=newTitle.trim();
       loadParties();
     });
@@ -1781,27 +1680,26 @@ async function submitComment(id){
   const name=document.getElementById('cm-name')?.value;
   const text=document.getElementById('cm-text')?.value.trim();
   const pw=document.getElementById('cm-pw')?.value;
-  if(!name||!text){uiAlert('이름과 내용을 입력해주세요');return;}
+  if(!name||!text){alert('이름과 내용을 입력해주세요');return;}
   const r=await(await fetch(`/api/parties/${id}/comments`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,text,password:pw})})).json();
-  if(r.ok){document.getElementById('cm-text').value='';document.getElementById('cm-len').textContent='0';loadComments(id);}else uiAlert(r.error||'오류');
+  if(r.ok){document.getElementById('cm-text').value='';document.getElementById('cm-len').textContent='0';loadComments(id);}else alert(r.error||'오류');
 }
 async function editComment(id,cid){
   const cur=document.getElementById(`cm-text-${cid}`)?.textContent||'';
-  const newText=await uiPrompt({title:'댓글 수정',message:'새 내용 (200자 이내)',defaultValue:cur,maxlength:200});
-  if(!newText||newText===cur)return;
-  const pw=await uiPrompt({title:'댓글 수정',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
+  const newText=prompt('댓글 수정 (50자 이내):',cur);if(!newText||newText===cur)return;
+  const pw=prompt('비밀번호:');if(!pw)return;
   const r=await(await fetch(`/api/parties/${id}/comments/${cid}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,text:newText})})).json();
-  if(r.ok)loadComments(id);else uiAlert(r.error||'비밀번호 오류');
+  if(r.ok)loadComments(id);else alert(r.error||'비밀번호 오류');
 }
 async function deleteComment(id,cid){
-  if(!await uiConfirm('댓글을 삭제할까요?','댓글 삭제'))return;
-  const pw=await uiPrompt({title:'댓글 삭제',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
+  if(!confirm('댓글을 삭제할까요?'))return;
+  const pw=prompt('비밀번호:');if(!pw)return;
   const r=await(await fetch(`/api/parties/${id}/comments/${cid}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})).json();
-  if(r.ok)loadComments(id);else uiAlert(r.error||'비밀번호 오류');
+  if(r.ok)loadComments(id);else alert(r.error||'비밀번호 오류');
 }
 
 async function load(force=false){
-  if(!force)document.getElementById('tab-roster').innerHTML=SK_ROSTER;
+  if(!force)document.getElementById('tab-roster').innerHTML=`<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div>`;
 
   // 갱신 전 현재 상태 보존
   const prevSlotNames = {};
