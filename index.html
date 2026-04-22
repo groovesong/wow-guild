@@ -13,13 +13,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .container{max-width:1200px;margin:0 auto;padding:1.5rem}
 .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
 .guild-title-wrap{display:inline-flex;flex-direction:column;gap:0;position:relative;align-items:center}
-.guild-name{font-family:'Black Han Sans','Do Hyeon',-apple-system,sans-serif;font-size:36px;font-weight:400;letter-spacing:3px;line-height:1.1;background:linear-gradient(180deg,#ff7a85 0%,#e53e4f 55%,#b01830 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(1px 0 0 #4a0a14) drop-shadow(-1px 0 0 #4a0a14) drop-shadow(0 1px 0 #4a0a14) drop-shadow(0 -1px 0 #4a0a14) drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+.guild-name{font-family:'Black Han Sans','Do Hyeon',-apple-system,sans-serif;font-size:36px;font-weight:400;letter-spacing:3px;line-height:1.1;background:linear-gradient(180deg,#ff7a85 0%,#e53e4f 55%,#b01830 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(1px 0 0 #4a0a14) drop-shadow(-1px 0 0 #4a0a14) drop-shadow(0 1px 0 #4a0a14) drop-shadow(0 -1px 0 #4a0a14) drop-shadow(0 2px 2px rgba(0,0,0,.5));white-space:nowrap}
 .guild-name .swords{-webkit-text-fill-color:#c41e3a;color:#c41e3a;font-family:-apple-system,sans-serif;font-size:26px;margin:0 6px;vertical-align:2px}
 .guild-since{font-family:'Cinzel',serif;display:flex;align-items:center;gap:10px;font-size:11px;color:#c41e3a;letter-spacing:4px;font-weight:700;text-transform:uppercase;margin-top:-2px;align-self:stretch;justify-content:center}
 .guild-since::before,.guild-since::after{content:'';flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,#c41e3a70,transparent)}
 .guild-en{font-family:'Cormorant Garamond',serif;font-size:15px;color:#b8bec6;letter-spacing:1.2px;font-weight:600;font-style:italic;margin-top:3px}
 .guild-sub{font-size:13px;color:#8b949e;margin-top:4px}
-@media(max-width:600px){.guild-name{font-size:28px;letter-spacing:2px}.guild-name .swords{font-size:20px}}
+@media(max-width:600px){
+  .guild-name{font-size:24px;letter-spacing:1.5px}
+  .guild-name .swords{font-size:19px;margin:0 3px}
+  .guild-since{font-size:9px;letter-spacing:2px;gap:6px}
+  .guild-since::before,.guild-since::after{max-width:40px}
+  .guild-en{font-size:11px;letter-spacing:.8px}
+  .header{gap:8px}
+  .refresh-btn{font-size:11px!important;padding:4px 9px!important}
+  .cache-status{font-size:10px!important}
+  .guild-sub{font-size:11px!important}
+}
+@media(max-width:420px){
+  .guild-name{font-size:20px;letter-spacing:0}
+  .guild-name .swords{font-size:16px;margin:0 2px}
+  .guild-en{font-size:10px}
+}
 .refresh-btn{padding:6px 14px;font-size:13px;font-weight:600;border:1px solid #30363d;border-radius:8px;background:#161b22;color:#8b949e;cursor:pointer}
 .refresh-btn:hover{border-color:#8b949e;color:#e6edf3}
 .refresh-btn:disabled{opacity:.4;cursor:not-allowed}
@@ -199,6 +214,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .spinner{width:28px;height:28px;border:2px solid #21262d;border-top-color:#8b949e;border-radius:50%;animation:spin .8s linear infinite}
 .readonly-val{font-size:13px;color:#8b949e}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* 접기 가능한 폼 사이드바 */
+.form-sidebar{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;position:sticky;top:1rem}
+.form-sidebar-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:14px;font-weight:700;padding-bottom:.6rem;border-bottom:1px solid #21262d;margin-bottom:1rem;user-select:none;transition:color .15s}
+.form-sidebar-head:hover{color:#f48cba}
+.form-sidebar-head:hover .form-sidebar-toggle{color:#f48cba;background:#21262d}
+.form-sidebar-toggle{font-size:11px;color:#8b949e;transition:transform .2s,background .15s;padding:4px 10px;border:1px solid #30363d;border-radius:6px;background:#0d1117}
+.fs-arrow{display:inline-block;transition:transform .2s}
+.form-sidebar.collapsed .fs-arrow{transform:rotate(-90deg)}
+.form-sidebar.collapsed .form-sidebar-head{margin-bottom:0;border-bottom:none;padding-bottom:0}
+.form-sidebar.collapsed .form-sidebar-body{display:none}
+@media(max-width:768px){
+  .form-sidebar{position:static;padding:.9rem}
+  .form-sidebar .pf-group{margin-bottom:.5rem}
+}
+/* 쐐기돌 현황 카드 */
+.ks-status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+@media(max-width:768px){
+  .ks-status-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px}
+  .ks-status-card{padding:.7rem!important}
+}
+@media(max-width:420px){
+  .ks-status-grid{grid-template-columns:repeat(2,1fr)}
+}
+
 /* 갤러리 */
 .gal-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
 .gal-filters{display:flex;gap:6px;flex-wrap:wrap}
@@ -231,7 +270,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .gal-view-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .gal-view-close{position:absolute;top:14px;right:18px;background:rgba(22,27,34,.9);border:1px solid #30363d;color:#fff;font-size:18px;cursor:pointer;opacity:.85;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:1}
 .gal-view-close:hover{opacity:1}
-@media(max-width:600px){.gal-view-overlay{padding:0}.gal-view-box{max-height:100vh;border-radius:0;height:100vh}.gal-view-img{max-height:40vh}}
+@media(max-width:600px){
+  .gal-view-overlay{padding:.75rem;align-items:center}
+  .gal-view-box{max-height:88vh;border-radius:12px}
+  .gal-view-img{max-height:40vh}
+  .gal-view-close{top:calc(6vh - 12px);right:calc(.75rem + 4px)}
+}
 @media(max-width:600px){
   .gal-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
   .ui-modal-overlay{align-items:flex-end!important;padding:0!important}
@@ -269,8 +313,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
   .container{padding:.75rem}
-  .tabs{overflow-x:auto;white-space:nowrap;margin-bottom:1rem;-webkit-overflow-scrolling:touch}
-  .tab{padding:8px 14px;font-size:13px}
+  .tabs{flex-wrap:wrap;overflow-x:visible;margin-bottom:1rem;gap:0;border-bottom:none}
+  .tab{flex:1 1 25%;padding:8px 2px;font-size:12px;text-align:center;border-bottom:1px solid #21262d;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tab.active{border-bottom:2px solid #c41e3a}
   .stats-row{grid-template-columns:repeat(2,1fr);gap:6px}
   .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px}
   .char-card{padding:.75rem}
@@ -278,14 +323,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
   .modal-overlay{align-items:flex-end}
   .party-layout{grid-template-columns:1fr}
 }
+@media(max-width:620px){.tab{font-size:11px;padding:7px 2px}}
+@media(max-width:520px){.tab{font-size:10px;padding:7px 1px}}
+@media(max-width:430px){.tab{font-size:9px;padding:6px 1px}}
+@media(max-width:360px){.tab{font-size:8.5px}}
 @media(max-width:480px){
   .stats-row{grid-template-columns:1fr 1fr}
   .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-  .tab{padding:7px 10px;font-size:12px}
 }
 
 @media(max-width:768px){
-  .raid-layout{grid-template-columns:1fr !important}
+  .raid-layout{grid-template-columns:minmax(0,1fr) !important}
   .party-card-grid{grid-template-columns:1fr !important}
   .party-modal-grid{grid-template-columns:1fr !important}
   .modal{max-width:100% !important;border-radius:12px 12px 0 0 !important;margin:0 !important}
@@ -376,32 +424,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 
   <!-- 쐐기돌 -->
   <div id="tab-keystone" style="display:none">
-    <div style="display:grid;grid-template-columns:min(300px,100%) 1fr;gap:14px;align-items:start" class="raid-layout">
-      <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;position:sticky;top:1rem">
-        <div style="font-size:14px;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #21262d">🗝️ 쐐기돌 등록</div>
-        <div class="pf-group"><div class="pf-label">이름</div>
-          <select class="pf-select" id="ks-player" onchange="updateKsChars()" style="width:100%">
-            <option value="">선택</option>
-          </select>
+    <div style="display:grid;grid-template-columns:min(300px,100%) minmax(0,1fr);gap:14px;align-items:start" class="raid-layout">
+      <div class="form-sidebar" id="ks-form-wrap">
+        <div class="form-sidebar-head" onclick="toggleFormSidebar('ks-form-wrap')">
+          <span>🗝️ 쐐기돌 등록</span>
+          <span class="form-sidebar-toggle"><span class="fs-arrow">▼</span> <span class="fs-label">접기</span></span>
         </div>
-        <div class="pf-group"><div class="pf-label">캐릭터</div>
-          <select class="pf-select" id="ks-char" style="width:100%"><option value="">선택</option></select>
-        </div>
-        <div class="pf-group"><div class="pf-label">던전</div>
-          <select class="pf-select" id="ks-dungeon" style="width:100%">
-            <option value="">던전 선택</option>
-              <option>윈드러너 첨탑</option><option>마법학자의 정원</option>
-              <option>마이사라 동굴</option><option>공결탑 제나스</option>
-              <option>사론의 구덩이</option><option>하늘탑</option>
-              <option>삼두정의 권좌</option><option>알게타르 대학</option>
-          </select>
-        </div>
-        <div class="pf-group"><div class="pf-label">단수</div>
-          <input class="pf-input" id="ks-level" type="number" min="2" max="30" placeholder="예: 10" style="width:100%">
-        </div>
-        <button class="btn btn-primary" onclick="submitKeystone()" style="width:100%;padding:8px;margin-top:.5rem">등록</button>
-        <div style="margin-top:.75rem;border-top:1px solid #21262d;padding-top:.75rem">
-          <button class="btn btn-secondary" onclick="clearMyKeystone()" style="width:100%;font-size:12px;padding:5px">선택 캐릭터 쐐기돌 삭제</button>
+        <div class="form-sidebar-body">
+          <div class="pf-group"><div class="pf-label">이름</div>
+            <select class="pf-select" id="ks-player" onchange="updateKsChars()" style="width:100%">
+              <option value="">선택</option>
+            </select>
+          </div>
+          <div class="pf-group"><div class="pf-label">캐릭터</div>
+            <select class="pf-select" id="ks-char" style="width:100%"><option value="">선택</option></select>
+          </div>
+          <div class="pf-group"><div class="pf-label">던전</div>
+            <select class="pf-select" id="ks-dungeon" style="width:100%">
+              <option value="">던전 선택</option>
+                <option>윈드러너 첨탑</option><option>마법학자의 정원</option>
+                <option>마이사라 동굴</option><option>공결탑 제나스</option>
+                <option>사론의 구덩이</option><option>하늘탑</option>
+                <option>삼두정의 권좌</option><option>알게타르 대학</option>
+            </select>
+          </div>
+          <div class="pf-group"><div class="pf-label">단수</div>
+            <input class="pf-input" id="ks-level" type="number" min="2" max="30" placeholder="예: 10" style="width:100%">
+          </div>
+          <button class="btn btn-primary" onclick="submitKeystone()" style="width:100%;padding:8px;margin-top:.5rem">등록</button>
+          <div style="margin-top:.75rem;border-top:1px solid #21262d;padding-top:.75rem">
+            <button class="btn btn-secondary" onclick="clearMyKeystone()" style="width:100%;font-size:12px;padding:5px">선택 캐릭터 쐐기돌 삭제</button>
+          </div>
         </div>
       </div>
       <div id="ks-list"><div class="loading"><div class="spinner"></div></div></div>
@@ -428,10 +481,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 
   <!-- 파티 찾기 -->
   <div id="tab-party" style="display:none">
-    <div style="display:grid;grid-template-columns:min(320px,100%) 1fr;gap:14px;align-items:start" class="raid-layout">
+    <div style="display:grid;grid-template-columns:min(320px,100%) minmax(0,1fr);gap:14px;align-items:start" class="raid-layout">
       <!-- 작성 폼 -->
-      <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1.25rem;position:sticky;top:1rem">
-        <div style="font-size:14px;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid #21262d">✍️ 파티 모집 등록</div>
+      <div class="form-sidebar" id="pt-form-wrap">
+        <div class="form-sidebar-head" onclick="toggleFormSidebar('pt-form-wrap')">
+          <span>✍️ 파티 모집 등록</span>
+          <span class="form-sidebar-toggle"><span class="fs-arrow">▼</span> <span class="fs-label">접기</span></span>
+        </div>
+        <div class="form-sidebar-body">
         <div class="pf-group"><div class="pf-label">제목</div><input class="pf-input" id="pt-title" placeholder="예: 공결탑 10단 파티 구합니다" style="width:100%"></div>
         <div style="display:flex;gap:8px">
           <div class="pf-group" style="flex:1"><div class="pf-label">던전</div>
@@ -494,6 +551,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
         </div>
         <div class="pf-group"><div class="pf-label">비밀번호 (글 관리용)</div><input class="pf-input" id="pt-pw" type="password" placeholder="비밀번호" style="width:100%"></div>
         <button class="btn btn-primary" onclick="submitParty()" style="width:100%;padding:8px;margin-top:.5rem">등록하기</button>
+        </div>
       </div>
       <!-- 목록 -->
       <div id="party-list"><div class="loading"><div class="spinner"></div></div></div>
@@ -1155,6 +1213,34 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
+// 폼 사이드바 접기/펼치기 (상태는 localStorage에 저장)
+function updateFsLabel(el){
+  const label=el.querySelector('.fs-label');
+  if(label)label.textContent=el.classList.contains('collapsed')?'열기':'접기';
+}
+function toggleFormSidebar(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.toggle('collapsed');
+  updateFsLabel(el);
+  try{localStorage.setItem('collapse-'+id,el.classList.contains('collapsed')?'1':'0');}catch{}
+}
+function restoreFormSidebarState(id,defaultCollapsed){
+  const el=document.getElementById(id);if(!el)return;
+  let v;try{v=localStorage.getItem('collapse-'+id);}catch{}
+  const collapse=v===null||v===undefined?defaultCollapsed:v==='1';
+  if(collapse)el.classList.add('collapsed');else el.classList.remove('collapsed');
+  updateFsLabel(el);
+}
+// 최초 로드 시: 기본 펼침 (사용자가 닫은 상태는 localStorage에 저장되어 유지됨)
+(function initFormSidebars(){
+  const run=()=>{
+    restoreFormSidebarState('ks-form-wrap',false);
+    restoreFormSidebarState('pt-form-wrap',false);
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);
+  else run();
+})();
+
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','party','raid','keytracker','keystone','gallery','admin'][i]===tab));
   ['roster','party','raid','keytracker','keystone','gallery','admin'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display=t===tab?'block':'none';});
@@ -1744,7 +1830,12 @@ async function submitKeystone(){
 async function clearMyKeystone(){
   const char=document.getElementById('ks-char').value;
   if(!char){uiAlert('캐릭터를 선택해주세요');return;}
-  if(!await uiConfirm(`${char}의 쐐기돌을 삭제할까요?`,'쐐기돌 삭제'))return;
+  const charM=all.find(m=>m.name===char);
+  const icon=charM?(CE[classEn(charM.class)]||'⚔️'):'⚔️';
+  const ks=overrides[char]?.keystone;
+  const dunLvl=ks?.dungeon&&ks?.level?`${ks.dungeon} ${ks.level}단 `:'';
+  if(!dunLvl){uiAlert(`${icon} ${char}에게 등록된 쐐기돌이 없어요`);return;}
+  if(!await uiConfirm(`${icon} ${char}의 ${dunLvl}쐐기돌을 삭제하시겠습니까?`,'쐐기돌 삭제'))return;
   const r=await(await fetch(`/api/keystones/${encodeURIComponent(char)}`,{method:'DELETE'})).json();
   if(r.ok){if(overrides[char])delete overrides[char].keystone;loadKeystones();}
 }
@@ -1765,16 +1856,16 @@ async function loadKeystones(){
     withKey.forEach(k=>{const pn=players[k.char]||k.player||k.char;if(!byPlayer[pn])byPlayer[pn]=[];byPlayer[pn].push(k);});
     el.innerHTML=`
       <div style="font-size:13px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1rem">🗝️ 쐐기돌 현황 (${withKey.length}개)</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:1.5rem">
+      <div class="ks-status-grid" style="margin-bottom:1.5rem">
         ${Object.entries(byPlayer).map(([pn,keys])=>`
-          <div style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem">
+          <div class="ks-status-card" style="background:#161b22;border:1px solid #21262d;border-radius:12px;padding:1rem">
             <div style="font-size:14px;font-weight:700;margin-bottom:.75rem">👤 ${pn}</div>
             ${keys.map(k=>{const m=all.find(x=>x.name===k.char);const c=CC[m?.class]||'#888';const clr=ksLvlColor(k.level);
               return`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #21262d">
                 <span style="color:${c};font-size:14px">${CE[m?.class]||'⚔️'}</span>
-                <div style="flex:1"><div style="font-size:13px;font-weight:600;color:${c}">${k.char}</div>
-                <div style="font-size:12px;color:#8b949e">${k.dungeon}</div></div>
-                <div style="font-size:20px;font-weight:700;color:${clr}">${k.level}단</div>
+                <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:${c};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${k.char}</div>
+                <div style="font-size:12px;color:#8b949e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${k.dungeon}</div></div>
+                <div style="font-size:20px;font-weight:700;color:${clr};flex-shrink:0">${k.level}단</div>
               </div>`;}).join('')}
           </div>`).join('')}
       </div>
