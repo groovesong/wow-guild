@@ -382,6 +382,47 @@ app.delete('/api/photos/:id', (req, res) => {
   res.json({ ok: true });
 });
 
+// 사진 댓글
+app.get('/api/photos/:id/comments', (req, res) => {
+  const photos = readJ('photos.json') || [];
+  const photo = photos.find(p => p.id === req.params.id);
+  res.json(photo?.comments || []);
+});
+app.post('/api/photos/:id/comments', (req, res) => {
+  const { name, password, text } = req.body;
+  const photos = readJ('photos.json') || [];
+  const photo = photos.find(p => p.id === req.params.id);
+  if (!photo) return res.status(404).json({ error: '없는 사진' });
+  if (!photo.comments) photo.comments = [];
+  photo.comments.push({ id: Date.now().toString(), name, password: password||'', text: (text||'').slice(0,200), createdAt: new Date().toISOString() });
+  writeJ('photos.json', photos);
+  res.json({ ok: true });
+});
+app.put('/api/photos/:id/comments/:cid', (req, res) => {
+  const { password, text } = req.body;
+  const photos = readJ('photos.json') || [];
+  const photo = photos.find(p => p.id === req.params.id);
+  if (!photo) return res.status(404).json({ error: '없는 사진' });
+  const c = (photo.comments||[]).find(c => c.id === req.params.cid);
+  if (!c) return res.status(404).json({ error: '없는 댓글' });
+  if (password !== c.password && password !== PASSWORD) return res.status(401).json({ error: '비밀번호 오류' });
+  c.text = (text||'').slice(0,200);
+  writeJ('photos.json', photos);
+  res.json({ ok: true });
+});
+app.delete('/api/photos/:id/comments/:cid', (req, res) => {
+  const { password } = req.body;
+  const photos = readJ('photos.json') || [];
+  const photo = photos.find(p => p.id === req.params.id);
+  if (!photo) return res.status(404).json({ error: '없는 사진' });
+  const c = (photo.comments||[]).find(c => c.id === req.params.cid);
+  if (!c) return res.status(404).json({ error: '없는 댓글' });
+  if (password !== c.password && password !== PASSWORD) return res.status(401).json({ error: '비밀번호 오류' });
+  photo.comments = photo.comments.filter(x => x.id !== req.params.cid);
+  writeJ('photos.json', photos);
+  res.json({ ok: true });
+});
+
 // ── 5인 파티 찾기 ──
 const PARTY_FILE = 'parties.json';
 const readParties = () => readJ(PARTY_FILE) || [];
