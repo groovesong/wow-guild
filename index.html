@@ -199,6 +199,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .spinner{width:28px;height:28px;border:2px solid #21262d;border-top-color:#8b949e;border-radius:50%;animation:spin .8s linear infinite}
 .readonly-val{font-size:13px;color:#8b949e}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* 갤러리 */
+.gal-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
+.gal-filters{display:flex;gap:6px;flex-wrap:wrap}
+.gal-filter{padding:6px 14px;font-size:13px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#161b22;color:#8b949e;cursor:pointer;transition:all .15s}
+.gal-filter:hover{border-color:#8b949e;color:#e6edf3}
+.gal-filter.active{background:#21262d;color:#e6edf3;border-color:#c41e3a}
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.gal-card{position:relative;background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s,transform .15s;animation:fadeUp .3s ease both}
+.gal-card:hover{border-color:#30363d;transform:translateY(-2px)}
+.gal-card-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#0d1117;display:block}
+.gal-card-meta{padding:8px 10px}
+.gal-card-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;letter-spacing:.5px;margin-bottom:4px}
+.gal-tag-레이드{background:#2d0f0f;color:#f87171;border:1px solid #4a1a1a}
+.gal-tag-쐐기{background:#1a2a4a;color:#7ab8f5;border:1px solid #2d4a7a}
+.gal-tag-구렁{background:#0d2318;color:#56d364;border:1px solid #2d7a4a}
+.gal-tag-자랑{background:#2a1a2d;color:#f48cba;border:1px solid #4a2a52}
+.gal-tag-일상{background:#2a2416;color:#f1c40f;border:1px solid #4a3e1a}
+.gal-tag-형변{background:#1f2937;color:#a3bffa;border:1px solid #3a4b6b}
+.gal-tag-기타{background:#1c1c1c;color:#b0b0b0;border:1px solid #333}
+.gal-card-caption{font-size:13px;color:#c9d1d9;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal-card-sub{font-size:11px;color:#8b949e;display:flex;justify-content:space-between}
+.gal-card-del{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);border:1px solid #4a1a1a;color:#f87171;font-size:12px;padding:3px 8px;border-radius:4px;cursor:pointer;opacity:0;transition:opacity .15s}
+.gal-card:hover .gal-card-del{opacity:1}
+@media(hover:none){.gal-card-del{opacity:.85}}
+.gal-empty{grid-column:1/-1;text-align:center;padding:3rem;color:#8b949e;font-size:14px}
+.gal-view-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem;animation:uiOv .2s ease}
+.gal-view-img{max-width:100%;max-height:90vh;object-fit:contain;border-radius:8px}
+.gal-view-close{position:absolute;top:18px;right:22px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer;opacity:.8}
+.gal-view-close:hover{opacity:1}
+.gal-view-info{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(22,27,34,.9);border:1px solid #30363d;border-radius:10px;padding:10px 16px;font-size:13px;color:#e6edf3;max-width:90%}
+@media(max-width:600px){.gal-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}}
+
 /* ui-modal (alert/confirm/prompt 대체) */
 .ui-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;padding:1rem;animation:uiOv .15s ease}
 .ui-modal{background:#161b22;border:1px solid #30363d;border-radius:12px;width:100%;max-width:420px;padding:1.5rem;animation:uiIn .2s ease;box-shadow:0 20px 60px rgba(0,0,0,.6)}
@@ -270,6 +302,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
     <div class="tab" onclick="switchTab('raid')">🏰 레이드 구성</div>
     <div class="tab" onclick="switchTab('keytracker')">📈 쐐기현황</div>
     <div class="tab" onclick="switchTab('keystone')">🗝️ 쐐기돌</div>
+    <div class="tab" onclick="switchTab('gallery')">🖼️ 갤러리</div>
     <div class="tab" onclick="switchTab('admin')">⚙️ 관리</div>
   </div>
 
@@ -361,6 +394,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
       </div>
       <div id="ks-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
+  </div>
+
+  <!-- 갤러리 -->
+  <div id="tab-gallery" style="display:none">
+    <div class="gal-header">
+      <div class="gal-filters" id="gal-filters">
+        <button class="gal-filter active" data-tag="ALL" onclick="setGalleryFilter('ALL',this)">전체</button>
+        <button class="gal-filter" data-tag="레이드" onclick="setGalleryFilter('레이드',this)">🏰 레이드</button>
+        <button class="gal-filter" data-tag="쐐기" onclick="setGalleryFilter('쐐기',this)">🗝️ 쐐기</button>
+        <button class="gal-filter" data-tag="구렁" onclick="setGalleryFilter('구렁',this)">🐍 구렁</button>
+        <button class="gal-filter" data-tag="자랑" onclick="setGalleryFilter('자랑',this)">✨ 자랑</button>
+        <button class="gal-filter" data-tag="일상" onclick="setGalleryFilter('일상',this)">☕ 일상</button>
+        <button class="gal-filter" data-tag="형변" onclick="setGalleryFilter('형변',this)">👕 형변</button>
+        <button class="gal-filter" data-tag="기타" onclick="setGalleryFilter('기타',this)">📌 기타</button>
+      </div>
+      <button class="btn btn-primary" onclick="openGalleryUpload()" style="padding:7px 16px">📤 사진 올리기</button>
+    </div>
+    <div id="gal-grid" class="gal-grid"><div class="loading"><div class="spinner"></div></div></div>
   </div>
 
   <!-- 파티 찾기 -->
@@ -1093,12 +1144,13 @@ document.addEventListener('visibilitychange',()=>{
 });
 
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','party','raid','keytracker','keystone','admin'][i]===tab));
-  ['roster','party','raid','keytracker','keystone','admin'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display=t===tab?'block':'none';});
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','party','raid','keytracker','keystone','gallery','admin'][i]===tab));
+  ['roster','party','raid','keytracker','keystone','gallery','admin'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display=t===tab?'block':'none';});
   if(tab==='raid'){renderSlots();renderPool();}
   if(tab==='keystone'){loadKeystones();}
   if(tab==='party'){loadParties();startPartyPolling();}else{stopPartyPolling();}
   if(tab==='keytracker'){loadKeyTracker();}
+  if(tab==='gallery'){loadGallery();}
 }
 
 // ── 파티 찾기 ──
@@ -1838,8 +1890,7 @@ function partyDrop(e,role){
     showToast(`포지션에 맞게 드래그해주세요 (${roleLabel} 특성 없음)`);
     _partyDragKey=null;return;
   }
-  const rm=role==='TANK'?s=>T.some(t=>s.includes(t)):role==='HEALING'?s=>H.some(h=>s.includes(h)):s=>isDps(s);
-  const autoSpec=specs.find(rm)||specs[0]||'';
+  const autoSpec=specs.find(s=>specToRole(s)===role)||specs[0]||'';
   addToPlan(name,char,role,autoSpec);
   _partyDragKey=null;
 }
@@ -1862,6 +1913,144 @@ function showToast(msg){
   if(!t){t=document.createElement('div');t.id='party-toast';t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#21262d;border:1px solid #f87171;color:#f87171;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:300;transition:opacity .3s';document.body.appendChild(t);}
   t.textContent=msg;t.style.opacity='1';
   clearTimeout(t._timer);t._timer=setTimeout(()=>t.style.opacity='0',2000);
+}
+
+// ── 갤러리 ──
+let galleryPhotos=[], galleryFilter='ALL';
+async function loadGallery(){
+  const el=document.getElementById('gal-grid');if(!el)return;
+  el.innerHTML='<div class="loading"><div class="spinner"></div></div>';
+  try{
+    galleryPhotos=await(await fetch('/api/photos')).json();
+    renderGallery();
+  }catch(e){el.innerHTML=`<div class="gal-empty">로딩 실패</div>`;}
+}
+function setGalleryFilter(tag,btn){
+  galleryFilter=tag;
+  document.querySelectorAll('.gal-filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGallery();
+}
+function renderGallery(){
+  const el=document.getElementById('gal-grid');if(!el)return;
+  const list=galleryFilter==='ALL'?galleryPhotos:galleryPhotos.filter(p=>p.tag===galleryFilter);
+  if(!list.length){el.innerHTML=`<div class="gal-empty">등록된 사진이 없어요<br><span style="font-size:12px;opacity:.6">우측 상단 "📤 사진 올리기"로 추가해주세요</span></div>`;return;}
+  el.innerHTML=list.map(p=>`
+    <div class="gal-card" onclick="viewPhoto('${p.id}')">
+      <button class="gal-card-del" onclick="event.stopPropagation();deletePhoto('${p.id}')">🗑️ 삭제</button>
+      <img class="gal-card-img" src="/photos/${p.thumbFilename}" alt="" loading="lazy">
+      <div class="gal-card-meta">
+        <span class="gal-card-tag gal-tag-${p.tag}">${p.tag}</span>
+        ${p.caption?`<div class="gal-card-caption">${escapeHtml(p.caption)}</div>`:''}
+        <div class="gal-card-sub"><span>👤 ${escapeHtml(p.uploader)}</span><span>${fmtTime(p.createdAt)}</span></div>
+      </div>
+    </div>`).join('');
+}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function viewPhoto(id){
+  const p=galleryPhotos.find(x=>x.id===id);if(!p)return;
+  const ov=document.createElement('div');
+  ov.className='gal-view-overlay';
+  ov.innerHTML=`
+    <button class="gal-view-close">✕</button>
+    <img class="gal-view-img" src="/photos/${p.filename}" alt="">
+    ${p.caption?`<div class="gal-view-info">${escapeHtml(p.caption)} · 👤 ${escapeHtml(p.uploader)}</div>`:`<div class="gal-view-info">👤 ${escapeHtml(p.uploader)} · ${fmtTime(p.createdAt)}</div>`}`;
+  document.body.appendChild(ov);
+  const close=()=>{ov.remove();document.removeEventListener('keydown',onKey);};
+  ov.addEventListener('click',e=>{if(e.target===ov||e.target.classList.contains('gal-view-close'))close();});
+  const onKey=(e)=>{if(e.key==='Escape')close();};
+  document.addEventListener('keydown',onKey);
+}
+
+async function deletePhoto(id){
+  const p=galleryPhotos.find(x=>x.id===id);if(!p)return;
+  if(!await uiConfirm('이 사진을 삭제할까요?','사진 삭제'))return;
+  const pw=await uiPrompt({title:'사진 삭제',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
+  const r=await(await fetch(`/api/photos/${id}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})).json();
+  if(r.ok){loadGallery();showToast('삭제됐어요');}
+  else uiAlert(r.error||'오류');
+}
+
+function openGalleryUpload(){
+  const ov=document.createElement('div');
+  ov.className='ui-modal-overlay';
+  ov.innerHTML=`<div class="ui-modal" role="dialog" style="max-width:480px">
+    <div class="ui-modal-title">사진 올리기</div>
+    <div class="ui-modal-body">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:4px">📁 이미지 (jpg/png/gif, 최대 10MB)</div>
+          <input type="file" id="gu-file" accept="image/jpeg,image/png,image/gif" style="width:100%;color:#c9d1d9;font-size:13px">
+          <div id="gu-preview" style="margin-top:8px"></div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:4px">🏷️ 태그</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap" id="gu-tags">
+            ${['레이드','쐐기','구렁','자랑','일상','형변','기타'].map(t=>`<button type="button" class="gu-tag" data-tag="${t}" style="padding:5px 14px;border:1px solid #30363d;border-radius:16px;background:#0d1117;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">${t}</button>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:4px">👤 업로더</div>
+          <select id="gu-uploader" class="ui-modal-input" style="height:36px">
+            <option value="">선택</option>${playerNames.map(n=>`<option>${n}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:4px">💬 설명 (선택, 200자)</div>
+          <input type="text" id="gu-caption" maxlength="200" class="ui-modal-input" placeholder="예: 1넴 클리어 기념">
+        </div>
+        <div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:4px">🔒 비밀번호 (삭제용)</div>
+          <input type="password" id="gu-password" class="ui-modal-input">
+        </div>
+      </div>
+    </div>
+    <div class="ui-modal-btns">
+      <button class="btn btn-secondary" id="gu-cancel">취소</button>
+      <button class="btn btn-primary" id="gu-submit">📤 업로드</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  const close=()=>ov.remove();
+  ov.addEventListener('click',e=>{if(e.target===ov)close();});
+  ov.querySelector('#gu-cancel').addEventListener('click',close);
+  // 태그 선택
+  ov.querySelectorAll('.gu-tag').forEach(b=>{
+    b.addEventListener('click',()=>{
+      ov.querySelectorAll('.gu-tag').forEach(x=>{x.style.background='#0d1117';x.style.color='#8b949e';x.style.borderColor='#30363d';x.dataset.selected='';});
+      b.style.background='#21262d';b.style.color='#e6edf3';b.style.borderColor='#c41e3a';b.dataset.selected='1';
+    });
+  });
+  // 파일 미리보기
+  ov.querySelector('#gu-file').addEventListener('change',(e)=>{
+    const f=e.target.files?.[0];const pv=ov.querySelector('#gu-preview');
+    if(!f){pv.innerHTML='';return;}
+    if(f.size>10*1024*1024){pv.innerHTML='<div style="color:#f87171;font-size:12px">파일이 10MB를 초과해요</div>';return;}
+    const url=URL.createObjectURL(f);
+    pv.innerHTML=`<img src="${url}" style="max-width:100%;max-height:180px;border-radius:6px;border:1px solid #30363d">`;
+  });
+  // 업로드 버튼
+  ov.querySelector('#gu-submit').addEventListener('click',async()=>{
+    const file=ov.querySelector('#gu-file').files?.[0];
+    const tag=ov.querySelector('.gu-tag[data-selected="1"]')?.dataset.tag||'';
+    const uploader=ov.querySelector('#gu-uploader').value;
+    const caption=ov.querySelector('#gu-caption').value||'';
+    const password=ov.querySelector('#gu-password').value;
+    if(!file){uiAlert('이미지를 선택해주세요');return;}
+    if(file.size>10*1024*1024){uiAlert('파일이 10MB를 초과해요');return;}
+    if(!tag){uiAlert('태그를 선택해주세요');return;}
+    if(!uploader){uiAlert('업로더를 선택해주세요');return;}
+    if(!password){uiAlert('비밀번호를 입력해주세요');return;}
+    const submit=ov.querySelector('#gu-submit');submit.disabled=true;submit.textContent='업로드 중...';
+    const fd=new FormData();
+    fd.append('photo',file);fd.append('tag',tag);fd.append('uploader',uploader);fd.append('caption',caption);fd.append('password',password);
+    try{
+      const r=await(await fetch('/api/photos',{method:'POST',body:fd})).json();
+      if(r.ok){close();showToast('업로드 완료');loadGallery();}
+      else{uiAlert(r.error||'업로드 실패');submit.disabled=false;submit.textContent='📤 업로드';}
+    }catch(e){uiAlert('업로드 실패');submit.disabled=false;submit.textContent='📤 업로드';}
+  });
 }
 
 // ── 댓글 ──

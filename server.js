@@ -1,7 +1,9 @@
 const express = require('express');
 const fetch = (...args) => import('node-fetch').then(({default: f}) => f(...args));
-const { readFileSync, writeFileSync, existsSync } = require('fs');
+const { readFileSync, writeFileSync, existsSync, mkdirSync, unlinkSync } = require('fs');
 const path = require('path');
+const multer = require('multer');
+const sharp = require('sharp');
 const app = express();
 
 const BNET_ID     = '356a797497114f8ea3ce658e0b8a2975';
@@ -312,6 +314,72 @@ app.post('/api/keystones', (req,res) => {
 app.delete('/api/keystones/:char', (req,res) => {
   writeJ('keystones.json',(readJ('keystones.json')||[]).filter(k=>k.char!==decodeURIComponent(req.params.char)));
   res.json({ok:true});
+});
+
+// ── 갤러리 ──
+const PHOTO_DIR = `${DATA_DIR}/photos`;
+if (!existsSync(PHOTO_DIR)) mkdirSync(PHOTO_DIR, { recursive: true });
+app.use('/photos', express.static(PHOTO_DIR));
+
+const ALLOWED_TAGS = ['레이드','쐐기','구렁','자랑','일상','형변','기타'];
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  fileFilter: (req, file, cb) => {
+    cb(null, /^image\/(jpeg|png|gif)$/.test(file.mimetype));
+  }
+});
+
+app.get('/api/photos', (req, res) => res.json(readJ('photos.json') || []));
+
+app.post('/api/photos', upload.single('photo'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: '이미지 파일이 없어요' });
+    const { uploader, tag, caption, password } = req.body;
+    if (!uploader || !password) return res.status(400).json({ error: '업로더와 비밀번호는 필수예요' });
+    if (!ALLOWED_TAGS.includes(tag)) return res.status(400).json({ error: '태그를 선택해주세요' });
+
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const isGif = req.file.mimetype === 'image/gif';
+    const ext = isGif ? 'gif' : 'jpg';
+    const filename = `${id}.${ext}`;
+    const thumbFilename = `${id}_thumb.jpg`;
+    const fullPath = `${PHOTO_DIR}/${filename}`;
+    const thumbPath = `${PHOTO_DIR}/${thumbFilename}`;
+
+    if (isGif) {
+      writeFileSync(fullPath, req.file.buffer);
+      await sharp(req.file.buffer, { animated: false }).resize(400, null, { withoutEnlargement: true }).jpeg({ quality: 80 }).toFile(thumbPath);
+    } else {
+      await sharp(req.file.buffer).rotate().resize(1920, null, { withoutEnlargement: true }).jpeg({ quality: 85 }).toFile(fullPath);
+      await sharp(req.file.buffer).rotate().resize(400, null, { withoutEnlargement: true }).jpeg({ quality: 80 }).toFile(thumbPath);
+    }
+
+    const photos = readJ('photos.json') || [];
+    photos.unshift({
+      id, filename, thumbFilename,
+      uploader, tag,
+      caption: (caption || '').slice(0, 200),
+      password,
+      createdAt: new Date().toISOString()
+    });
+    writeJ('photos.json', photos);
+    res.json({ ok: true, id });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.delete('/api/photos/:id', (req, res) => {
+  const { password } = req.body;
+  const photos = readJ('photos.json') || [];
+  const photo = photos.find(p => p.id === req.params.id);
+  if (!photo) return res.status(404).json({ error: '없는 사진' });
+  if (password !== photo.password && password !== PASSWORD) return res.status(401).json({ error: '비밀번호 오류' });
+  try { unlinkSync(`${PHOTO_DIR}/${photo.filename}`); } catch {}
+  try { unlinkSync(`${PHOTO_DIR}/${photo.thumbFilename}`); } catch {}
+  writeJ('photos.json', photos.filter(p => p.id !== req.params.id));
+  res.json({ ok: true });
 });
 
 // ── 5인 파티 찾기 ──
