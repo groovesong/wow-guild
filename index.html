@@ -4,13 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>붉 은 내 복 단</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;font-size:15px}
 .container{max-width:1200px;margin:0 auto;padding:1.5rem}
 .header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem}
-.guild-name{font-size:24px;font-weight:700;background:linear-gradient(135deg,#c41e3a,#f48cba);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.guild-sub{font-size:15px;color:#8b949e;margin-top:2px}
+.guild-title-wrap{display:inline-flex;flex-direction:column;gap:0;position:relative;align-items:center}
+.guild-name{font-family:'Black Han Sans','Do Hyeon',-apple-system,sans-serif;font-size:36px;font-weight:400;letter-spacing:3px;line-height:1.1;background:linear-gradient(180deg,#ff7a85 0%,#e53e4f 55%,#b01830 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(1px 0 0 #4a0a14) drop-shadow(-1px 0 0 #4a0a14) drop-shadow(0 1px 0 #4a0a14) drop-shadow(0 -1px 0 #4a0a14) drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+.guild-name .swords{-webkit-text-fill-color:#c41e3a;color:#c41e3a;font-family:-apple-system,sans-serif;font-size:26px;margin:0 6px;vertical-align:2px}
+.guild-since{font-family:'Cinzel',serif;display:flex;align-items:center;gap:10px;font-size:11px;color:#c41e3a;letter-spacing:4px;font-weight:700;text-transform:uppercase;margin-top:-2px;align-self:stretch;justify-content:center}
+.guild-since::before,.guild-since::after{content:'';flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,transparent,#c41e3a70,transparent)}
+.guild-en{font-family:'Cormorant Garamond',serif;font-size:15px;color:#b8bec6;letter-spacing:1.2px;font-weight:600;font-style:italic;margin-top:3px}
+.guild-sub{font-size:13px;color:#8b949e;margin-top:4px}
+@media(max-width:600px){.guild-name{font-size:28px;letter-spacing:2px}.guild-name .swords{font-size:20px}}
 .refresh-btn{padding:6px 14px;font-size:13px;font-weight:600;border:1px solid #30363d;border-radius:8px;background:#161b22;color:#8b949e;cursor:pointer}
 .refresh-btn:hover{border-color:#8b949e;color:#e6edf3}
 .refresh-btn:disabled{opacity:.4;cursor:not-allowed}
@@ -22,7 +31,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .tab.active{color:#e6edf3;border-bottom-color:#c41e3a}
 
 /* 현황 탭 */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem}
 .stat-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem}
 .stat-label{font-size:14px;color:#8b949e;text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}
 .stat-val{font-size:28px;font-weight:700}
@@ -70,20 +79,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .role-count{font-size:14px;color:#8b949e}
 .slots-row{display:flex;flex-wrap:wrap;gap:8px}
 
-.slot{width:130px;height:80px;border:1px dashed #30363d;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;position:relative;cursor:default}
+.slot{width:130px;height:98px;border:1px dashed #30363d;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .15s;position:relative;cursor:default;gap:1px;padding:4px}
 .slot.drag-over{border-color:#8b949e!important;background:#21262d}
 .slot.filled{border-style:solid;cursor:grab}
 .slot.filled:active{cursor:grabbing;opacity:.8}
 .slot-stripe{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
-.slot-remove{position:absolute;top:4px;right:6px;font-size:11px;color:#8b949e;cursor:pointer;opacity:0;line-height:1}
+.slot-remove{position:absolute;top:4px;right:6px;font-size:14px;color:#8b949e;cursor:pointer;opacity:0;line-height:1;padding:3px 6px;border-radius:4px}
 .slot.filled:hover .slot-remove{opacity:1}
+@media(hover:none){.slot-remove{opacity:.7;background:#21262d}}
 .slot-emoji{font-size:14px;margin-bottom:2px}
 .slot-name{font-size:14px;font-weight:700;color:#e6edf3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;text-align:center;padding:0 4px}
 .slot-ilvl{font-size:13px;font-weight:600;margin-top:2px}
 .slot-player{font-size:11px;color:#8b949e;margin-top:1px}
 .slot-empty-label{font-size:12px;color:#30363d}
 
-.add-slot-btn{width:130px;height:80px;border:1px dashed #21262d;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#30363d;cursor:pointer;transition:all .15s}
+.add-slot-btn{width:130px;height:98px;border:1px dashed #21262d;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#30363d;cursor:pointer;transition:all .15s}
 .add-slot-btn:hover{border-color:#8b949e;color:#8b949e}
 
 /* 멤버 풀 */
@@ -92,7 +102,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .pool-filter{padding:3px 11px;font-size:14px;font-weight:600;border:1px solid #30363d;border-radius:20px;background:#0d1117;color:#8b949e;cursor:pointer;transition:all .15s}
 .pool-filter.active{background:#21262d;color:#e6edf3;border-color:#8b949e}
 .pool-grid{display:flex;flex-wrap:wrap;gap:6px;max-height:165px;overflow-y:auto}
-.pool-member{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:grab;transition:all .15s;user-select:none}
+.pool-member{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#0d1117;border:1px solid #21262d;border-radius:8px;cursor:pointer;transition:all .15s;user-select:none;touch-action:manipulation}
+@media(hover:hover){.pool-member{cursor:grab}}
 .pool-member:hover{border-color:#30363d}
 .pool-member.assigned{opacity:.25;cursor:not-allowed;pointer-events:none}
 .pool-member.player-busy{opacity:.3;cursor:not-allowed;pointer-events:none;border-color:#3a1a1a}
@@ -188,6 +199,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 .spinner{width:28px;height:28px;border:2px solid #21262d;border-top-color:#8b949e;border-radius:50%;animation:spin .8s linear infinite}
 .readonly-val{font-size:13px;color:#8b949e}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* ui-modal (alert/confirm/prompt 대체) */
+.ui-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:9999;padding:1rem;animation:uiOv .15s ease}
+.ui-modal{background:#161b22;border:1px solid #30363d;border-radius:12px;width:100%;max-width:420px;padding:1.5rem;animation:uiIn .2s ease;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.ui-modal-title{font-size:15px;font-weight:700;margin-bottom:.9rem;padding-bottom:.7rem;border-bottom:1px solid #21262d;color:#e6edf3}
+.ui-modal-body{font-size:14px;margin-bottom:1.2rem;line-height:1.5;color:#c9d1d9;white-space:pre-line}
+.ui-modal-input{width:100%;height:38px;padding:0 12px;font-size:14px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#e6edf3;outline:none;font-family:inherit}
+.ui-modal-input:focus{border-color:#8b949e}
+.ui-modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.ui-modal-btns .btn{padding:7px 18px;font-size:13px}
+@keyframes uiOv{from{opacity:0}to{opacity:1}}
+@keyframes uiIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+/* skeleton */
+.sk{background:linear-gradient(90deg,#161b22 0%,#21262d 50%,#161b22 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:6px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.sk-card{background:#161b22;border:1px solid #21262d;border-radius:14px;padding:1.1rem 1.2rem;min-height:142px;animation:fadeUp .3s ease both}
+.sk-row{display:flex;gap:9px;margin-bottom:11px}
+.sk-icon{width:46px;height:46px;border-radius:10px;flex-shrink:0}
+.sk-line{height:12px}
+.sk-stat{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:.9rem 1.1rem;height:76px}
+.sk-tr{height:44px;border-bottom:1px solid #21262d;display:flex;align-items:center;gap:10px;padding:0 10px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
 
@@ -222,19 +253,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 <body>
 <div class="container">
   <div class="header">
-    <div>
-      <div class="guild-name">⚔️ 붉 은 내 복 단</div>
-      <div class="guild-sub">아즈샤라 (KR) · <span id="lastUpdate"></span></div>
+    <div class="guild-title-wrap">
+      <div class="guild-name"><span class="swords">⚔</span>붉 은 내 복 단<span class="swords">⚔</span></div>
+      <div class="guild-since">since 03.07.2026</div>
+      <div class="guild-en">Playlinks World Of Warcraft Guild</div>
     </div>
-    <div style="text-align:right">
+    <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
       <button class="refresh-btn" id="refreshBtn" onclick="refresh()">🔄 데이터 갱신</button>
       <div class="cache-status" id="cacheStatus"></div>
+      <div class="guild-sub" style="margin-top:0"><span id="lastUpdate"></span></div>
     </div>
   </div>
   <div class="tabs">
     <div class="tab active" onclick="switchTab('roster')">📋 현황</div>
-    <div class="tab" onclick="switchTab('raid')">🗡️ 레이드 구성</div>
-    <div class="tab" onclick="switchTab('party')">🗡️ 파티 찾기</div>
+    <div class="tab" onclick="switchTab('party')">🔍 파티 찾기</div>
+    <div class="tab" onclick="switchTab('raid')">🏰 레이드 구성</div>
     <div class="tab" onclick="switchTab('keytracker')">📈 쐐기현황</div>
     <div class="tab" onclick="switchTab('keystone')">🗝️ 쐐기돌</div>
     <div class="tab" onclick="switchTab('admin')">⚙️ 관리</div>
@@ -242,7 +275,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
 
   <!-- 현황 -->
   <div id="tab-roster">
-    <div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...</div></div>
+    <div class="stats-row">
+      <div class="sk sk-stat"></div><div class="sk sk-stat"></div><div class="sk sk-stat"></div><div class="sk sk-stat"></div><div class="sk sk-stat"></div>
+    </div>
+    <div class="grid">
+      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:70%;margin-bottom:8px"></div><div class="sk sk-line" style="width:50%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
+      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:60%;margin-bottom:8px"></div><div class="sk sk-line" style="width:45%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
+      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:75%;margin-bottom:8px"></div><div class="sk sk-line" style="width:40%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
+      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:65%;margin-bottom:8px"></div><div class="sk sk-line" style="width:55%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
+      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:55%;margin-bottom:8px"></div><div class="sk sk-line" style="width:48%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
+      <div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:70%;margin-bottom:8px"></div><div class="sk sk-line" style="width:52%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>
+    </div>
   </div>
 
   <!-- 레이드 구성 -->
@@ -329,33 +372,46 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','Apple SD Goth
         <div class="pf-group"><div class="pf-label">제목</div><input class="pf-input" id="pt-title" placeholder="예: 공결탑 10단 파티 구합니다" style="width:100%"></div>
         <div style="display:flex;gap:8px">
           <div class="pf-group" style="flex:1"><div class="pf-label">던전</div>
-            <select class="pf-select" id="pt-dungeon" style="width:100%">
+            <select class="pf-select" id="pt-dungeon" onchange="ptUpdateDungeonMode()" style="width:100%">
               <option value="">선택</option>
               <option>아무데나</option>
               <option>윈드러너 첨탑</option><option>마법학자의 정원</option>
               <option>마이사라 동굴</option><option>공결탑 제나스</option>
               <option>사론의 구덩이</option><option>하늘탑</option>
               <option>삼두정의 권좌</option><option>알게타르 대학</option>
+              <option value="레이드">레이드</option>
             </select>
           </div>
-          <div class="pf-group" style="width:55px;flex-shrink:0"><div class="pf-label">단수</div><input class="pf-input" id="pt-level" type="number" min="2" max="30" placeholder="10" style="width:100%"></div>
-          <div class="pf-group" style="flex-shrink:0"><div class="pf-label">⏰ 출발</div>
-            <div style="display:flex;gap:3px;align-items:center">
-              <select class="pf-select" id="pt-start-ampm" style="width:54px">
-                <option value="">AM/PM</option>
-                <option value="AM">AM</option>
-                <option value="PM">PM</option>
-              </select>
-              <select class="pf-select" id="pt-start-h" style="width:48px">
-                <option value="">시</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
-              </select>
-              <span style="color:#8b949e">:</span>
-              <select class="pf-select" id="pt-start-m" style="width:48px">
-                <option value="">분</option>
-                <option value="00">00</option><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="40">40</option><option value="50">50</option>
-              </select>
-            </div>
+          <div class="pf-group" style="width:100px;flex-shrink:0" id="pt-level-group">
+            <div class="pf-label" id="pt-level-label">단수</div>
+            <input class="pf-input" id="pt-level" type="number" min="2" max="30" placeholder="10" style="width:100%">
+            <select class="pf-select" id="pt-difficulty" style="width:100%;display:none">
+              <option value="">선택</option>
+              <option>일반</option>
+              <option>영웅</option>
+              <option>신화</option>
+            </select>
+          </div>
+        </div>
+        <div class="pf-group"><div class="pf-label">⏰ 출발 시간</div>
+          <div style="display:flex;gap:4px;align-items:center">
+            <select class="pf-select" id="pt-start-ampm" style="width:64px">
+              <option value="AM">AM</option>
+              <option value="PM" selected>PM</option>
+            </select>
+            <select class="pf-select" id="pt-start-h" style="width:64px">
+              <option value="">시</option>
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+              <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+              <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+            </select>
+            <span style="color:#8b949e">:</span>
+            <select class="pf-select" id="pt-start-m" style="width:64px">
+              <option value="">분</option>
+              <option value="00">00</option><option value="10">10</option><option value="20">20</option>
+              <option value="30">30</option><option value="40">40</option><option value="50">50</option>
+            </select>
           </div>
         </div>
         <div class="pf-group"><div class="pf-label">이름</div>
@@ -479,7 +535,7 @@ const SYNERGIES=[
   {name:'하늘격노',effect:'치명타 피해 +3%',classes:['Shaman'],classNames:['주술사']},
   {name:'사냥꾼의 징표',effect:'표적 받는 피해 +5%',classes:['Hunter'],classNames:['사냥꾼']},
   {name:'겨울의 뿔피리',effect:'힘·민첩·지능 +3%',classes:['Death Knight'],classNames:['죽음의 기사']},
-  {name:'청동의 축복',effect:'주요 이동 기술 재사용 대기시간 15% 감소',classes:['Evoker'],classNames:['기원사']},
+  {name:'청동의 축복',effect:'이동 기술 쿨타임 15% 감소',classes:['Evoker'],classNames:['기원사']},
   {name:'지휘의 외침',effect:'최대 체력 +15%',classes:['Warrior'],classNames:['전사']},
 ];
 // 전투부활 가능 직업
@@ -489,6 +545,25 @@ const COMBAT_REZ=[
   {cls:'Warlock',name:'흑마법사'},
   {cls:'Paladin',name:'성기사'},
 ];
+const CREZ_CLASSES=COMBAT_REZ.map(c=>c.cls);
+
+// 역할 판별 (특성 → TANK/HEALING/DPS)
+const TANK_SPECS=['혈기','보호','수호','양조','복수','방어'];
+const HEAL_SPECS=['신성','회복','운무','보존','복원','수양'];
+const isTankSpec=s=>TANK_SPECS.some(t=>s.includes(t));
+const isHealSpec=s=>HEAL_SPECS.some(h=>s.includes(h));
+const specToRole=s=>isTankSpec(s)?'TANK':isHealSpec(s)?'HEALING':'DPS';
+const specIcon=s=>isTankSpec(s)?'🛡️':isHealSpec(s)?'💚':'⚔️';
+const ROLE_COLOR={TANK:'#7ab8f5',HEALING:'#56d364',DPS:'#f87171'};
+const specColor=s=>ROLE_COLOR[specToRole(s)];
+// m.class가 "Warrior"(영문) 또는 "전사"(한글) 뒤섞여 저장됨 → 영문 키로 통일
+const classEn=c=>c&&SPEC_KR_LIST[c]?c:(Object.keys(CKR).find(k=>CKR[k]===c)||c);
+const classKr=c=>CKR[classEn(c)]||c||'';
+// 역할 기반 기본 특성 (slot에 spec 저장 안 돼있을 때 fallback)
+const defaultSpecFor=(cls,role)=>{
+  const specs=SPEC_KR_LIST[classEn(cls)]||[];
+  return specs.find(s=>specToRole(s)===role)||specs[0]||'';
+};
 
 // 상태
 let all=[],apiChars=[],manualChars=[],players={},overrides={};
@@ -497,6 +572,61 @@ const DEFAULT_PLAYER_NAMES=['선호','병환','그루','태정','현명','영선
 let activeRoster='ALL',sortBy='ilvl',poolFilter='ALL',searchQuery='';
 let slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};
 let dragM=null,dragFrom=null,isUnlocked=false;
+
+// ── UI 모달 (alert/confirm/prompt 대체) ──
+function uiModal({title,body,buttons=[]}={}){
+  return new Promise(resolve=>{
+    const ov=document.createElement('div');
+    ov.className='ui-modal-overlay';
+    ov.innerHTML=`<div class="ui-modal" role="dialog" aria-modal="true">
+      ${title?`<div class="ui-modal-title">${title}</div>`:''}
+      <div class="ui-modal-body">${body||''}</div>
+      <div class="ui-modal-btns">${buttons.map((b,i)=>`<button class="btn ${b.cls||'btn-secondary'}" data-i="${i}">${b.label}</button>`).join('')}</div>
+    </div>`;
+    document.body.appendChild(ov);
+    const close=(val)=>{ov.remove();document.removeEventListener('keydown',onKey);resolve(val);};
+    const doBtn=(i)=>{const b=buttons[i];close(b.resolve?b.resolve(ov):b.value);};
+    ov.addEventListener('click',e=>{if(e.target===ov)close(null);});
+    ov.querySelectorAll('button[data-i]').forEach((b,i)=>b.addEventListener('click',()=>doBtn(i)));
+    const onKey=(e)=>{
+      if(e.key==='Escape')close(null);
+      if(e.key==='Enter'){const pi=buttons.findIndex(b=>b.primary);if(pi>=0){e.preventDefault();doBtn(pi);}}
+    };
+    document.addEventListener('keydown',onKey);
+    setTimeout(()=>{const inp=ov.querySelector('input');if(inp){inp.focus();inp.select?.();}},40);
+  });
+}
+function uiAlert(msg,title='알림'){
+  return uiModal({title,body:String(msg||''),buttons:[{label:'확인',cls:'btn-primary',value:true,primary:true}]});
+}
+function uiConfirm(msg,title='확인'){
+  return uiModal({title,body:String(msg||''),buttons:[
+    {label:'취소',cls:'btn-secondary',value:false},
+    {label:'확인',cls:'btn-primary',value:true,primary:true}
+  ]});
+}
+function uiPrompt(opts){
+  if(typeof opts==='string')opts={message:opts};
+  const {message='',title='입력',defaultValue='',placeholder='',password=false,maxlength}=opts||{};
+  const esc=(s)=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const body=`${message?`<div style="margin-bottom:.6rem">${esc(message)}</div>`:''}
+    <input class="ui-modal-input" type="${password?'password':'text'}" value="${esc(defaultValue)}" placeholder="${esc(placeholder)}"${maxlength?` maxlength="${maxlength}"`:''}>`;
+  return uiModal({title,body,buttons:[
+    {label:'취소',cls:'btn-secondary',value:null},
+    {label:'확인',cls:'btn-primary',primary:true,resolve:(ov)=>ov.querySelector('input').value}
+  ]});
+}
+
+// ── 스켈레톤 로딩 HTML ──
+const SK_CARD=`<div class="sk-card"><div class="sk-row"><div class="sk sk-icon"></div><div style="flex:1"><div class="sk sk-line" style="width:70%;margin-bottom:8px"></div><div class="sk sk-line" style="width:50%"></div></div></div><div class="sk sk-line" style="width:100%;margin-top:14px"></div></div>`;
+const SK_ROSTER=`
+  <div class="stats-row">${'<div class="sk sk-stat"></div>'.repeat(5)}</div>
+  <div class="grid">${SK_CARD.repeat(8)}</div>`;
+const SK_KEYTRACKER=`
+  <div style="background:#161b22;border:1px solid #21262d;border-radius:10px;overflow:hidden">
+    ${'<div class="sk-tr"><div class="sk" style="width:120px;height:14px"></div><div class="sk" style="flex:1;height:14px;max-width:500px"></div></div>'.repeat(8)}
+  </div>`;
+const SK_KEYSTONE=`<div style="display:flex;flex-direction:column;gap:8px">${'<div class="sk" style="height:54px;border-radius:8px"></div>'.repeat(6)}</div>`;
 
 function scol(s){if(!s)return'#8b949e';if(s>=3000)return'#ff8000';if(s>=2500)return'#a335ee';if(s>=2000)return'#0070dd';if(s>=1500)return'#1eff00';return'#8b949e';}
 function aNames(){const n=new Set();Object.values(slots).flat().forEach(s=>{if(s.m)n.add(s.m.name);});return n;}
@@ -541,8 +671,10 @@ function renderRoster(){
   const counts={ALL:all.length,TANK:0,HEALING:0,DPS:0};
   all.forEach(m=>counts[m.role]=(counts[m.role]||0)+1);
   // stats
+  const uniqueUsers=new Set(all.map(m=>players[m.name]).filter(Boolean)).size;
   document.getElementById('roster-stats').innerHTML=`
     <div class="stat-card"><div class="stat-label">전체</div><div class="stat-val">${all.length}</div></div>
+    <div class="stat-card"><div class="stat-label">👥 유저</div><div class="stat-val" style="color:#f48cba">${uniqueUsers}</div></div>
     <div class="stat-card"><div class="stat-label">🛡️ 탱커</div><div class="stat-val" style="color:#7ab8f5">${counts.TANK||0}</div></div>
     <div class="stat-card"><div class="stat-label">💚 힐러</div><div class="stat-val" style="color:#56d364">${counts.HEALING||0}</div></div>
     <div class="stat-card"><div class="stat-label">⚔️ 딜러</div><div class="stat-val" style="color:#f87171">${counts.DPS||0}</div></div>`;
@@ -647,21 +779,25 @@ function renderSlots(){
     const ci=role==='TANK'?'tank-count':role==='HEALING'?'heal-count':'dps-count';
     document.getElementById(ci).textContent=`${f}/${slots[role].length}`;
     el.innerHTML=slots[role].map(slot=>{
-      const m=slot.m;const c=m?(CC[m.class]||'#888'):'';
-      const pn=m?(players[m.name]||''):'';
-      const ilvlText=m?(m.ilvl?`템 ${m.ilvl.toFixed(0)}`:'템 ?'):'';
-      return m
-        ?`<div class="slot filled" draggable="${isUnlocked}" ondragstart="dss(event,'${slot.id}')" ondragover="ev(event,this)" ondragleave="dl(this)" ondrop="drop(event,'${role}','${slot.id}')" style="border-color:${c}60">
-            <div class="slot-stripe" style="background:${c}"></div>
-            ${isUnlocked?`<span class="slot-remove" onclick="rem('${role}','${slot.id}')">✕</span>`:''}
-            <div class="slot-emoji">${CE[m.class]||'⚔️'}</div>
-            <div class="slot-name" style="color:${c}">${m.name}</div>
-            <div class="slot-ilvl" style="color:${c}88;font-size:12px">${CKR[m.class]||''} ${ilvlText}</div>
-            ${pn?`<div class="slot-player">👤 ${pn}</div>`:''}
-          </div>`
-        :`<div class="slot" ondragover="${isUnlocked?'ev(event,this)':''}" ondragleave="${isUnlocked?'dl(this)':''}" ondrop="${isUnlocked?`drop(event,'${role}','${slot.id}')`:''}" style="cursor:default">
-            <span class="slot-empty-label">${isUnlocked?'드래그':'–'}</span>
+      const m=slot.m;
+      if(!m){
+        return`<div class="slot" ondragover="${isUnlocked?'ev(event,this)':''}" ondragleave="${isUnlocked?'dl(this)':''}" ondrop="${isUnlocked?`drop(event,'${role}','${slot.id}')`:''}" style="cursor:default">
+            <span class="slot-empty-label">${isUnlocked?'탭 또는 드래그':'–'}</span>
           </div>`;
+      }
+      const cEn=classEn(m.class);
+      const c=CC[cEn]||'#888';
+      const pn=players[m.name]||'–';
+      const ilvlText=m.ilvl?`템 ${m.ilvl.toFixed(0)}`:'템 ?';
+      const specText=slot.spec||defaultSpecFor(cEn,role)||classKr(m.class)||'';
+      return`<div class="slot filled" draggable="${isUnlocked}" ondragstart="dss(event,'${slot.id}')" ondragover="ev(event,this)" ondragleave="dl(this)" ondrop="drop(event,'${role}','${slot.id}')" style="border-color:${c}60">
+          <div class="slot-stripe" style="background:${c}"></div>
+          ${isUnlocked?`<span class="slot-remove" onclick="rem('${role}','${slot.id}')">✕</span>`:''}
+          <div class="slot-emoji">${CE[cEn]||'⚔️'}</div>
+          <div class="slot-name" style="color:${c}">${m.name}</div>
+          <div class="slot-ilvl" style="color:${c}cc;font-size:12px">${specText} · ${ilvlText}</div>
+          <div class="slot-player">👤 ${pn}</div>
+        </div>`;
     }).join('');
     if(isUnlocked)el.innerHTML+=`<div class="add-slot-btn" onclick="addSlot('${role}')">+</div>`;
   });
@@ -676,7 +812,7 @@ function renderPool(){
   document.getElementById('pool-grid').innerHTML=members.map(m=>{
     const c=CC[m.class]||'#888';const isA=an.has(m.name);const pn=players[m.name]||'';
     const isBusy=!isA&&pn&&ap.has(pn);
-    return`<div class="pool-member ${isA?'assigned':''} ${isBusy?'player-busy':''}" draggable="${isUnlocked&&!isA&&!isBusy}" ondragstart="dsp(event,'${m.name}')">
+    return`<div class="pool-member ${isA?'assigned':''} ${isBusy?'player-busy':''}" draggable="${isUnlocked&&!isA&&!isBusy}" ondragstart="dsp(event,'${m.name}')" onclick="mobileAssignMember('${m.name}')">
       <div class="pm-icon" style="background:${c}25;color:${c}">${CE[m.class]||'⚔️'}</div>
       <div>
         <div class="pm-name" style="color:${c}">${m.name}${m.isManual?' ✦':''}</div>
@@ -692,20 +828,75 @@ function ev(e,el){e.preventDefault();el.classList.add('drag-over');}
 function dl(el){el.classList.remove('drag-over');}
 function dsp(e,name){if(!isUnlocked){e.preventDefault();return;}dragM=all.find(m=>m.name===name);dragFrom=null;e.dataTransfer.effectAllowed='move';}
 function dss(e,id){if(!isUnlocked){e.preventDefault();return;}dragFrom=id;const s=Object.values(slots).flat().find(s=>s.id===id);dragM=s?s.m:null;e.dataTransfer.effectAllowed='move';}
-function drop(e,role,id){
+// 슬롯에 배치 시 특성 선택 모달
+async function pickSpecForSlot(m,role){
+  const cEn=classEn(m.class);
+  const allSpecs=SPEC_KR_LIST[cEn]||[];
+  const roleSpecs=allSpecs.filter(s=>specToRole(s)===role);
+  if(!roleSpecs.length){
+    showToast(`${classKr(m.class)}는 ${ROLES[role].label} 배치 불가`);
+    return null;
+  }
+  if(roleSpecs.length===1)return roleSpecs[0];
+  return new Promise(resolve=>{
+    const ov=document.createElement('div');
+    ov.className='ui-modal-overlay';
+    ov.innerHTML=`<div class="ui-modal" role="dialog" aria-modal="true">
+      <div class="ui-modal-title">특성 선택</div>
+      <div class="ui-modal-body">
+        <div style="margin-bottom:.7rem"><b>${m.name}</b> (${classKr(m.class)}) 의 ${ROLES[role].label} 특성을 선택하세요</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${roleSpecs.map(s=>`<button class="btn btn-secondary" data-spec="${s}" style="flex:1;min-width:80px;padding:10px 14px">${specIcon(s)} ${s}</button>`).join('')}
+        </div>
+      </div>
+      <div class="ui-modal-btns"><button class="btn btn-secondary" data-cancel="1">취소</button></div>
+    </div>`;
+    document.body.appendChild(ov);
+    const close=v=>{ov.remove();document.removeEventListener('keydown',onKey);resolve(v);};
+    ov.addEventListener('click',e=>{if(e.target===ov)close(null);});
+    ov.querySelectorAll('[data-spec]').forEach(b=>b.addEventListener('click',()=>close(b.dataset.spec)));
+    ov.querySelector('[data-cancel]').addEventListener('click',()=>close(null));
+    const onKey=(e)=>{if(e.key==='Escape')close(null);};
+    document.addEventListener('keydown',onKey);
+  });
+}
+
+async function drop(e,role,id){
   if(!isUnlocked)return;
   e.preventDefault();document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drag-over'));
   if(!dragM)return;const t=slots[role].find(s=>s.id===id);if(!t)return;
-  if(dragFrom){const f=Object.values(slots).flat().find(s=>s.id===dragFrom);if(f){const tmp=f.m;f.m=t.m;t.m=tmp;renderSlots();renderPool();return;}}
+  // 슬롯 간 이동/교체: 캐릭터·스펙 함께 swap
+  if(dragFrom){
+    const f=Object.values(slots).flat().find(s=>s.id===dragFrom);
+    if(f){const tm=f.m,ts=f.spec;f.m=t.m;f.spec=t.spec;t.m=tm;t.spec=ts;renderSlots();renderPool();return;}
+  }
   if(aNames().has(dragM.name))return;
-  t.m=dragM;renderSlots();renderPool();
+  // 풀에서 새로 배치 → 특성 선택
+  const chosen=await pickSpecForSlot(dragM,role);
+  if(!chosen)return;
+  t.m=dragM;t.spec=chosen;renderSlots();renderPool();
 }
-function rem(role,id){if(!isUnlocked)return;const s=slots[role].find(s=>s.id===id);if(s)s.m=null;renderSlots();renderPool();}
+function rem(role,id){if(!isUnlocked)return;const s=slots[role].find(s=>s.id===id);if(s){s.m=null;s.spec=null;}renderSlots();renderPool();}
+async function mobileAssignMember(name){
+  if(!isUnlocked){showToast('🔒 잠겨있어요');return;}
+  const m=all.find(x=>x.name===name);if(!m)return;
+  if(aNames().has(m.name)){showToast('이미 배치됨');return;}
+  const pn=players[m.name];
+  if(pn&&aPlayers().has(pn)){showToast(`${pn}님 이미 배치됨`);return;}
+  const role=m.role||'DPS';
+  const target=slots[role].find(s=>!s.m);
+  if(!target){showToast(`${(ROLES[role]||{}).label||role} 슬롯이 가득 찼어요`);return;}
+  const chosen=await pickSpecForSlot(m,role);
+  if(!chosen)return;
+  target.m=m;target.spec=chosen;renderSlots();renderPool();
+}
 function addSlot(role){if(!isUnlocked)return;const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});renderSlots();}
 
-function toggleLock(){
+async function toggleLock(){
   if(isUnlocked){isUnlocked=false;lockUI();renderSlots();renderPool();return;}
-  const pw=prompt('비밀번호:');if(pw==='0415'){isUnlocked=true;lockUI();renderSlots();renderPool();}else if(pw!==null)alert('비밀번호가 틀렸어요!');
+  const pw=await uiPrompt({title:'관리자 모드',message:'비밀번호를 입력해주세요',password:true});
+  if(pw==='0415'){isUnlocked=true;lockUI();renderSlots();renderPool();}
+  else if(pw!==null)uiAlert('비밀번호가 틀렸어요!');
 }
 function lockUI(){
   const u=isUnlocked;
@@ -723,11 +914,11 @@ async function loadRaid(){
   try{const d=await(await fetch('/api/raid')).json();if(!d.slots)return;
     Object.keys(d.slots).forEach(role=>{if(!slots[role])return;
       while(slots[role].length<d.slots[role].length){const p={TANK:'t',HEALING:'h',DPS:'d'}[role];slots[role].push({id:`${p}${slots[role].length+1}`,m:null});}
-      d.slots[role].forEach((sv,i)=>{if(!sv.m||!slots[role][i])return;const mb=all.find(m=>m.name===sv.m.name);if(mb)slots[role][i].m=mb;});
+      d.slots[role].forEach((sv,i)=>{if(!sv.m||!slots[role][i])return;const mb=all.find(m=>m.name===sv.m.name);if(mb){slots[role][i].m=mb;slots[role][i].spec=sv.spec||null;}});
     });
   }catch(e){}
 }
-function resetRaid(){if(!confirm('초기화?'))return;slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};renderSlots();renderPool();}
+async function resetRaid(){if(!await uiConfirm('레이드 구성을 초기화할까요?','초기화'))return;slots={TANK:[{id:'t1',m:null},{id:'t2',m:null}],HEALING:[{id:'h1',m:null},{id:'h2',m:null},{id:'h3',m:null},{id:'h4',m:null}],DPS:Array.from({length:14},(_,i)=>({id:`d${i+1}`,m:null}))};renderSlots();renderPool();}
 
 // 관리
 function unlockAdmin(){
@@ -735,7 +926,7 @@ function unlockAdmin(){
     document.getElementById('admin-lock').style.display='none';
     document.getElementById('admin-content').style.display='block';
     renderNameTags();renderPTable();renderMList();
-  }else alert('비밀번호 틀렸어요!');
+  }else uiAlert('비밀번호 틀렸어요!');
 }
 
 function updateAdminSpec(charName, clsSel){
@@ -831,7 +1022,7 @@ async function savePlayers(){
     };
   });
   const r=await(await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',names:playerNames,players,overrides})})).json();
-  if(r.ok)alert('저장됐어요!');
+  if(r.ok)uiAlert('저장됐어요!');
   renderRoster();renderPool();renderPTable();
 }
 
@@ -846,8 +1037,8 @@ function addChar(){
   const role=document.getElementById('m-role').value;
   const ilvl=parseFloat(document.getElementById('m-ilvl').value)||null;
   const player=document.getElementById('m-player').value.trim();
-  if(!name||!cls){alert('이름과 직업을 입력해주세요');return;}
-  if(all.find(m=>m.name===name)){alert('이미 있는 이름이에요');return;}
+  if(!name||!cls){uiAlert('이름과 직업을 입력해주세요');return;}
+  if(all.find(m=>m.name===name)){uiAlert('이미 있는 이름이에요');return;}
   const specEn=(SPEC_EN_MAP[cls]&&SPEC_EN_MAP[cls][specKr])||specKr||'';
   const char={name,class:cls,spec:specEn,role,ilvl,score:null,isManual:true};
   manualChars.push(char);
@@ -876,15 +1067,37 @@ function renderMList(){
 async function saveManual(){
   await fetch('/api/manual',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',chars:manualChars})});
   await fetch('/api/players',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415',players,overrides})});
-  alert('저장됐어요!');
+  uiAlert('저장됐어요!');
 }
 
+let _partyPollTimer=null;
+function stopPartyPolling(){if(_partyPollTimer){clearInterval(_partyPollTimer);_partyPollTimer=null;}}
+function startPartyPolling(){
+  stopPartyPolling();
+  _partyPollTimer=setInterval(()=>{
+    if(document.hidden)return;
+    // 모달 열려있으면 새로고침 SKIP (입력 중 방해 방지)
+    if(document.getElementById('party-modal-content'))return;
+    const tabEl=document.getElementById('tab-party');
+    if(!tabEl||tabEl.style.display==='none')return;
+    loadParties();
+  },15000);
+}
+// 탭 복귀 시도 모달 열려있으면 갱신 안 함
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden){
+    if(document.getElementById('party-modal-content'))return;
+    const tabEl=document.getElementById('tab-party');
+    if(tabEl&&tabEl.style.display!=='none')loadParties();
+  }
+});
+
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','raid','party','keytracker','keystone','admin'][i]===tab));
-  ['roster','raid','party','keytracker','keystone','admin'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display=t===tab?'block':'none';});
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['roster','party','raid','keytracker','keystone','admin'][i]===tab));
+  ['roster','party','raid','keytracker','keystone','admin'].forEach(t=>{const el=document.getElementById(`tab-${t}`);if(el)el.style.display=t===tab?'block':'none';});
   if(tab==='raid'){renderSlots();renderPool();}
   if(tab==='keystone'){loadKeystones();}
-  if(tab==='party'){loadParties();}
+  if(tab==='party'){loadParties();startPartyPolling();}else{stopPartyPolling();}
   if(tab==='keytracker'){loadKeyTracker();}
 }
 
@@ -899,13 +1112,36 @@ const STATUS_COLOR={open:'#56d364',closed:'#f87171',confirmed:'#58a6ff'};
 
 function ptSpecToRole(specs){
   if(!specs||!specs.length)return'DPS';
-  const T=['혈기','보호','수호','양조','복수','방어'];
-  const H=['신성','회복','운무','보존','복원','수양'];
-  if(specs.some(s=>T.some(t=>s.includes(t))))return'TANK';
-  if(specs.some(s=>H.some(h=>s.includes(h))))return'HEALING';
+  if(specs.some(isTankSpec))return'TANK';
+  if(specs.some(isHealSpec))return'HEALING';
   return'DPS';
 }
 function ptRoleBadge(role){const e=ROLE_EMOJI[role]||'⚔️';const c={TANK:'#7ab8f5',HEALING:'#56d364',DPS:'#f87171'}[role]||'#888';return`<span style="font-size:13px;font-weight:700;color:${c}">${e} ${role==='TANK'?'탱커':role==='HEALING'?'힐러':'딜러'}</span>`;}
+
+// 파티(키스톤) vs 레이드 판별 및 슬롯 max 계산
+// 레이드는 상한 없음(플렉서블) → Infinity로 표시
+function partyPlanMax(p){
+  if(p?.dungeon==='레이드')return {TANK:Infinity,HEALING:Infinity,DPS:Infinity};
+  return {TANK:1,HEALING:1,DPS:3};
+}
+function isRaid(p){return p?.dungeon==='레이드';}
+// 던전 선택 변경 시 단수/난이도 필드 토글
+function ptUpdateDungeonMode(){
+  const dungeon=document.getElementById('pt-dungeon')?.value;
+  const lbl=document.getElementById('pt-level-label');
+  const inp=document.getElementById('pt-level');
+  const sel=document.getElementById('pt-difficulty');
+  if(!lbl||!inp||!sel)return;
+  if(dungeon==='레이드'){
+    lbl.textContent='난이도';
+    inp.style.display='none';inp.value='';
+    sel.style.display='';
+  }else{
+    lbl.textContent='단수';
+    inp.style.display='';
+    sel.style.display='none';sel.value='';
+  }
+}
 
 function ptPopulateAuthor(){
   const sel=document.getElementById('pt-author');if(!sel)return;
@@ -930,39 +1166,35 @@ function ptUpdateSpecs(){
   renderPtRoleBadges();
 }
 
-function specRoleIcon(spec){
-  const T=['혈기','보호','수호','양조','복수','방어'];
-  const H=['신성','회복','운무','보존','복원','수양'];
-  if(T.some(t=>spec.includes(t)))return'🛡️';
-  if(H.some(h=>spec.includes(h)))return'💚';
-  return'⚔️';
-}
+function specRoleIcon(spec){return specIcon(spec);}
 function ptToggleSpec(el,spec){
   if(el.classList.contains('selected')){el.classList.remove('selected');ptSelectedSpecs=ptSelectedSpecs.filter(s=>s!==spec);}
-  else{if(ptSelectedSpecs.length>=3){alert('특성은 최대 3개');return;}el.classList.add('selected');ptSelectedSpecs.push(spec);}
+  else{if(ptSelectedSpecs.length>=3){uiAlert('특성은 최대 3개');return;}el.classList.add('selected');ptSelectedSpecs.push(spec);}
   renderPtRoleBadges();
 }
 function renderPtRoleBadges(){
   const badges=document.getElementById('pt-role-badges');if(!badges)return;
   if(!ptSelectedSpecs.length){badges.innerHTML='';return;}
-  const T=['혈기','보호','수호','양조','복수','방어'];const H=['신성','회복','운무','보존','복원','수양'];
-  const roles=new Set(ptSelectedSpecs.map(s=>T.some(t=>s.includes(t))?'TANK':H.some(h=>s.includes(h))?'HEALING':'DPS'));
+  const roles=new Set(ptSelectedSpecs.map(specToRole));
   badges.innerHTML=[...roles].map(r=>ptRoleBadge(r)).join('<span style="color:#8b949e;margin:0 4px">/</span>');
 }
 
 async function submitParty(){
   const title=document.getElementById('pt-title').value.trim();
   const dungeon=document.getElementById('pt-dungeon').value;
-  const level=document.getElementById('pt-level').value;
+  const level=dungeon==='레이드'
+    ? document.getElementById('pt-difficulty').value
+    : document.getElementById('pt-level').value;
   const authorName=document.getElementById('pt-author').value;
   const authorChar=document.getElementById('pt-char').value;
   const password=document.getElementById('pt-pw').value.trim();
-  if(!title||!authorName||!password){alert('제목, 이름, 비밀번호는 필수예요');return;}
-  if(!authorChar){alert('캐릭터를 선택해주세요');return;}
-  if(!ptSelectedSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
+  if(!title||!authorName||!password){uiAlert('제목, 이름, 비밀번호는 필수예요');return;}
+  if(!authorChar){uiAlert('캐릭터를 선택해주세요');return;}
+  if(!ptSelectedSpecs.length){uiAlert('특성을 최소 1개 선택해주세요');return;}
+  if(dungeon==='레이드'&&!level){uiAlert('난이도를 선택해주세요');return;}
   const r=await(await fetch('/api/parties',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,dungeon,level,startTime:(()=>{const ap=document.getElementById('pt-start-ampm').value,h=document.getElementById('pt-start-h').value,m=document.getElementById('pt-start-m').value;return ap&&h&&m?`${ap} ${h}:${m}`:'';})(),authorName,authorChar,authorSpecs:ptSelectedSpecs,password})})).json();
-  if(r.ok){['pt-title','pt-level','pt-pw','pt-start-ampm','pt-start-h','pt-start-m'].forEach(id=>document.getElementById(id).value='');ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
-  else alert(r.error||'오류');
+  if(r.ok){['pt-title','pt-level','pt-pw','pt-start-h','pt-start-m'].forEach(id=>document.getElementById(id).value='');const ampm=document.getElementById('pt-start-ampm');if(ampm)ampm.value='PM';const df=document.getElementById('pt-difficulty');if(df)df.value='';ptSelectedSpecs=[];document.getElementById('pt-spec-group').style.display='none';loadParties();}
+  else uiAlert(r.error||'오류');
 }
 
 async function loadParties(){
@@ -973,8 +1205,7 @@ async function loadParties(){
     if(!parties.length){el.innerHTML='<div style="text-align:center;padding:3rem;color:#8b949e;font-size:14px">등록된 모집 글이 없어요</div>';return;}
     const nameClassChip=(name,char,spec)=>{
       const m=all.find(x=>x.name===char)||all.find(x=>x.name===name);
-      const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];
-      const roleColor=spec?(T.some(t=>spec.includes(t))?'#7ab8f5':H.some(h=>spec.includes(h))?'#56d364':'#f87171'):null;
+      const roleColor=spec?specColor(spec):null;
       const c=CC[m?.class]||roleColor||'#888';
       const cls=CKR[m?.class]||m?.class||'';
       const specLabel=spec&&!cls?spec:'';
@@ -998,7 +1229,7 @@ async function loadParties(){
         </div>
         ${p.startTime?`<div style="font-size:14px;font-weight:700;color:#f09000;margin-bottom:4px">⏰ ${p.startTime} 출발</div>`:''}
         <div style="font-size:13px;color:#8b949e;margin-bottom:.7rem">
-          ${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
+          ${p.dungeon==='레이드'?`🗡️ 레이드${p.level?` · <span style="color:#f48cba;font-weight:700">${p.level}</span>`:''} · `:p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ <span style="color:${ac};font-weight:600">${p.authorName}</span> · 🕐 ${fmtTime(p.createdAt)}
         </div>
         <div class="party-card-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;font-size:12px;margin-bottom:6px">
           <div style="background:#0d1117;border-radius:6px;padding:5px 8px">
@@ -1014,7 +1245,15 @@ async function loadParties(){
             ${byRolePlan('DPS').map(s=>nameClassChip(s.name,s.char,s.planSpec)).join('')||'<span style="color:#30363d;font-size:11px">없음</span>'}
           </div>
         </div>
-        ${(()=>{const planNames=new Set(plan.map(s=>s.name));const unassigned=allM.filter(a=>!planNames.has(a.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko'));if(!unassigned.length)return '';const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];const ri=s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️';const summary=unassigned.map(a=>(a.specs||[]).map(s=>ri(s)).join('')||ri2(a.role)).join(' ');return `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:11px;color:#8b949e">신청자</span>${unassigned.map(a=>{const icons=(a.specs||[]).map(s=>T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️');return `<span style="font-size:11px">${nameClassChip(a.name,a.char||a.name)} ${icons.join('')}</span>`;}).join('')}</div>`;})()}
+        ${(()=>{
+          const planNames=new Set(plan.map(s=>s.name));
+          const unassigned=allM.filter(a=>!planNames.has(a.name)).sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+          if(!unassigned.length)return '';
+          return `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:11px;color:#8b949e">신청자</span>${unassigned.map(a=>{
+            const icons=(a.specs||[]).map(specIcon);
+            return `<span style="font-size:11px">${nameClassChip(a.name,a.char||a.name)} ${icons.join('')}</span>`;
+          }).join('')}</div>`;
+        })()}
         <div style="display:flex;justify-content:flex-end;margin-top:.6rem">
           <button onclick="event.stopPropagation();shareToSlack('${p.id}')" class="btn btn-secondary" style="padding:3px 10px;font-size:12px">💬 슬랙 공유</button>
           <button onclick="event.stopPropagation();deleteParty('${p.id}')" class="btn btn-danger" style="padding:3px 10px;font-size:12px">🗑️ 삭제</button>
@@ -1026,7 +1265,12 @@ async function loadParties(){
 
 function fmtTime(iso){if(!iso)return'';const d=new Date(iso);return`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
 
-function openPartyModal(id){
+async function openPartyModal(id){
+  // 모달 열 때는 최신 데이터 fetch (폴링은 모달 열린 동안 안 함)
+  try{
+    const fresh=await(await fetch('/api/parties')).json();
+    if(Array.isArray(fresh))parties=fresh;
+  }catch{}
   currentParty=parties.find(p=>p.id===id);if(!currentParty)return;
   planMode='plan1';
   document.getElementById('party-modal').style.display='block';
@@ -1038,11 +1282,11 @@ let planDirty=false;
 function markPlanDirty(){planDirty=true;}
 async function tryClosePartyModal(id){
   if(!planDirty){closePartyModal();return;}
-  if(!confirm('저장하지 않은 파티 구성이 있어요.\n저장하시겠어요?\n저장은 글 작성자만 가능합니다!\n(취소하면 그냥 닫힙니다.)'))  {closePartyModal();return;}
-  const pw=prompt('글 작성자 비밀번호를 입력해주세요:');
+  if(!await uiConfirm('저장하지 않은 파티 구성이 있어요.\n저장하시겠어요?\n(저장은 글 작성자만 가능합니다. 취소하면 그냥 닫힙니다.)','파티 구성 저장')){closePartyModal();return;}
+  const pw=await uiPrompt({title:'작성자 비밀번호',message:'글 작성자의 비밀번호를 입력해주세요',password:true});
   if(!pw){return;}
   const r=await(await fetch(`/api/parties/${id}/plan`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,plan1:currentParty?.plans?.plan1||null,plan2:null})})).json();
-  if(r.ok){closePartyModal();loadParties();}else{alert(r.error||'비밀번호 오류');}}
+  if(r.ok){closePartyModal();loadParties();}else{uiAlert(r.error||'비밀번호 오류');}}
 
 function renderPartyModal(){
   const p=currentParty;if(!p)return;
@@ -1058,12 +1302,7 @@ function renderPartyModal(){
   const assignedNames=new Set(plan.map(s=>s.name));
 
   // 신청자 by role
-  const byRole=role=>allApplicants.filter(a=>a.role===role||a.specs?.some(s=>{
-    const T=['혈기','보호','수호','양조','복수','방어'];const H=['신성','회복','운무','보존','복원','수양'];
-    if(role==='TANK')return T.some(t=>s.includes(t));
-    if(role==='HEALING')return H.some(h=>s.includes(h));
-    return!T.some(t=>s.includes(t))&&!H.some(h=>s.includes(h));
-  }));
+  const byRole=role=>allApplicants.filter(a=>a.role===role||a.specs?.some(s=>specToRole(s)===role));
 
   const applicantCard=(a,showCancel=false)=>{
     const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||CC[a.char]||'#888';
@@ -1078,18 +1317,18 @@ function renderPartyModal(){
         ${m?.score?`<span style="color:${scol(m.score)};font-size:12px"> · ${Math.round(m.score)}</span>`:''}
         ${a.isAuthor?`<span style="color:#f09000;font-size:11px;margin-left:4px">✍️</span>`:''}
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const selected=inPlan&&inPlan.planSpec===s;const T=['혈기','보호','수호','양조','복수','방어'],H=['신성','회복','운무','보존','복원','수양'];const ic=T.some(t=>s.includes(t))?'🛡️':H.some(h=>s.includes(h))?'💚':'⚔️';return`<span style="font-size:11px;padding:1px 7px;background:${selected?'#58a6ff25':'#21262d'};border:1px solid ${selected?'#58a6ff':'#30363d'};border-radius:4px;color:${selected?'#58a6ff':'#8b949e'}">${ic} ${s}</span>`;}).join('')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const selected=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:1px 7px;background:${selected?'#58a6ff25':'#21262d'};border:1px solid ${selected?'#58a6ff':'#30363d'};border-radius:4px;color:${selected?'#58a6ff':'#8b949e'}">${specIcon(s)} ${s}</span>`;}).join('')}</div>
       ${showCancel&&!a.isAuthor&&p.status==='open'?`<button onclick="cancelApply('${p.id}','${a.name}')" class="btn btn-danger" style="padding:2px 8px;font-size:11px">취소</button>`:''}
     </div>`;
   };
 
   // 플랜 슬롯 UI
+  const PLAN_MAX=partyPlanMax(p);
   const planSlot=(role,label,color)=>{
-    const slot=plan.find(s=>s.role===role&&!plan.filter(x=>x.role===role).indexOf(s));
     const slots_for_role=plan.filter(s=>s.role===role);
-    const max={TANK:1,HEALING:1,DPS:3}[role];
+    const max=PLAN_MAX[role];
     return`<div style="margin-bottom:.75rem">
-      <div style="font-size:12px;font-weight:600;color:${color};margin-bottom:4px">${label} (${slots_for_role.length}/${max})</div>
+      <div style="font-size:12px;font-weight:600;color:${color};margin-bottom:4px">${label} ${isFinite(max)?`(${slots_for_role.length}/${max})`:`${slots_for_role.length}명`}</div>
       ${slots_for_role.map((s,idx)=>{const m=all.find(x=>x.name===s.char);const c2=CC[m?.class]||'#888';
         return`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#0d1117;border:1px solid #58a6ff40;border-radius:6px;margin-bottom:3px;font-size:13px">
           <span style="color:${c2}">${CE[m?.class]||'⚔️'}</span>
@@ -1102,13 +1341,7 @@ function renderPartyModal(){
     </div>`;
   };
 
-  // 시너지 체크 (5인 기준)
-  const planClasses=new Set(plan.map(s=>{const m=all.find(x=>x.name===s.char);return m?.class||'';}));
-  const hasSyn=syn=>syn.classes.some(c=>planClasses.has(c)||planClasses.has(CKR[c]));
-  const activeSyn=SYNERGIES.filter(hasSyn);
-  const CREZ_CLASSES=['Druid','Death Knight','Warlock','Paladin'];
-  const hasCRez=CREZ_CLASSES.some(c=>planClasses.has(c)||planClasses.has(CKR[c]));
-
+  // 시너지/전부는 updatePlanSlots에서 그림 (모달 렌더 직후 setTimeout으로 호출)
   document.getElementById('party-modal-content').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem">
       <div>
@@ -1116,7 +1349,7 @@ function renderPartyModal(){
           <span id="party-title-text" style="font-size:18px;font-weight:700">${p.title}</span>
           <button onclick="startEditTitle('${p.id}','${p.title.replace(/'/g,"&#39;")}')" style="background:none;border:none;color:#8b949e;cursor:pointer;font-size:13px;padding:2px 6px;border-radius:4px;border:1px solid #30363d" title="제목 수정">✏️</button>
         </div>
-        <div style="font-size:13px;color:#8b949e">${p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
+        <div style="font-size:13px;color:#8b949e">${p.dungeon==='레이드'?`🗡️ 레이드${p.level?` · <span style="color:#f48cba;font-weight:700">${p.level}</span>`:''} · `:p.dungeon?`🗝️ ${p.dungeon} ${p.level}단 · `:''}✍️ ${p.authorName} · 🕐 ${fmtTime(p.createdAt)}</div>
         ${p.startTime?`<div style="margin-top:4px;font-size:16px;font-weight:700;color:#f09000">⏰ 출발 희망 ${p.startTime}</div>`:''}
       </div>
       <div style="display:flex;align-items:center;gap:6px">
@@ -1168,7 +1401,7 @@ function renderPartyModal(){
       <div style="font-size:13px;font-weight:700;margin-bottom:.75rem">📝 신청하기</div>
       <div style="display:flex;gap:6px;margin-bottom:6px">
         <select class="form-select" id="ap-name" onchange="apUpdateChars()" style="flex:1">
-          <option value="">이름</option>${(()=>{const taken=new Set([p.authorName,...(p.applications||[]).map(a=>a.name)]);return playerNames.filter(n=>!taken.has(n)).map(n=>`<option>${n}</option>`).join('');})()}
+          <option value="">이름</option>${(()=>{const taken=new Set([p.authorName,...(p.applications||[]).map(a=>a.name)]);const has90=n=>all.some(m=>players[m.name]===n&&(!m.level||m.level>=90));return playerNames.filter(n=>!taken.has(n)&&has90(n)).map(n=>`<option>${n}</option>`).join('');})()}
         </select>
         <select class="form-select" id="ap-char" onchange="apUpdateSpecs()" style="flex:1">
           <option value="">캐릭터</option>
@@ -1201,11 +1434,11 @@ function renderPartyModal(){
         <select class="form-select" id="cm-name" style="width:100px;font-size:13px">
           <option value="">이름</option>${playerNames.map(n=>`<option>${n}</option>`).join('')}
         </select>
-        <input class="form-input" id="cm-text" placeholder="50자 이내" maxlength="50" style="flex:1;min-width:120px" oninput="document.getElementById('cm-len').textContent=this.value.length">
+        <input class="form-input" id="cm-text" placeholder="200자 이내" maxlength="200" style="flex:1;min-width:120px" oninput="document.getElementById('cm-len').textContent=this.value.length">
         <input class="form-input" id="cm-pw" type="password" placeholder="비밀번호" style="width:90px">
         <button onclick="submitComment('${p.id}')" class="btn btn-primary" style="padding:5px 12px;font-size:13px">등록</button>
       </div>
-      <div style="font-size:11px;color:#484f58;text-align:right;margin-top:3px"><span id="cm-len">0</span>/50</div>
+      <div style="font-size:11px;color:#484f58;text-align:right;margin-top:3px"><span id="cm-len">0</span>/200</div>
     </div>`;
 }
 
@@ -1216,24 +1449,17 @@ function setPtTab(role){
   const _rawA=[p.authorChar?{name:p.authorName,char:p.authorChar,specs:p.authorSpecs,role:p.authorRole,isAuthor:true}:null,...(p.applications||[])].filter(Boolean);const _seenA=new Set();const allApplicants=_rawA.filter(a=>{if(_seenA.has(a.name))return false;_seenA.add(a.name);return true;});
   ['TANK','HEALING','DPS'].forEach(r=>{const b=document.getElementById(`ptab-${r}`);if(b)b.style.opacity=r===role?'1':'.5';});
   const list=document.getElementById('ptab-list');if(!list)return;
-  const filtered=role==='ALL'?allApplicants:allApplicants.filter(a=>a.role===role||a.specs?.some(s=>{
-    const T=['혈기','보호','수호','양조','복수','방어'];const H=['신성','회복','운무','보존','복원','수양'];
-    if(role==='TANK')return T.some(t=>s.includes(t));
-    if(role==='HEALING')return H.some(h=>s.includes(h));
-    return!T.some(t=>s.includes(t))&&!H.some(h=>s.includes(h));
-  }));
+  const filtered=role==='ALL'?allApplicants:allApplicants.filter(a=>a.role===role||a.specs?.some(s=>specToRole(s)===role));
   const plan=currentParty?.plans?.[planMode]||[];
   const deduped=(()=>{const s=new Set();return filtered.filter(a=>{if(s.has(a.name))return false;s.add(a.name);return true;});})();
   list.innerHTML=deduped.map(a=>{
     const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||'#888';
     const inPlan=plan.find(s=>s.name===a.name);
     const dk2=`drag_${a.name}`;_partyDragMap[dk2]={name:a.name,char:a.char,specs:a.specs||[]};
-    const T2=['혈기','보호','수호','양조','복수','방어'],H2=['신성','회복','운무','보존','복원','수양'];
-    const ic2=s=>T2.some(t=>s.includes(t))?'🛡️':H2.some(h=>s.includes(h))?'💚':'⚔️';
     return`<div draggable="true" ondragstart="partyDragStart(event,'${dk2}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#0d1117;border:1px solid ${inPlan?'#58a6ff':'#21262d'};border-radius:8px;font-size:13px;margin-bottom:4px;cursor:grab">
       <span>${CE[m?.class]||'⚔️'}</span>
       <div style="flex:1"><span style="color:${c};font-weight:600">${a.name}</span><span style="color:#8b949e;font-size:12px"> · ${CKR[m?.class]||a.char}</span>${m?.ilvl?` <span style="color:#8b949e;font-size:12px">· 템${Math.round(m.ilvl)}</span>`:''}${m?.score?` <span style="color:${scol(m.score)};font-size:12px">${Math.round(m.score)}</span>`:''}${a.isAuthor?` <span style="color:#f09000;font-size:11px">✍️</span>`:''}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const isSel=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:2px 7px;background:${isSel?'#58a6ff25':'#21262d'};border:1px solid ${isSel?'#58a6ff':'#30363d'};border-radius:4px;color:${isSel?'#58a6ff':'#8b949e'}">${ic2(s)} ${s}</span>`;}).join('')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const isSel=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:2px 7px;background:${isSel?'#58a6ff25':'#21262d'};border:1px solid ${isSel?'#58a6ff':'#30363d'};border-radius:4px;color:${isSel?'#58a6ff':'#8b949e'}">${specIcon(s)} ${s}</span>`;}).join('')}</div>
       ${!a.isAuthor&&currentParty?.status==='open'?`<button onclick="cancelApply('${currentParty.id}','${a.name}')" class="btn btn-danger" style="padding:2px 8px;font-size:11px">취소</button>`:''}
     </div>`;
   }).join('')||'<div style="color:#8b949e;font-size:13px">해당 없음</div>';
@@ -1246,22 +1472,14 @@ function showAddToPlan(role){
   const plan=p.plans?.[planMode]||[];
   const assignedNames=new Set(plan.map(s=>s.name));
   const _rawA=[p.authorChar?{name:p.authorName,char:p.authorChar,specs:p.authorSpecs,role:p.authorRole,isAuthor:true}:null,...(p.applications||[])].filter(Boolean);const _seenA=new Set();const allApplicants=_rawA.filter(a=>{if(_seenA.has(a.name))return false;_seenA.add(a.name);return true;});
-  const eligible=allApplicants.filter(a=>!assignedNames.has(a.name)&&(a.role===role||a.specs?.some(s=>{
-    const T=['혈기','보호','수호','양조','복수','방어'];const H=['신성','회복','운무','보존','복원','수양'];
-    if(role==='TANK')return T.some(t=>s.includes(t));
-    if(role==='HEALING')return H.some(h=>s.includes(h));
-    return true;
-  })));
+  const eligible=allApplicants.filter(a=>!assignedNames.has(a.name)&&(a.role===role||a.specs?.some(s=>role==='DPS'||specToRole(s)===role)));
   const popup=document.getElementById('add-to-plan-popup');
   popup.style.display='block';
   document.getElementById('add-to-plan-list').innerHTML=eligible.map(a=>{
     const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||CC[a.char]||'#888';
     const specs=a.specs||[];
-    // 특성 2개면 각각 클릭 가능, 1개면 행 전체 클릭
-    // 역할에 맞는 특성 자동 선택 (탱→탱특성, 힐→힐특성, 없으면 첫번째)
-    const T=['혈기','보호','수호','양조','복수','방어'];const H=['신성','회복','운무','보존','복원','수양'];
-    const roleMatch=role==='TANK'?s=>T.some(t=>s.includes(t)):role==='HEALING'?s=>H.some(h=>s.includes(h)):s=>!T.some(t=>s.includes(t))&&!H.some(h=>s.includes(h));
-    const autoSpec=specs.find(roleMatch)||specs[0]||'';
+    // 역할에 맞는 특성 자동 선택 (탱→탱특성, 힐→힐특성, 딜→딜특성)
+    const autoSpec=specs.find(s=>specToRole(s)===role)||specs[0]||'';
     return`<div onclick="addToPlan('${a.name}','${a.char}','${role}','${autoSpec}')" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #21262d;border-radius:8px;font-size:13px;margin-bottom:5px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='#58a6ff'" onmouseout="this.style.borderColor='#21262d'">
       <span style="font-size:18px">${CE[m?.class]||'⚔️'}</span>
       <div style="flex:1;min-width:0">
@@ -1278,13 +1496,14 @@ function addToPlan(name,char,role,spec){
   if(!currentParty.plans)currentParty.plans={plan1:null,plan2:null};
   if(!currentParty.plans[planMode])currentParty.plans[planMode]=[];
   const plan=currentParty.plans[planMode];
-  if(plan.find(s=>s.name===name)){alert('이미 배치됐어요');return;}
-  const max={TANK:1,HEALING:1,DPS:3}[role];
-  if(plan.filter(s=>s.role===role).length>=max){alert(`${role} 슬롯이 가득 찼어요`);return;}
+  if(plan.find(s=>s.name===name)){uiAlert('이미 배치됐어요');return;}
+  const MAX=partyPlanMax(currentParty);
+  const max=MAX[role];
+  if(plan.filter(s=>s.role===role).length>=max){uiAlert(`${role} 슬롯이 가득 찼어요`);return;}
   plan.push({name,char,role,planSpec:spec});planDirty=true;
   updatePlanSlots();
   // 슬롯 가득 찼으면 팝업 닫기, 아니면 유지
-  const maxNow={TANK:1,HEALING:1,DPS:3}[role];
+  const maxNow=MAX[role];
   if(plan.filter(s=>s.role===role).length>=maxNow){
     document.getElementById('add-to-plan-popup').style.display='none';
   } else {
@@ -1307,12 +1526,12 @@ function updatePlanSlots(){
   const planClasses=new Set(plan.map(s=>{const m=all.find(x=>x.name===s.char);return m?.class||'';}));
   const hasSyn=syn=>syn.classes.some(c=>planClasses.has(c)||planClasses.has(CKR[c]));
   const activeSyn=SYNERGIES.filter(hasSyn);
-  const CREZ_CLASSES=['Druid','Death Knight','Warlock','Paladin'];
   const hasCRez=CREZ_CLASSES.some(c=>planClasses.has(c)||planClasses.has(CKR[c]));
 
+  const PLAN_MAX2=partyPlanMax(p);
   const planSlot=(role,label,color)=>{
     const slots_for_role=plan.filter(s=>s.role===role);
-    const max={TANK:1,HEALING:1,DPS:3}[role];
+    const max=PLAN_MAX2[role];
     const isFull=slots_for_role.length>=max;
     return`<div style="margin-bottom:.75rem">
       <div style="font-size:12px;font-weight:600;color:${color};margin-bottom:4px">${label}</div>
@@ -1339,8 +1558,7 @@ function updatePlanSlots(){
     // 영웅심 카운트 (주술사/마법사/기원사 각각 체크)
     const heroCount=heroism?heroism.classes.filter(c=>planClasses.has(c)||planClasses.has(CKR[c])).length:0;
     // 전투부활 카운트
-    const CREZ_ALL=['Druid','Death Knight','Warlock','Paladin'];
-    const crezCount=CREZ_ALL.filter(c=>planClasses.has(c)||planClasses.has(CKR[c])).length;
+    const crezCount=CREZ_CLASSES.filter(c=>planClasses.has(c)||planClasses.has(CKR[c])).length;
     // 배치된 캐릭터 목록
     const planMembers=plan.map(s=>{const m=all.find(x=>x.name===s.char);const c=CC[m?.class]||'#888';return`<span style="font-size:12px;padding:2px 8px;background:${c}18;border:1px solid ${c}30;border-radius:5px;color:${c}">${CE[m?.class]||'⚔️'} ${s.name}</span>`;}).join('');
     synEl.innerHTML=`
@@ -1350,35 +1568,32 @@ function updatePlanSlots(){
         ${otherSyn.map(s=>{const ok=hasSyn(s);return`<span style="font-size:11px;padding:2px 7px;background:#21262d;border:1px solid ${ok?'#56d36440':'#21262d'};border-radius:4px;color:${ok?'#56d364':'#484f58'};${!ok?'opacity:.5':''}">${s.name}</span>`;}).join('')}
         <span style="font-size:11px;padding:2px 7px;background:#21262d;border:1px solid ${crezCount?'#58a6ff40':'#21262d'};border-radius:4px;color:${crezCount?'#58a6ff':'#484f58'};${!crezCount?'opacity:.5':''}">⚡ 전투부활${crezCount>1?` x${crezCount}`:''}</span>
       </div>
-      ${plan.length?`<div style="font-size:12px;color:#8b949e;margin-bottom:4px">👥 배치 (${plan.length}/5)</div><div style="display:flex;flex-wrap:wrap;gap:4px">${planMembers}</div>`:''}`;
+      ${plan.length?`<div style="font-size:12px;color:#8b949e;margin-bottom:4px">👥 배치 ${isRaid(p)?`${plan.length}명`:`(${plan.length}/5)`}</div><div style="display:flex;flex-wrap:wrap;gap:4px">${planMembers}</div>`:''}`;
   }
 }
 
 async function savePlan(id){
   const pw=document.getElementById('plan-pw')?.value;
-  if(!pw){alert('비밀번호 입력해주세요');return;}
+  if(!pw){uiAlert('비밀번호 입력해주세요');return;}
   const p=currentParty;
   const r=await(await fetch(`/api/parties/${id}/plan`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,plan1:p.plans?.plan1||null,plan2:p.plans?.plan2||null})})).json();
-  if(r.ok){planDirty=false;alert('저장됐어요!');loadParties();}else alert(r.error||'오류');
+  if(r.ok){planDirty=false;uiAlert('저장됐어요!');loadParties();}else uiAlert(r.error||'오류');
 }
 async function changeStatus(id){
   const next=document.getElementById('status-select')?.value;if(!next)return;
-  const pw=prompt('비밀번호를 입력해주세요:');if(!pw)return;
+  const pw=await uiPrompt({title:'상태 변경',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
   const r=await(await fetch(`/api/parties/${id}/status`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,status:next})})).json();
-  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();setTimeout(updatePlanSlots,0);}}else alert(r.error||'오류');
+  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();setTimeout(updatePlanSlots,0);}}else uiAlert(r.error||'오류');
 }
 async function cancelApply(id,name){
-  if(!confirm(`${name}님의 신청을 취소할까요?`))return;
+  if(!await uiConfirm(`${name}님의 신청을 취소할까요?`,'신청 취소'))return;
   const r=await(await fetch(`/api/parties/${id}/apply/${encodeURIComponent(name)}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'0415'})})).json();
-  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else alert(r.error||'오류');
+  if(r.ok){const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else uiAlert(r.error||'오류');
 }
 
 async function shareToSlack(id){
   const p=parties.find(x=>x.id===id);if(!p)return;
-  const dunInfo=p.dungeon?`${p.dungeon} ${p.level}단`:'던전 미정';
-  const timeInfo=p.startTime?` · ⏰ ${p.startTime} 출발`:'';
-  const specs=(p.authorSpecs||[]).join(', ');
-  const appCount=p.applications?.length||0;
+  if(!await uiConfirm('"붉은내복단" 채널에 파티찾기 링크가 공유됩니다.\n공유하시겠어요?','슬랙 공유'))return;
   try{
     const r=await(await fetch('/api/slack-share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({partyId:id})})).json();
     if(r.ok)showToast('슬랙에 공유했어요! 💬');
@@ -1387,10 +1602,10 @@ async function shareToSlack(id){
 }
 
 async function deleteParty(id){
-  const pw=prompt('비밀번호를 입력해주세요:');if(!pw)return;
-  if(!confirm('정말 삭제할까요?'))return;
+  const pw=await uiPrompt({title:'파티 삭제',message:'작성자 비밀번호를 입력해주세요',password:true});if(!pw)return;
+  if(!await uiConfirm('정말 삭제할까요? 되돌릴 수 없어요.','삭제 확인'))return;
   const r=await(await fetch(`/api/parties/${id}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})).json();
-  if(r.ok){closePartyModal();loadParties();}else alert(r.error||'오류');
+  if(r.ok){closePartyModal();loadParties();}else uiAlert(r.error||'오류');
 }
 
 // 신청 폼
@@ -1414,22 +1629,19 @@ function apUpdateSpecs(){
 }
 function apToggleSpec(el,spec){
   if(el.classList.contains('selected')){el.classList.remove('selected');apSpecs=apSpecs.filter(s=>s!==spec);}
-  else{if(apSpecs.length>=3){alert('최대 3개');return;}el.classList.add('selected');apSpecs.push(spec);}
+  else{if(apSpecs.length>=3){uiAlert('최대 3개');return;}el.classList.add('selected');apSpecs.push(spec);}
   const rb=document.getElementById('ap-role-badge');if(!rb)return;
   if(!apSpecs.length){rb.innerHTML='';return;}
-  const T2=['혈기','보호','수호','양조','복수','방어'];const H2=['신성','회복','운무','보존','복원','수양'];
-  const roles2=new Set(apSpecs.map(s=>T2.some(t=>s.includes(t))?'TANK':H2.some(h=>s.includes(h))?'HEALING':'DPS'));
+  const roles2=new Set(apSpecs.map(specToRole));
   rb.innerHTML=[...roles2].map(r=>ptRoleBadge(r)).join('<span style="color:#8b949e;margin:0 4px">/</span>');
 }
 async function submitApply(id){
   const name=document.getElementById('ap-name')?.value;
   const char=document.getElementById('ap-char')?.value;
-  const cancelPw='';
-  if(!name||!char){alert('이름과 캐릭터를 선택해주세요');return;}
-  if(!apSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
-  if(!apSpecs.length){alert('특성을 최소 1개 선택해주세요');return;}
-  const r=await(await fetch(`/api/parties/${id}/apply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,char,specs:apSpecs,cancelPw})})).json();
-  if(r.ok){apSpecs=[];const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else alert(r.error||'오류');
+  if(!name||!char){uiAlert('이름과 캐릭터를 선택해주세요');return;}
+  if(!apSpecs.length){uiAlert('특성을 최소 1개 선택해주세요');return;}
+  const r=await(await fetch(`/api/parties/${id}/apply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,char,specs:apSpecs,cancelPw:''})})).json();
+  if(r.ok){apSpecs=[];const savedPlans=currentParty?.plans;await loadParties();const updated=parties.find(p=>p.id===id);if(updated){currentParty=updated;if(savedPlans)currentParty.plans=savedPlans;renderPartyModal();}}else uiAlert(r.error||'오류');
 }
 
 
@@ -1446,7 +1658,7 @@ function populateKsPlayer(){
 function updateKsChars(){
   const player=document.getElementById('ks-player').value;
   const charSel=document.getElementById('ks-char');
-  const myChars=all.filter(m=>players[m.name]===player);
+  const myChars=all.filter(m=>players[m.name]===player&&(!m.level||m.level>=90));
   charSel.innerHTML='<option value="">선택</option>'+myChars.map(m=>`<option value="${m.name}">${CE[m.class]||''} ${m.name} (${CKR[m.class]||m.class})</option>`).join('');
 }
 async function submitKeystone(){
@@ -1454,8 +1666,8 @@ async function submitKeystone(){
   const char=document.getElementById('ks-char').value;
   const dungeon=document.getElementById('ks-dungeon').value;
   const level=parseInt(document.getElementById('ks-level').value);
-  if(!player||!char||!dungeon||!level){alert('모든 항목을 입력해주세요');return;}
-  if(level<2||level>30){alert('단수는 2~30');return;}
+  if(!player||!char||!dungeon||!level){uiAlert('모든 항목을 입력해주세요');return;}
+  if(level<2||level>30){uiAlert('단수는 2~30');return;}
   const r=await(await fetch('/api/keystones',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({player,char,dungeon,level})})).json();
   if(r.ok){
     // 오버라이드에 저장
@@ -1463,17 +1675,18 @@ async function submitKeystone(){
     overrides[char].keystone={dungeon,level};
     document.getElementById('ks-level').value='';
     loadKeystones();
-  } else alert(r.error||'오류');
+  } else uiAlert(r.error||'오류');
 }
 async function clearMyKeystone(){
   const char=document.getElementById('ks-char').value;
-  if(!char){alert('캐릭터를 선택해주세요');return;}
-  if(!confirm(`${char}의 쐐기돌을 삭제할까요?`))return;
+  if(!char){uiAlert('캐릭터를 선택해주세요');return;}
+  if(!await uiConfirm(`${char}의 쐐기돌을 삭제할까요?`,'쐐기돌 삭제'))return;
   const r=await(await fetch(`/api/keystones/${encodeURIComponent(char)}`,{method:'DELETE'})).json();
   if(r.ok){if(overrides[char])delete overrides[char].keystone;loadKeystones();}
 }
 async function loadKeystones(){
   const el=document.getElementById('ks-list');if(!el)return;
+  el.innerHTML=SK_KEYSTONE;
   populateKsPlayer();
   try{
     const ksData=await(await fetch('/api/keystones')).json();
@@ -1529,7 +1742,7 @@ function renderNameTags(){
 function addPlayerName(){
   const inp=document.getElementById('new-name-input');
   const name=inp.value.trim();
-  if(!name||playerNames.includes(name)){alert(name?'이미 있는 이름이에요':'이름을 입력해주세요');return;}
+  if(!name||playerNames.includes(name)){uiAlert(name?'이미 있는 이름이에요':'이름을 입력해주세요');return;}
   playerNames.push(name);playerNames.sort((a,b)=>a.localeCompare(b,'ko'));inp.value='';
   renderNameTags();renderPTable();
 }
@@ -1542,7 +1755,7 @@ function removePlayerName(name){
 // ── 쐐기진행도 ──
 async function loadKeyTracker(){
   const el=document.getElementById('keytracker-content');if(!el)return;
-  el.innerHTML='<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px;margin-top:.5rem">블리자드 API에서 불러오는 중...</div></div>';
+  el.innerHTML=SK_KEYTRACKER;
   try{
     const ktData=await(await fetch('/api/keytracker')).json();
     if(ktData.error){el.innerHTML=`<div style="color:#f87171;padding:1rem">${ktData.error}</div>`;return;}
@@ -1561,12 +1774,12 @@ async function loadKeyTracker(){
     const allNames=[...playerNames,...extraNames].sort((a,b)=>a.localeCompare(b,'ko'));
 
     const dunCell=(k)=>{
-      if(!k)return`<td style="padding:3px;text-align:center"><div style="width:64px;min-height:38px;margin:0 auto;border-radius:6px;background:#21262d20;border:1px solid #30363d;display:flex;align-items:center;justify-content:center;color:#484f58;font-size:12px">–</div></td>`;
+      if(!k)return`<td style="padding:3px;text-align:center"><div style="width:90px;min-height:38px;margin:0 auto;border-radius:6px;background:#21262d20;border:1px solid #30363d;display:flex;align-items:center;justify-content:center;color:#484f58;font-size:12px">–</div></td>`;
       const clr=ksLvlColor(k.level);
       const itColor=k.inTime?'#56d364':'#f87171';
       const itIcon=k.inTime?'시클O':'시클X';
       return`<td style="padding:3px;text-align:center">
-        <div style="width:64px;margin:0 auto;background:${clr}15;border:1px solid ${clr}40;border-radius:6px;padding:3px 4px;box-sizing:border-box">
+        <div style="width:90px;margin:0 auto;background:${clr}15;border:1px solid ${clr}40;border-radius:6px;padding:3px 4px;box-sizing:border-box">
           <div style="font-size:13px;font-weight:700;color:${clr};white-space:nowrap">${k.level}단 <span style="font-size:11px;color:${itColor}">${itIcon}</span></div>
           ${k.spec?`<div style="font-size:10px;color:#8b949e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${k.spec}</div>`:'<div style="font-size:10px">&nbsp;</div>'}
         </div>
@@ -1574,7 +1787,7 @@ async function loadKeyTracker(){
     };
 
     el.innerHTML=`<div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:750px">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:970px">
         <thead><tr style="border-bottom:2px solid #30363d">
           <th style="text-align:left;padding:8px 12px;color:#8b949e;font-weight:600;min-width:130px">이름</th>
           ${DUNGEONS.map(d=>`<th style="padding:6px 4px;color:#8b949e;font-weight:600;text-align:center;font-size:11px">${DUNGEON_ABBR[d]||d}</th>`).join('')}
@@ -1619,14 +1832,7 @@ function partyDrop(e,role){
   const key=e.dataTransfer.getData('text/plain')||_partyDragKey;
   const d=_partyDragMap[key];if(!d)return;
   const {name,char,specs}=d;
-  const T=['혈기','보호','수호','양조','복수','방어'];
-  const H=['신성','회복','운무','보존','복원','수양'];
-  const isDps=s=>!T.some(t=>s.includes(t))&&!H.some(h=>s.includes(h));
-  const canFill={
-    TANK: specs.length===0||specs.some(s=>T.some(t=>s.includes(t))),
-    HEALING: specs.length===0||specs.some(s=>H.some(h=>s.includes(h))),
-    DPS: specs.length===0||specs.some(s=>isDps(s))
-  }[role];
+  const canFill=specs.length===0||specs.some(s=>specToRole(s)===role);
   if(!canFill){
     const roleLabel={TANK:'탱커',HEALING:'힐러',DPS:'딜러'}[role];
     showToast(`포지션에 맞게 드래그해주세요 (${roleLabel} 특성 없음)`);
@@ -1638,14 +1844,14 @@ function partyDrop(e,role){
   _partyDragKey=null;
 }
 
-function startEditTitle(id, currentTitle){
-  const pw=prompt('비밀번호를 입력해주세요');
+async function startEditTitle(id, currentTitle){
+  const pw=await uiPrompt({title:'제목 수정',message:'작성자 비밀번호를 입력해주세요',password:true});
   if(!pw)return;
-  const newTitle=prompt('새 제목을 입력해주세요', currentTitle);
+  const newTitle=await uiPrompt({title:'제목 수정',message:'새 제목을 입력해주세요',defaultValue:currentTitle});
   if(!newTitle||!newTitle.trim())return;
   fetch(`/api/parties/${id}/title`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,title:newTitle.trim()})})
     .then(r=>r.json()).then(r=>{
-      if(r.error){alert(r.error);return;}
+      if(r.error){uiAlert(r.error);return;}
       document.getElementById('party-title-text').textContent=newTitle.trim();
       loadParties();
     });
@@ -1669,8 +1875,8 @@ async function loadComments(id){
         <span style="font-weight:700;color:#e6edf3">${c.name}</span>
         <div style="display:flex;gap:5px;align-items:center">
           <span style="font-size:11px;color:#484f58">${fmtTime(c.createdAt)}</span>
-          <button onclick="editComment('${id}','${c.id}')" style="background:none;border:none;color:#8b949e;cursor:pointer;font-size:11px;padding:0">수정</button>
-          <button onclick="deleteComment('${id}','${c.id}')" style="background:none;border:none;color:#f87171;cursor:pointer;font-size:11px;padding:0">삭제</button>
+          <button onclick="editComment('${id}','${c.id}')" title="댓글 수정" style="background:#161b22;border:1px solid #30363d;color:#8b949e;cursor:pointer;font-size:11px;padding:2px 7px;border-radius:4px">✏️ 수정</button>
+          <button onclick="deleteComment('${id}','${c.id}')" title="댓글 삭제" style="background:#2d0f0f;border:1px solid #4a1a1a;color:#f87171;cursor:pointer;font-size:11px;padding:2px 7px;border-radius:4px">🗑️ 삭제</button>
         </div>
       </div>
       <div id="cm-text-${c.id}" style="color:#c9d1d9">${c.text}</div>
@@ -1680,26 +1886,27 @@ async function submitComment(id){
   const name=document.getElementById('cm-name')?.value;
   const text=document.getElementById('cm-text')?.value.trim();
   const pw=document.getElementById('cm-pw')?.value;
-  if(!name||!text){alert('이름과 내용을 입력해주세요');return;}
+  if(!name||!text){uiAlert('이름과 내용을 입력해주세요');return;}
   const r=await(await fetch(`/api/parties/${id}/comments`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,text,password:pw})})).json();
-  if(r.ok){document.getElementById('cm-text').value='';document.getElementById('cm-len').textContent='0';loadComments(id);}else alert(r.error||'오류');
+  if(r.ok){document.getElementById('cm-text').value='';document.getElementById('cm-len').textContent='0';loadComments(id);}else uiAlert(r.error||'오류');
 }
 async function editComment(id,cid){
   const cur=document.getElementById(`cm-text-${cid}`)?.textContent||'';
-  const newText=prompt('댓글 수정 (50자 이내):',cur);if(!newText||newText===cur)return;
-  const pw=prompt('비밀번호:');if(!pw)return;
+  const newText=await uiPrompt({title:'댓글 수정',message:'새 내용 (200자 이내)',defaultValue:cur,maxlength:200});
+  if(!newText||newText===cur)return;
+  const pw=await uiPrompt({title:'댓글 수정',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
   const r=await(await fetch(`/api/parties/${id}/comments/${cid}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw,text:newText})})).json();
-  if(r.ok)loadComments(id);else alert(r.error||'비밀번호 오류');
+  if(r.ok)loadComments(id);else uiAlert(r.error||'비밀번호 오류');
 }
 async function deleteComment(id,cid){
-  if(!confirm('댓글을 삭제할까요?'))return;
-  const pw=prompt('비밀번호:');if(!pw)return;
+  if(!await uiConfirm('댓글을 삭제할까요?','댓글 삭제'))return;
+  const pw=await uiPrompt({title:'댓글 삭제',message:'비밀번호를 입력해주세요',password:true});if(!pw)return;
   const r=await(await fetch(`/api/parties/${id}/comments/${cid}`,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})})).json();
-  if(r.ok)loadComments(id);else alert(r.error||'비밀번호 오류');
+  if(r.ok)loadComments(id);else uiAlert(r.error||'비밀번호 오류');
 }
 
 async function load(force=false){
-  if(!force)document.getElementById('tab-roster').innerHTML=`<div class="loading"><div class="spinner"></div><div style="color:#8b949e;font-size:13px">길드 데이터 불러오는 중...<br><span style="font-size:11px;opacity:.6">시간이 걸릴 수 있어요</span></div></div>`;
+  if(!force)document.getElementById('tab-roster').innerHTML=SK_ROSTER;
 
   // 갱신 전 현재 상태 보존
   const prevSlotNames = {};
