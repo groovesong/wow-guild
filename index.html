@@ -1355,11 +1355,16 @@ async function loadParties(){
     if(!parties.length){el.innerHTML='<div style="text-align:center;padding:3rem;color:#8b949e;font-size:14px">등록된 모집 글이 없어요</div>';return;}
     const nameClassChip=(name,char,spec)=>{
       const m=all.find(x=>x.name===char)||all.find(x=>x.name===name);
+      const cEn=classEn(m?.class);
       const roleColor=spec?specColor(spec):null;
-      const c=CC[m?.class]||roleColor||'#888';
-      const cls=CKR[m?.class]||m?.class||'';
-      const specLabel=spec&&!cls?spec:'';
-      return`<div style="display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:${c}20;border:1px solid ${c}50;border-radius:5px;font-size:12px;margin:1px"><span style="color:${c};font-weight:600">${name}</span>${(cls||specLabel)?`<span style="color:#8b949e;font-size:11px">${cls||specLabel}</span>`:''}</div>`;
+      const c=CC[cEn]||roleColor||'#888';
+      const cls=classKr(m?.class)||'';
+      const specLabel=spec||'';
+      return`<div style="display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:${c}20;border:1px solid ${c}70;border-radius:5px;font-size:12px;margin:1px">
+        <span>${CE[cEn]||'⚔️'}</span>
+        <span style="color:${c};font-weight:700">${name}</span>
+        ${specLabel?`<span style="color:${c}aa;font-size:11px">${specLabel}</span>`:cls?`<span style="color:#8b949e;font-size:11px">${cls}</span>`:''}
+      </div>`;
     };
     el.innerHTML=parties.map(p=>{
       const sc=STATUS_COLOR[p.status]||'#8b949e';
@@ -1455,19 +1460,21 @@ function renderPartyModal(){
   const byRole=role=>allApplicants.filter(a=>a.role===role||a.specs?.some(s=>specToRole(s)===role));
 
   const applicantCard=(a,showCancel=false)=>{
-    const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||CC[a.char]||'#888';
+    const m=all.find(x=>x.name===a.char);
+    const cEn=classEn(m?.class);
+    const c=CC[cEn]||'#888';
     const inPlan=plan.find(s=>s.name===a.name);
     const dk=`drag_${a.name}`;_partyDragMap[dk]={name:a.name,char:a.char,specs:a.specs||[]};
-    return`<div draggable="true" ondragstart="partyDragStart(event,'${dk}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#0d1117;border:1px solid ${inPlan?'#58a6ff':'#21262d'};border-radius:8px;font-size:13px;margin-bottom:4px;cursor:grab">
-      <span>${CE[m?.class]||'⚔️'}</span>
-      <div style="flex:1">
-        <span style="color:${c};font-weight:600">${a.name}</span>
-        <span style="color:#8b949e;font-size:12px"> · ${CKR[m?.class]||a.char}</span>
+    return`<div draggable="true" ondragstart="partyDragStart(event,'${dk}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:${c}10;border:1px solid ${c}${inPlan?'aa':'55'};border-left:3px solid ${c};border-radius:8px;font-size:13px;margin-bottom:4px;cursor:grab">
+      <span>${CE[cEn]||'⚔️'}</span>
+      <div style="flex:1;min-width:0">
+        <span style="color:${c};font-weight:700">${a.name}</span>
+        <span style="color:#8b949e;font-size:12px"> · ${classKr(m?.class)||a.char}</span>
         ${m?.ilvl?`<span style="color:#8b949e;font-size:12px"> · 템${Math.round(m.ilvl)}</span>`:''}
         ${m?.score?`<span style="color:${scol(m.score)};font-size:12px"> · ${Math.round(m.score)}</span>`:''}
         ${a.isAuthor?`<span style="color:#f09000;font-size:11px;margin-left:4px">✍️</span>`:''}
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const selected=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:1px 7px;background:${selected?'#58a6ff25':'#21262d'};border:1px solid ${selected?'#58a6ff':'#30363d'};border-radius:4px;color:${selected?'#58a6ff':'#8b949e'}">${specIcon(s)} ${s}</span>`;}).join('')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const selected=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:1px 7px;background:${selected?c+'30':'#21262d'};border:1px solid ${selected?c:'#30363d'};border-radius:4px;color:${selected?c:'#8b949e'}">${specIcon(s)} ${s}</span>`;}).join('')}</div>
       ${showCancel&&!a.isAuthor&&p.status==='open'?`<button onclick="cancelApply('${p.id}','${a.name}')" class="btn btn-danger" style="padding:2px 8px;font-size:11px">취소</button>`:''}
     </div>`;
   };
@@ -1479,12 +1486,12 @@ function renderPartyModal(){
     const max=PLAN_MAX[role];
     return`<div style="margin-bottom:.75rem">
       <div style="font-size:12px;font-weight:600;color:${color};margin-bottom:4px">${label} ${isFinite(max)?`(${slots_for_role.length}/${max})`:`${slots_for_role.length}명`}</div>
-      ${slots_for_role.map((s,idx)=>{const m=all.find(x=>x.name===s.char);const c2=CC[m?.class]||'#888';
-        return`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#0d1117;border:1px solid #58a6ff40;border-radius:6px;margin-bottom:3px;font-size:13px">
-          <span style="color:${c2}">${CE[m?.class]||'⚔️'}</span>
-          <span style="color:${c2};font-weight:600">${s.name}</span>
-          <span style="color:#8b949e;font-size:11px"> · ${CKR[m?.class]||s.char}</span>
-          ${s.planSpec?`<span style="font-size:11px;padding:1px 5px;background:#21262d;border-radius:4px;color:#8b949e">${s.planSpec}</span>`:''}
+      ${slots_for_role.map((s,idx)=>{const m=all.find(x=>x.name===s.char);const cEn=classEn(m?.class);const c2=CC[cEn]||'#888';
+        return`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:${c2}10;border:1px solid ${c2}55;border-left:3px solid ${c2};border-radius:6px;margin-bottom:3px;font-size:13px">
+          <span style="color:${c2}">${CE[cEn]||'⚔️'}</span>
+          <span style="color:${c2};font-weight:700">${s.name}</span>
+          <span style="color:#8b949e;font-size:11px"> · ${classKr(m?.class)||s.char}</span>
+          ${s.planSpec?`<span style="font-size:11px;padding:1px 5px;background:${c2}25;border:1px solid ${c2}55;border-radius:4px;color:${c2};font-weight:600">${s.planSpec}</span>`:''}
           <button onclick="removeFromPlan('${s.name}','${role}')" style="margin-left:auto;background:none;border:none;color:#f87171;cursor:pointer;font-size:14px">×</button>
         </div>`;}).join('')}
       ${slots_for_role.length<max?`<div ondragover="event.preventDefault();this.style.borderColor='#58a6ff'" ondragleave="this.style.borderColor='#30363d'" ondrop="partyDrop(event,'${role}');this.style.borderColor='#30363d'" style="width:100%;padding:4px;background:none;border:1px dashed #30363d;border-radius:6px;color:#8b949e;cursor:pointer;font-size:12px;text-align:center;transition:border-color .15s" onclick="showAddToPlan('${role}')">+ 배치 (또는 드래그)</div>`:''}
@@ -1603,13 +1610,15 @@ function setPtTab(role){
   const plan=currentParty?.plans?.[planMode]||[];
   const deduped=(()=>{const s=new Set();return filtered.filter(a=>{if(s.has(a.name))return false;s.add(a.name);return true;});})();
   list.innerHTML=deduped.map(a=>{
-    const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||'#888';
+    const m=all.find(x=>x.name===a.char);
+    const cEn=classEn(m?.class);
+    const c=CC[cEn]||'#888';
     const inPlan=plan.find(s=>s.name===a.name);
     const dk2=`drag_${a.name}`;_partyDragMap[dk2]={name:a.name,char:a.char,specs:a.specs||[]};
-    return`<div draggable="true" ondragstart="partyDragStart(event,'${dk2}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#0d1117;border:1px solid ${inPlan?'#58a6ff':'#21262d'};border-radius:8px;font-size:13px;margin-bottom:4px;cursor:grab">
-      <span>${CE[m?.class]||'⚔️'}</span>
-      <div style="flex:1"><span style="color:${c};font-weight:600">${a.name}</span><span style="color:#8b949e;font-size:12px"> · ${CKR[m?.class]||a.char}</span>${m?.ilvl?` <span style="color:#8b949e;font-size:12px">· 템${Math.round(m.ilvl)}</span>`:''}${m?.score?` <span style="color:${scol(m.score)};font-size:12px">${Math.round(m.score)}</span>`:''}${a.isAuthor?` <span style="color:#f09000;font-size:11px">✍️</span>`:''}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const isSel=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:2px 7px;background:${isSel?'#58a6ff25':'#21262d'};border:1px solid ${isSel?'#58a6ff':'#30363d'};border-radius:4px;color:${isSel?'#58a6ff':'#8b949e'}">${specIcon(s)} ${s}</span>`;}).join('')}</div>
+    return`<div draggable="true" ondragstart="partyDragStart(event,'${dk2}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:${c}10;border:1px solid ${c}${inPlan?'aa':'55'};border-left:3px solid ${c};border-radius:8px;font-size:13px;margin-bottom:4px;cursor:grab">
+      <span>${CE[cEn]||'⚔️'}</span>
+      <div style="flex:1;min-width:0"><span style="color:${c};font-weight:700">${a.name}</span><span style="color:#8b949e;font-size:12px"> · ${classKr(m?.class)||a.char}</span>${m?.ilvl?` <span style="color:#8b949e;font-size:12px">· 템${Math.round(m.ilvl)}</span>`:''}${m?.score?` <span style="color:${scol(m.score)};font-size:12px">${Math.round(m.score)}</span>`:''}${a.isAuthor?` <span style="color:#f09000;font-size:11px">✍️</span>`:''}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">${(a.specs||[]).map(s=>{const isSel=inPlan&&inPlan.planSpec===s;return`<span style="font-size:11px;padding:2px 7px;background:${isSel?c+'30':'#21262d'};border:1px solid ${isSel?c:'#30363d'};border-radius:4px;color:${isSel?c:'#8b949e'}">${specIcon(s)} ${s}</span>`;}).join('')}</div>
       ${!a.isAuthor&&currentParty?.status==='open'?`<button onclick="cancelApply('${currentParty.id}','${a.name}')" class="btn btn-danger" style="padding:2px 8px;font-size:11px">취소</button>`:''}
     </div>`;
   }).join('')||'<div style="color:#8b949e;font-size:13px">해당 없음</div>';
@@ -1626,17 +1635,18 @@ function showAddToPlan(role){
   const popup=document.getElementById('add-to-plan-popup');
   popup.style.display='block';
   document.getElementById('add-to-plan-list').innerHTML=eligible.map(a=>{
-    const m=all.find(x=>x.name===a.char);const c=CC[m?.class]||CC[a.char]||'#888';
+    const m=all.find(x=>x.name===a.char);
+    const cEn=classEn(m?.class);
+    const c=CC[cEn]||'#888';
     const specs=a.specs||[];
-    // 역할에 맞는 특성 자동 선택 (탱→탱특성, 힐→힐특성, 딜→딜특성)
     const autoSpec=specs.find(s=>specToRole(s)===role)||specs[0]||'';
-    return`<div onclick="addToPlan('${a.name}','${a.char}','${role}','${autoSpec}')" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0d1117;border:1px solid #21262d;border-radius:8px;font-size:13px;margin-bottom:5px;cursor:pointer;transition:border-color .15s" onmouseover="this.style.borderColor='#58a6ff'" onmouseout="this.style.borderColor='#21262d'">
-      <span style="font-size:18px">${CE[m?.class]||'⚔️'}</span>
+    return`<div onclick="addToPlan('${a.name}','${a.char}','${role}','${autoSpec}')" style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:${c}10;border:1px solid ${c}55;border-left:3px solid ${c};border-radius:8px;font-size:13px;margin-bottom:5px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='${c}'" onmouseout="this.style.borderLeftColor='${c}';this.style.borderTopColor='${c}55';this.style.borderRightColor='${c}55';this.style.borderBottomColor='${c}55'">
+      <span style="font-size:18px">${CE[cEn]||'⚔️'}</span>
       <div style="flex:1;min-width:0">
         <div style="font-weight:700;color:${c}">${a.name} <span style="font-weight:400;color:#8b949e;font-size:12px">· ${a.char}</span></div>
-        <div style="font-size:12px;color:#8b949e;margin-top:1px">${CKR[m?.class]||m?.class||''}${m?.ilvl?` · 템 ${Math.round(m.ilvl)}`:''}${m?.score?` · <span style="color:${scol(m.score)}">${Math.round(m.score)}</span>`:''}</div>
+        <div style="font-size:12px;color:#8b949e;margin-top:1px">${classKr(m?.class)||''}${m?.ilvl?` · 템 ${Math.round(m.ilvl)}`:''}${m?.score?` · <span style="color:${scol(m.score)}">${Math.round(m.score)}</span>`:''}</div>
       </div>
-      <span style="font-size:12px;padding:2px 8px;background:#21262d;border-radius:4px;color:#8b949e;white-space:nowrap">${autoSpec||'–'}</span>
+      <span style="font-size:12px;padding:2px 8px;background:${c}25;border:1px solid ${c}55;border-radius:4px;color:${c};white-space:nowrap;font-weight:600">${autoSpec||'–'}</span>
     </div>`;
   }).join('')||'<div style="color:#8b949e;font-size:13px;padding:.5rem">배치 가능한 신청자가 없어요</div>';
 }
@@ -1685,12 +1695,12 @@ function updatePlanSlots(){
     const isFull=slots_for_role.length>=max;
     return`<div style="margin-bottom:.75rem">
       <div style="font-size:12px;font-weight:600;color:${color};margin-bottom:4px">${label}</div>
-      ${slots_for_role.map(s=>{const m=all.find(x=>x.name===s.char);const c2=CC[m?.class]||'#888';
-        return`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#0d1117;border:1px solid #58a6ff40;border-radius:6px;margin-bottom:3px;font-size:13px">
-          <span style="color:${c2}">${CE[m?.class]||'⚔️'}</span>
-          <span style="color:${c2};font-weight:600">${s.name}</span>
-          <span style="color:#8b949e;font-size:11px"> · ${CKR[m?.class]||s.char}</span>
-          ${s.planSpec?`<span style="font-size:11px;padding:1px 5px;background:#21262d;border-radius:4px;color:#8b949e">${s.planSpec}</span>`:''}
+      ${slots_for_role.map(s=>{const m=all.find(x=>x.name===s.char);const cEn=classEn(m?.class);const c2=CC[cEn]||'#888';
+        return`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:${c2}10;border:1px solid ${c2}55;border-left:3px solid ${c2};border-radius:6px;margin-bottom:3px;font-size:13px">
+          <span style="color:${c2}">${CE[cEn]||'⚔️'}</span>
+          <span style="color:${c2};font-weight:700">${s.name}</span>
+          <span style="color:#8b949e;font-size:11px"> · ${classKr(m?.class)||s.char}</span>
+          ${s.planSpec?`<span style="font-size:11px;padding:1px 5px;background:${c2}25;border:1px solid ${c2}55;border-radius:4px;color:${c2};font-weight:600">${s.planSpec}</span>`:''}
           <button onclick="removeFromPlan('${s.name}','${role}')" style="margin-left:auto;background:none;border:none;color:#f87171;cursor:pointer;font-size:14px">×</button>
         </div>`;}).join('')}
       ${!isFull?`<div ondragover="event.preventDefault();this.style.borderColor='#58a6ff'" ondragleave="this.style.borderColor='#30363d'" ondrop="partyDrop(event,'${role}');this.style.borderColor='#30363d'" style="width:100%;padding:4px;background:none;border:1px dashed #30363d;border-radius:6px;color:#8b949e;cursor:pointer;font-size:12px;text-align:center;transition:border-color .15s" onclick="showAddToPlan('${role}')">+ 배치 (또는 드래그)</div>`
@@ -2337,14 +2347,35 @@ async function load(force=false){
   }
 }
 async function refresh(){const b=document.getElementById('refreshBtn');b.textContent='⏳...';b.disabled=true;await load(true);b.textContent='🔄 데이터 갱신';b.disabled=false;}
+// 모달이 이미 열려있을 때 드롭다운만 갱신 (모달 다시 그리지 않음 → 입력값 보존)
+function refreshPartyModalDropdowns(){
+  const p=currentParty;if(!p)return;
+  const apName=document.getElementById('ap-name');
+  if(apName){
+    const cur=apName.value;
+    const taken=new Set([p.authorName,...(p.applications||[]).map(a=>a.name)]);
+    const has90=n=>all.some(m=>players[m.name]===n&&(!m.level||m.level>=90));
+    apName.innerHTML='<option value="">이름</option>'+playerNames.filter(n=>!taken.has(n)&&has90(n)).map(n=>`<option>${n}</option>`).join('');
+    apName.value=cur;
+    if(cur)apUpdateChars();
+  }
+  const cmName=document.getElementById('cm-name');
+  if(cmName){
+    const cur=cmName.value;
+    cmName.innerHTML='<option value="">이름</option>'+playerNames.map(n=>`<option>${n}</option>`).join('');
+    cmName.value=cur;
+  }
+}
+
 const _urlPartyId=new URLSearchParams(location.search).get('party');
 if(_urlPartyId){
   switchTab('party');
-  // 길드 데이터(load) + 파티 목록 둘 다 로드 후 모달 오픈
-  // → 신청자 드롭다운/이름 셀렉트가 처음부터 정상 표시
-  Promise.all([load(),loadParties()]).then(()=>{
+  // 1) 빠른 fetch — 파티 목록 받자마자 모달 즉시 오픈
+  loadParties().then(()=>{
     if(parties.find(p=>p.id===_urlPartyId)) openPartyModal(_urlPartyId);
   });
+  // 2) 무거운 fetch — 길드원 데이터는 병렬 로드, 끝나면 드롭다운만 갱신
+  load().then(()=>refreshPartyModalDropdowns());
 } else {
   load();
 }
