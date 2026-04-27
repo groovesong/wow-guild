@@ -2350,9 +2350,10 @@ async function load(force=false){
   }
 }
 async function refresh(){const b=document.getElementById('refreshBtn');b.textContent='⏳...';b.disabled=true;await load(true);b.textContent='🔄 데이터 갱신';b.disabled=false;}
-// 모달이 이미 열려있을 때 드롭다운만 갱신 (모달 다시 그리지 않음 → 입력값 보존)
+// 모달이 이미 열려있을 때 부분 갱신 (입력값 보존)
 function refreshPartyModalDropdowns(){
   const p=currentParty;if(!p)return;
+  // 1) 신청 폼 - 이름 드롭다운
   const apName=document.getElementById('ap-name');
   if(apName){
     const cur=apName.value;
@@ -2362,12 +2363,17 @@ function refreshPartyModalDropdowns(){
     apName.value=cur;
     if(cur)apUpdateChars();
   }
+  // 2) 댓글 폼 - 이름 드롭다운
   const cmName=document.getElementById('cm-name');
   if(cmName){
     const cur=cmName.value;
     cmName.innerHTML='<option value="">이름</option>'+playerNames.map(n=>`<option>${n}</option>`).join('');
     cmName.value=cur;
   }
+  // 3) 신청자 카드 리스트 — 직업 색상 적용 위해 재렌더
+  if(typeof setPtTab==='function')setPtTab(ptabRole||'ALL');
+  // 4) 파티 구성(플랜 슬롯) — 직업 색상 적용 위해 재렌더
+  if(typeof updatePlanSlots==='function')updatePlanSlots();
 }
 
 const _urlPartyId=new URLSearchParams(location.search).get('party');
