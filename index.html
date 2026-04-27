@@ -2340,10 +2340,11 @@ async function refresh(){const b=document.getElementById('refreshBtn');b.textCon
 const _urlPartyId=new URLSearchParams(location.search).get('party');
 if(_urlPartyId){
   switchTab('party');
-  loadParties().then(()=>{
+  // 길드 데이터(load) + 파티 목록 둘 다 로드 후 모달 오픈
+  // → 신청자 드롭다운/이름 셀렉트가 처음부터 정상 표시
+  Promise.all([load(),loadParties()]).then(()=>{
     if(parties.find(p=>p.id===_urlPartyId)) openPartyModal(_urlPartyId);
   });
-  load(); // 현황 데이터는 백그라운드
 } else {
   load();
 }
