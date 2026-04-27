@@ -1420,12 +1420,15 @@ async function loadParties(){
 
 function fmtTime(iso){if(!iso)return'';const d=new Date(iso);return`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
 
-async function openPartyModal(id){
-  // 모달 열 때는 최신 데이터 fetch (폴링은 모달 열린 동안 안 함)
-  try{
-    const fresh=await(await fetch('/api/parties')).json();
-    if(Array.isArray(fresh))parties=fresh;
-  }catch{}
+async function openPartyModal(id,skipFetch=false){
+  // 모달 열 때 최신 데이터 fetch (폴링은 모달 열린 동안 안 함)
+  // skipFetch=true 면 직전에 이미 fetch 했다고 가정하고 스킵 (URL 진입 등)
+  if(!skipFetch){
+    try{
+      const fresh=await(await fetch('/api/parties')).json();
+      if(Array.isArray(fresh))parties=fresh;
+    }catch{}
+  }
   currentParty=parties.find(p=>p.id===id);if(!currentParty)return;
   planMode='plan1';
   document.getElementById('party-modal').style.display='block';
@@ -2372,7 +2375,7 @@ if(_urlPartyId){
   switchTab('party');
   // 1) 빠른 fetch — 파티 목록 받자마자 모달 즉시 오픈
   loadParties().then(()=>{
-    if(parties.find(p=>p.id===_urlPartyId)) openPartyModal(_urlPartyId);
+    if(parties.find(p=>p.id===_urlPartyId)) openPartyModal(_urlPartyId,true);
   });
   // 2) 무거운 fetch — 길드원 데이터는 병렬 로드, 끝나면 드롭다운만 갱신
   load().then(()=>refreshPartyModalDropdowns());
